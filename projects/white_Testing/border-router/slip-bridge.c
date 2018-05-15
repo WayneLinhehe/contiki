@@ -149,11 +149,11 @@ output(void)
                           ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 5] << 8 |
                           ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 4];
       // for CPS enviorment Data.
-      uint16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
+      int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
                              ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
 
-      uint16_t humidity =    ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
-                             ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
+      int16_t humidity =    ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
+                            ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
       // Packet Priority.
       uint8_t priority = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 2];
       // uint32_t event_counter.
