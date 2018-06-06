@@ -39,6 +39,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <string.h>
+#include "collect-common.h"
+#include "collect-view.h"
+#include "command-type.h"
+
 #include "contiki.h"
 #include "contiki-net.h"
 #include "rest-engine.h"
@@ -51,6 +57,12 @@
 
 #if PLATFORM_HAS_BUTTON
 #include "dev/button-sensor.h"
+#endif
+
+#if CONTIKI_TARGET_Z1
+#include "dev/uart0.h"
+#else
+#include "dev/uart1.h"
 #endif
 
 #if WITH_ORCHESTRA
