@@ -41,9 +41,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <string.h>
-#include "collect-common.h"
-#include "collect-view.h"
-#include "command-type.h"
 
 #include "contiki.h"
 #include "contiki-net.h"
@@ -64,6 +61,11 @@
 #else
 #include "dev/uart1.h"
 #endif
+#include "collect-common.h"
+#include "collect-view.h"
+#include "command-type.h"
+#include "dev/serial-line.h"
+
 
 #if WITH_ORCHESTRA
 #include "orchestra.h"
