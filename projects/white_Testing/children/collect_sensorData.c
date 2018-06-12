@@ -68,7 +68,8 @@ PROCESS_THREAD(collect_sensor_data, ev, data)
       strcpy(collect_data, rxdata); // copy data to collect_data.
       printf("command_data: %s\n", command_data);
       
-      PRINTF("Received Done.");
+      printf("Received Done.");
     }
   }
+  PROCESS_END();
 }
