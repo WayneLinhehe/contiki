@@ -273,6 +273,7 @@ collect_data_send(char* data)
   split = strtok(data," ");
   while (split != NULL)
   {
+    PRINTF("split string : %s \n",split);
     strcpy(tempData[count], split);
     count++;
     split = strtok(NULL," ");
@@ -281,7 +282,7 @@ collect_data_send(char* data)
   for (i=0;i<count;i++){
     PRINTF("count : %d\n",count);
 
-    PRINTF("In node.c rec the string %c \n",tempData[i]);
+    PRINTF("In node.c rec the string %s \n",tempData[i]);
   }
 
   return 0;
