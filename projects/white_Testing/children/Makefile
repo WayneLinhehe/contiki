@@ -1,7 +1,7 @@
 CONTIKI_PROJECT = node
 all: $(CONTIKI_PROJECT)
 
-# PROJECT_SOURCEFILES += collect_sensorData.c
+PROJECT_SOURCEFILES += collect_sensorData.c
 
 CONTIKI=../../..
 
