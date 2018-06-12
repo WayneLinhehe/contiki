@@ -269,13 +269,13 @@ collect_data_send(char* data)
   char* tempData[100];
   int count=0;
   int i=0;
-
-  split = strtok (data," ,-\\");
+  PRINT("The String is : %s \n",data);
+  split = strtok (data," ");
   while (split != NULL)
   {
     strcpy(tempData[count], split);
     count++;
-    split = strtok (NULL," ,-\\");
+    split = strtok (NULL," ");
   }
   PRINTF("tempData String : %s .\n",tempData);
   for (i=0;i<strlen(tempData);i++){
@@ -327,7 +327,7 @@ PROCESS_THREAD(node_process, ev, data)
       strcpy(collect_data, rxdata); // copy data to collect_data.
       printf("command_data: %s\n", collect_data);
       
-      printf("Received Done.");
+      printf("Received Done.\n");
     }
     #endif
   }
