@@ -293,7 +293,9 @@ collect_data_send(char* data)
 PROCESS_THREAD(node_process, ev, data)
 {
   static struct etimer etaa;
+  static char* collect_data;
   char string[20];
+  char *rxdata;
 
   PROCESS_BEGIN();
 
