@@ -209,7 +209,9 @@ print_network_status(void)
     route = uip_ds6_route_next(route);
   }
 
-#elif RPL_WITH_NON_STORING
+#endif
+
+#if RPL_WITH_NON_STORING
 
   /* Our routing links */
   PRINTF("- Routing links (%u in total):\n", rpl_ns_num_nodes());
