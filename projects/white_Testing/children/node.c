@@ -95,6 +95,8 @@
 
 extern resource_t res_hello, res_push, res_toggle, res_collect, res_bcollect; // , res_temperature;
 
+char* tempData[20][20];
+
 /*---------------------------------------------------------------------------*/
 
 PROCESS(er_example_server, "Erbium Example Server");
@@ -266,23 +268,22 @@ void
 collect_data_send(char* data) 
 {
   char* split;
-  char* tempData[20][20];
+  
   int count=0;
   int i=0;
   PRINTF("The String is : %s \n",data);
   split = strtok(data," ");
   while (split != NULL)
   {
-    PRINTF("split string : %s \n",split);
     strcpy(tempData[count], split);
     count++;
     split = strtok(NULL," ");
   }
   PRINTF("tempData String : %s .\n",tempData);
   for (i=0;i<count;i++){
-    PRINTF("count : %d\n",count);
+    PRINTF("i : %d , count : %d\n",i, count);
 
-    PRINTF("In node.c rec the string %s \n",tempData[i]);
+    PRINTF("Each the sensor data %s \n",tempData[i]);
   }
 
   return 0;
@@ -323,10 +324,6 @@ PROCESS_THREAD(node_process, ev, data)
 
       // the data send to node.c, then compress into packet.
       collect_data_send(rxdata);
-
-      collect_data = malloc(strlen(rxdata) +1); // allocation memeory locate.
-      strcpy(collect_data, rxdata); // copy data to collect_data.
-      printf("command_data: %s\n", collect_data);
       
       printf("Received Done.\n");
     }

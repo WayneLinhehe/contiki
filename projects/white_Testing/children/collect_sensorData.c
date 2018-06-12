@@ -43,18 +43,20 @@ PROCESS_THREAD(collect_sensor_data, ev, data)
   char string[20];
 
   PROCESS_BEGIN();
+  PROCESS_PAUSE();
+
   uart_set_input(1, serial_line_input_byte);
-  etimer_set(&et, CLOCK_SECOND * 2);
+  //etimer_set(&et, CLOCK_SECOND * 2);
   leds_toggle(LEDS_GREEN);
 
   while(1) {
-    PROCESS_WAIT_UNTIL(etimer_expired(&et));
-    sprintf(string, "sending string %u.\n", ++count);
-    uart1_send_bytes((uint8_t *)string, sizeof(string) - 1);
-    etimer_reset(&et);
-    printf("string is being sent\n");
+    //PROCESS_WAIT_UNTIL(etimer_expired(&et));
+    //sprintf(string, "sending string %u.\n", ++count);
+    //uart1_send_bytes((uint8_t *)string, sizeof(string) - 1);
+    //etimer_reset(&et);
+    //printf("string is being sent\n");
 
-    //PROCESS_WAIT_EVENT();
+    PROCESS_WAIT_EVENT();
     PROCESS_YIELD();
     if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
