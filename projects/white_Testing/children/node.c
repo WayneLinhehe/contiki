@@ -277,9 +277,11 @@ collect_data_send(char* data)
     count++;
     split = strtok (NULL," ,-\\");
   }
+  PRINTF("tempData String : %s .\n",tempData);
+  for (i=0;i<strlen(tempData);i++){
+    PRINTF("count : %d\n",count);
 
-  for (i=0;i<count;i++){
-    PRINTF("In node.c rec the string %s \n",tempData[i]);
+    PRINTF("In node.c rec the string %c \n",tempData[i]);
   }
 
   return 0;
