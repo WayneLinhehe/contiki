@@ -54,7 +54,8 @@ PROCESS_THREAD(collect_sensor_data, ev, data)
     etimer_reset(&et);
     printf("string is being sent\n");
 
-    PROCESS_YIELD();
+    PROCESS_WAIT_EVENT();
+    //PROCESS_YIELD();
     if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
 
