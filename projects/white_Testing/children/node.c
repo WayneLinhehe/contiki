@@ -266,7 +266,7 @@ void
 collect_data_send(char* data) 
 {
   char* split;
-  char* tempData[20];
+  char* tempData[100];
   int count=0;
   int i=0;
 
@@ -275,13 +275,14 @@ collect_data_send(char* data)
   {
     strcpy(tempData[count], split);
     count++;
-    split = strtok (NULL, " ,-\\");
+    split = strtok (NULL," ,-\\");
   }
 
   for (i=0;i<count;i++){
     PRINTF("In node.c rec the string %s \n",tempData[i]);
   }
-  
+
+  return 0;
 }
 
 #endif
