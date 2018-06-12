@@ -57,12 +57,17 @@ PROCESS_THREAD(collect_sensor_data, ev, data)
     PROCESS_YIELD();
     if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
+
       rxdata = data;
       printf("Data received over UART %s\n", rxdata);
+
+      // the data send to node.c, then compress into packet.
+      collect_data_send(rxdata);
 
       collect_data = malloc(strlen(rxdata) +1); // allocation memeory locate.
       strcpy(collect_data, rxdata); // copy data to collect_data.
       printf("command_data: %s\n", command_data);
+      
       PRINTF("Received Done.");
     }
   }

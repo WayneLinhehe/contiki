@@ -76,13 +76,13 @@
 #include "orchestra.h"
 #endif
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
 #define PRINT6ADDR(addr) PRINTF("[%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x]", ((uint8_t *)addr)[0], ((uint8_t *)addr)[1], ((uint8_t *)addr)[2], ((uint8_t *)addr)[3], ((uint8_t *)addr)[4], ((uint8_t *)addr)[5], ((uint8_t *)addr)[6], ((uint8_t *)addr)[7], ((uint8_t *)addr)[8], ((uint8_t *)addr)[9], ((uint8_t *)addr)[10], ((uint8_t *)addr)[11], ((uint8_t *)addr)[12], ((uint8_t *)addr)[13], ((uint8_t *)addr)[14], ((uint8_t *)addr)[15])
 #define PRINTLLADDR(lladdr) PRINTF("[%02x:%02x:%02x:%02x:%02x:%02x]", (lladdr)->addr[0], (lladdr)->addr[1], (lladdr)->addr[2], (lladdr)->addr[3], (lladdr)->addr[4], (lladdr)->addr[5])
-#include "dev/sht21.h"  //temporaly
+//#include "dev/sht21.h"  //temporaly
 #else
 #define PRINTF(...)
 #define PRINT6ADDR(addr)
@@ -208,9 +208,9 @@ print_network_status(void)
     PRINTF(" (lifetime: %lu seconds)\n", (unsigned long)route->state.lifetime);
     route = uip_ds6_route_next(route);
   }
-#endif
 
-#if RPL_WITH_NON_STORING
+#elif RPL_WITH_NON_STORING
+
   /* Our routing links */
   PRINTF("- Routing links (%u in total):\n", rpl_ns_num_nodes());
   link = rpl_ns_node_head();
@@ -231,8 +231,8 @@ print_network_status(void)
     PRINTF(" (lifetime: %lu seconds)\n", (unsigned long)link->lifetime);
     link = rpl_ns_node_next(link);
   }
-#endif
 
+#endif
   PRINTF("----------------------\n");
 }
 #endif
@@ -259,6 +259,24 @@ print_network_status(void)
 //     } 
 //   PRINTF("============================\n");
 // }
+
+void
+collect_data_send(char* data) 
+{
+  char* split;
+  char tempData[20];
+  int count=0;
+
+  split = strtok (data," ,.-\\");
+  while (split != NULL)
+  {
+    strcpy(temp[count], split);
+    count++;
+    split = strtok (NULL, " ,.-\\");
+  }
+}
+
+
 
 #endif
 

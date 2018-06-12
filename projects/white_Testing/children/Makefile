@@ -1,6 +1,8 @@
 CONTIKI_PROJECT = node
 all: $(CONTIKI_PROJECT)
 
+PROJECT_SOURCEFILES += collect_sensorData.c
+
 CONTIKI=../../..
 
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
