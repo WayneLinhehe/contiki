@@ -284,8 +284,6 @@ collect_data_send(char* data)
   
 }
 
-
-
 #endif
 
 /*---------------------------------------------------------------------------*/
@@ -306,7 +304,7 @@ PROCESS_THREAD(node_process, ev, data)
   etimer_set(&etaa, CLOCK_SECOND * 5);
   while(1) {
     PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
-    collect_data_send((uint8_t *)string, sizeof(string) - 1);
+    //uart1_send_bytes((uint8_t *)string, sizeof(string) - 1);
     etimer_reset(&etaa);
     //print_network_status();
     #if DEBUG
