@@ -238,27 +238,27 @@ print_network_status(void)
 #endif
 
 #if DEBUG
-// static void
-// print_tempAndhumi_status(void) 
-// {
-//   static int16_t sht21_present; //,max44009_present;  //uint16 to int16----important
-//   static int16_t temperature, humidity; //,light;
+static void
+print_tempAndhumi_status(void) 
+{
+  static int16_t sht21_present; //,max44009_present;  //uint16 to int16----important
+  static int16_t temperature, humidity; //,light;
 
-//   PRINTF("============================\n");
-//   if(sht21.status(SENSORS_READY) == 1) {//sht21_present != SHT21_ERROR
-//     temperature = sht21.value(SHT21_READ_TEMP);
-//     PRINTF("Temperature Row Data: %d\n",temperature );
-//     PRINTF("Temperature Row Data: %16x\n",temperature );
-//     PRINTF("Temperature: %u.%uC\n", temperature / 100, temperature % 100);
-//     humidity = sht21.value(SHT21_READ_RHUM);
-//     PRINTF("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
-//     }
-//     else {
-//       PRINTF("%u\n",sht21.status(SENSORS_READY));
-//       PRINTF("SHT21 doesn't open\n");
-//     } 
-//   PRINTF("============================\n");
-// }
+  PRINTF("============================\n");
+  if(sht21.status(SENSORS_READY) == 1) {//sht21_present != SHT21_ERROR
+    temperature = sht21.value(SHT21_READ_TEMP);
+    PRINTF("Temperature Row Data: %d\n",temperature );
+    PRINTF("Temperature Row Data: %16x\n",temperature );
+    PRINTF("Temperature: %u.%uC\n", temperature / 100, temperature % 100);
+    humidity = sht21.value(SHT21_READ_RHUM);
+    PRINTF("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
+    }
+    else {
+      PRINTF("%u\n",sht21.status(SENSORS_READY));
+      PRINTF("SHT21 doesn't open\n");
+    } 
+  PRINTF("============================\n");
+}
 
 void
 collect_data_send(char* data) 
@@ -277,7 +277,7 @@ collect_data_send(char* data)
   }
 
   for (i=0;i<count;i++){
-    PRINTF("In node.c rec the string %s",tempData[i]);
+    PRINTF("In node.c rec the string %c",tempData[i]);
   }
   
 }
