@@ -266,19 +266,19 @@ void
 collect_data_send(char* data) 
 {
   char* split;
-  char* tempData[100];
+  char* tempData[20][20];
   int count=0;
   int i=0;
-  PRINT("The String is : %s \n",data);
-  split = strtok (data," ");
+  PRINTF("The String is : %s \n",data);
+  split = strtok(data," ");
   while (split != NULL)
   {
     strcpy(tempData[count], split);
     count++;
-    split = strtok (NULL," ");
+    split = strtok(NULL," ");
   }
   PRINTF("tempData String : %s .\n",tempData);
-  for (i=0;i<strlen(tempData);i++){
+  for (i=0;i<count;i++){
     PRINTF("count : %d\n",count);
 
     PRINTF("In node.c rec the string %c \n",tempData[i]);
@@ -295,7 +295,7 @@ PROCESS_THREAD(node_process, ev, data)
 {
   static struct etimer etaa;
   static char* collect_data;
-  char string[20];
+  //char string[20];
   char *rxdata;
 
   PROCESS_BEGIN();
