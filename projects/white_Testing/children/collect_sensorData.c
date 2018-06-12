@@ -66,7 +66,7 @@ PROCESS_THREAD(collect_sensor_data, ev, data)
 
       collect_data = malloc(strlen(rxdata) +1); // allocation memeory locate.
       strcpy(collect_data, rxdata); // copy data to collect_data.
-      printf("command_data: %s\n", command_data);
+      printf("command_data: %s\n", collect_data);
       
       printf("Received Done.");
     }
