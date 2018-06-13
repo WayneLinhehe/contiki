@@ -50,9 +50,12 @@
 #define DEBUG DEBUG_FULL
 #include "net/ip/uip-debug.h"
 
+#define haveArduino 1
+
 void set_prefix_64(uip_ipaddr_t *);
 
 static uip_ipaddr_t last_sender;
+
 /*---------------------------------------------------------------------------*/
 static void
 slip_input_callback(void)
@@ -148,12 +151,26 @@ output(void)
                           ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 6] << 16 |
                           ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 5] << 8 |
                           ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 4];
-      // for CPS enviorment Data.
-      int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
+
+
+      #if haveArduino 
+      {
+        uint8_t gasValue = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37];
+        uint8_t gasAlarm = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
+        uint8_t temperature = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39];
+        uint8_t humidity = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 40];
+      }
+      #else
+      {
+        // for CPS enviorment Data.
+        int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
                              ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
 
-      int16_t humidity =    ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
+        int16_t humidity =    ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
                             ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
+      }
+      #endif
+      
       // Packet Priority.
       uint8_t priority = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 2];
       // uint32_t event_counter.
@@ -175,6 +192,15 @@ output(void)
       PRINTF("Traffic_Classes:%d. \n",priority);
       PRINTF("Temperature: %d.%dC\n", temperature / 100, temperature % 100);
       PRINTF("Rel. humidity: %d.%d%%\n", humidity / 100, humidity % 100);
+
+
+      #if haveArduino
+      {
+        PRINTF("Gas Sensor Value : %d. \n",gasValue);
+        PRINTF("Gas Sensor Alarm : %d. \n",gasAlarm);
+      }
+      #endif
+      
       
       //PRINTF("Flow Table : %04x. \n",UIP_IP_BUF->flow);
 
