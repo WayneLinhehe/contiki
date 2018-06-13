@@ -156,7 +156,7 @@ PROCESS_THREAD(er_example_server, ev, data)
 
 /*---------------------------------------------------------------------------*/
 
-#if DEBUG
+#if DEBUG || 1
 
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
@@ -242,7 +242,7 @@ print_network_status(void)
 }
 #endif
 
-#if DEBUG
+#if haveArduino
 static void
 print_tempAndhumi_status(void) 
 {
