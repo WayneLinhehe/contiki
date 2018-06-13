@@ -96,8 +96,8 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
 
   // call main function, get the data information.
-  sensorData = return_Sensor_Data();
-  memcpy(sensorData, return_Sensor_Data(), sizeof(senserData));
+  //sensorData = return_Sensor_Data();
+  memcpy(sensorData, return_Sensor_Data(), sizeof(sensorData));
 
   #if haveArduino 
   {
@@ -127,6 +127,27 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // total size = 44
       } message;
       memset(&message, 0, sizeof(message));
+
+      message.flag[0] = 0x54;
+      message.flag[1] = 0x66;
+      message.end_flag[0] = 0xf0;
+      message.end_flag[1] = 0xff;
+
+      message.event_counter = event_counter;
+      message.event_threshold = event_threshold;
+      message.event_threshold_last_change = event_threshold_last_change;
+      message.packet_counter = packet_counter;
+
+      message.start_asn = tsch_current_asn.ls4b;
+
+      // for CPS enviorment Data.
+      message.gasData = sensorData[0];
+      message.gasAlarm = sensorData[1];
+      message.temperature = sensorData[2];
+      message.humidity = sensorData[3];
+
+      // for priority
+      message.priority = packet_priority;
 
   }
   #else
@@ -161,26 +182,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   
 
 
-  message.flag[0] = 0x54;
-  message.flag[1] = 0x66;
-  message.end_flag[0] = 0xf0;
-  message.end_flag[1] = 0xff;
-
-  message.event_counter = event_counter;
-  message.event_threshold = event_threshold;
-  message.event_threshold_last_change = event_threshold_last_change;
-  message.packet_counter = packet_counter;
-
-  message.start_asn = tsch_current_asn.ls4b;
-
-  // for CPS enviorment Data.
-  message.gasData = sensorData[0];
-  message.gasAlarm = sensorData[1];
-  message.temperature = sensorData[2];
-  message.humidity = sensorData[3];
-
-  // for priority
-  message.priority = packet_priority;
+  
 
 
   uint8_t packet_length = 0;
