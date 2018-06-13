@@ -141,10 +141,10 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       message.start_asn = tsch_current_asn.ls4b;
 
       // for CPS enviorment Data.
-      message.gasData = *sensorData[0];
-      message.gasAlarm = *sensorData[1];
-      message.temperature = *sensorData[2];
-      message.humidity = *sensorData[3];
+      message.gasData = sensorData[0];
+      message.gasAlarm = sensorData[1];
+      message.temperature = sensorData[2];
+      message.humidity = sensorData[3];
 
       // for priority
       message.priority = packet_priority;
