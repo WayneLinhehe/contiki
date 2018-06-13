@@ -30,6 +30,8 @@
 #define PRINTLLADDR(addr)
 #endif
 
+#define haveArduino 1
+
 
 static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -63,7 +65,7 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-struct message;
+
 
 
 
@@ -87,7 +89,18 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       //PRINTF("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
       sht21_present = 1;
 
-      struct 
+  }else {
+      PRINTF("%u\n",sht21.status(SENSORS_READY));
+      PRINTF("SHT21 doesn't open\n");
+  }
+
+
+  // call main function, get the data information.
+  sensorData = return_Sensor_Data();
+
+  #if haveArduino 
+  {
+    struct 
       {
         // 32bits to 1 block
         uint8_t flag[2];  // 0 1
@@ -105,17 +118,14 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         uint16_t parnet_link_etx; //32, 33
         int16_t parent_link_rssi; // 34, 35
         int16_t temperature_temp; // 36, 37
+        int16_t humidity_temp; // 38, 39
         uint8_t end_flag[2]; // 40, 41
         // padding int16_t //42, 43
         // total size = 44
       } message;
-
-      memset(&message, 0, sizeof(message));
-
-  }else {
-      PRINTF("%u\n",sht21.status(SENSORS_READY));
-      PRINTF("SHT21 doesn't open\n");
-
+  }
+  #else
+  {
       struct 
       {
         // 32bits to 1 block
@@ -141,11 +151,9 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // padding int16_t //42, 43
         // total size = 44
       } message;
-
-      memset(&message, 0, sizeof(message));
   }
-  // call main function, get the data information.
-  sensorData = return_Sensor_Data();
+      
+  memset(&message, 0, sizeof(message));
 
 
   message.flag[0] = 0x54;
