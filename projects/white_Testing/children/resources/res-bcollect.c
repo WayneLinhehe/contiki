@@ -63,6 +63,8 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
+struct message;
+
 
 
 static void
@@ -76,7 +78,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  uint8_t * sensorData[20];
+  uint8_t * sensorData[20]={};
 
   if(sht21.status(SENSORS_READY)==1) {
       temperature_temp = sht21.value(SHT21_READ_TEMP);
@@ -84,7 +86,6 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       humidity_temp = sht21.value(SHT21_READ_RHUM);
       //PRINTF("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
       sht21_present = 1;
-
 
       struct 
       {
@@ -142,15 +143,10 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       } message;
 
       memset(&message, 0, sizeof(message));
-  } 
-
+  }
   // call main function, get the data information.
   sensorData = return_Sensor_Data();
 
-
-  
-
-  
 
   message.flag[0] = 0x54;
   message.flag[1] = 0x66;
