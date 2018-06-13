@@ -276,14 +276,15 @@ collect_data_send(char* data)
   while (split != NULL)
   {
     // convert the string into Int.
-    strcpy(tempData[count], atoi(split));
+    //strcpy(tempData[count], atoi(split));
+    tempData[count] = atoi(split);
     count++;
     split = strtok(NULL," ");
   }
-  PRINTF("tempData String : %s .\n",tempData);
+  PRINTF("tempData String : %u .\n",tempData);
   for (i=0;i<count;i++){
     PRINTF("i : %d , count : %d\n",i, count);
-    PRINTF("Each the sensor data %d \n",tempData[i]);
+    PRINTF("Each the sensor data %u \n",tempData[i]);
   }
   return 0;
 }
