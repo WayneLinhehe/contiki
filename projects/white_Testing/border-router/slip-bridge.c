@@ -152,24 +152,6 @@ output(void)
                           ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 5] << 8 |
                           ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 4];
 
-
-      #if haveArduino 
-      {
-        uint8_t gasValue = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37];
-        uint8_t gasAlarm = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
-        uint8_t temperature = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39];
-        uint8_t humidity = (uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 40];
-      }
-      #else
-      {
-        // for CPS enviorment Data.
-        int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
-                             ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
-
-        int16_t humidity =    ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
-                            ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
-      }
-      #endif
       
       // Packet Priority.
       uint8_t priority = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 2];
@@ -190,14 +172,28 @@ output(void)
       //PRINTF("The Packet Latancy is %u ms. \n",((tsch_current_asn.ls4b - startASN) - 4294967296) * 10 ); //ms time.                                       
       //PRINTF("Traffic_Classes:%02x. \n",UIP_IP_BUF->tcflow);
       PRINTF("Traffic_Classes:%d. \n",priority);
-      PRINTF("Temperature: %d.%dC\n", temperature / 100, temperature % 100);
-      PRINTF("Rel. humidity: %d.%d%%\n", humidity / 100, humidity % 100);
 
-
-      #if haveArduino
+      #if haveArduino 
       {
+        uint8_t gasValue = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37];
+        uint8_t gasAlarm = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
+        uint8_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39];
+        uint8_t humidity = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 40];
+
+        
         PRINTF("Gas Sensor Value : %d. \n",gasValue);
         PRINTF("Gas Sensor Alarm : %d. \n",gasAlarm);
+      }
+      #else
+      {
+        // for CPS enviorment Data.
+        int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
+                             ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
+
+        int16_t humidity =    ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
+                            ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
+        PRINTF("Temperature: %d.%dC\n", temperature / 100, temperature % 100);
+        PRINTF("Rel. humidity: %d.%d%%\n", humidity / 100, humidity % 100);
       }
       #endif
       
