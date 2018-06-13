@@ -57,7 +57,7 @@ PROCESS_THREAD(collect_sensor_data, ev, data)
     //printf("string is being sent\n");
 
     PROCESS_WAIT_EVENT();
-    PROCESS_YIELD();
+    //PROCESS_YIELD();
     if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
 
@@ -67,10 +67,6 @@ PROCESS_THREAD(collect_sensor_data, ev, data)
       // the data send to node.c, then compress into packet.
       collect_data_send(rxdata);
 
-      collect_data = malloc(strlen(rxdata) +1); // allocation memeory locate.
-      strcpy(collect_data, rxdata); // copy data to collect_data.
-      printf("command_data: %s\n", collect_data);
-      
       printf("Received Done.");
     }
   }

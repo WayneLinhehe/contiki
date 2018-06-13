@@ -95,7 +95,7 @@
 
 extern resource_t res_hello, res_push, res_toggle, res_collect, res_bcollect; // , res_temperature;
 
-char* tempData[20][20];
+uint8_t * tempData[20];
 
 /*---------------------------------------------------------------------------*/
 
@@ -245,7 +245,7 @@ print_network_status(void)
 static void
 print_tempAndhumi_status(void) 
 {
-  static int16_t sht21_present; //,max44009_present;  //uint16 to int16----important
+  //static int16_t sht21_present; //,max44009_present;  //uint16 to int16----important
   static int16_t temperature, humidity; //,light;
 
   PRINTF("============================\n");
@@ -268,28 +268,37 @@ void
 collect_data_send(char* data) 
 {
   char* split;
-  
   int count=0;
   int i=0;
+
   PRINTF("The String is : %s \n",data);
   split = strtok(data," ");
   while (split != NULL)
   {
-    strcpy(tempData[count], split);
+    // convert the string into Int.
+    strcpy(tempData[count], atoi(split));
     count++;
     split = strtok(NULL," ");
   }
   PRINTF("tempData String : %s .\n",tempData);
   for (i=0;i<count;i++){
     PRINTF("i : %d , count : %d\n",i, count);
-
-    PRINTF("Each the sensor data %s \n",tempData[i]);
+    PRINTF("Each the sensor data %d \n",tempData[i]);
   }
-
   return 0;
 }
 
 #endif
+
+/*---------------------------------------------------------------------------*/
+// MARK: return Sensor Data Array.
+uint8_t *
+return_Sensor_Data()
+{
+  return tempData;
+}
+/*---------------------------------------------------------------------------*/
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -303,7 +312,6 @@ PROCESS_THREAD(node_process, ev, data)
   PROCESS_BEGIN();
 
   uart_set_input(1, serial_line_input_byte);
-
   
   //etimer_set(&etaa, CLOCK_SECOND * 60);
   etimer_set(&etaa, CLOCK_SECOND * 5);

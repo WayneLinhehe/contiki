@@ -75,6 +75,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
+  static uint8_t sensorData[20];
 
   if(sht21.status(SENSORS_READY)==1) {
         temperature_temp = sht21.value(SHT21_READ_TEMP);
@@ -107,6 +108,8 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
     int16_t parent_link_rssi; // 34, 35
     int16_t temperature; // 36, 37
     int16_t humidity; // 38, 39
+
+
     uint8_t end_flag[2]; // 40, 41
     // padding int16_t //42, 43
     // total size = 44
