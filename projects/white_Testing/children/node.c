@@ -76,7 +76,7 @@
 #include "orchestra.h"
 #endif
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -96,6 +96,7 @@
 extern resource_t res_hello, res_push, res_toggle, res_collect, res_bcollect; // , res_temperature;
 
 uint8_t * tempData[20];
+#define haveArduino 1
 
 /*---------------------------------------------------------------------------*/
 
@@ -321,9 +322,8 @@ PROCESS_THREAD(node_process, ev, data)
     //uart1_send_bytes((uint8_t *)string, sizeof(string) - 1);
     //etimer_reset(&etaa);
     //print_network_status();
-    #if DEBUG
+    #if haveArduino
       //print_tempAndhumi_status();
-
       PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
