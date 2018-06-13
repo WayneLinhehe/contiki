@@ -46,7 +46,8 @@
     "sht21.h": "c",
     "typeinfo": "cpp",
     "button-sensor.h": "c",
-    "tsch-private.h": "c"
+    "tsch-private.h": "c",
+    "iosfwd": "c"
   },
   "C_Cpp.errorSquiggles": "Disabled",
   "C_Cpp.intelliSenseEngineFallback": "Enabled",

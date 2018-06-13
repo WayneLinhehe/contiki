@@ -75,7 +75,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  static uint8_t sensorData[20];
+  static uint8_t * sensorData[20];
 
   if(sht21.status(SENSORS_READY)==1) {
         temperature_temp = sht21.value(SHT21_READ_TEMP);
@@ -87,6 +87,9 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       PRINTF("%u\n",sht21.status(SENSORS_READY));
       PRINTF("SHT21 doesn't open\n");
   } 
+
+  // call main function, get the data information.
+  sensorData = return_Sensor_Data();
 
 
   struct 
@@ -106,10 +109,10 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
     uint16_t rank; // 30, 31
     uint16_t parnet_link_etx; //32, 33
     int16_t parent_link_rssi; // 34, 35
-    int16_t temperature; // 36, 37
-    int16_t humidity; // 38, 39
-
-
+    uint8_t gasData; // 36
+    uint8_t gasAlarm; // 37
+    uint8_t temperature; // 38
+    uint8_t humidity; // 39
     uint8_t end_flag[2]; // 40, 41
     // padding int16_t //42, 43
     // total size = 44
@@ -130,8 +133,10 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   message.start_asn = tsch_current_asn.ls4b;
 
   // for CPS enviorment Data.
-  message.temperature = temperature_temp;
-  message.humidity = humidity_temp;
+  message.gasData = sensorData[0];
+  message.gasAlarm = sensorData[1];
+  message.temperature = sensorData[2];
+  message.humidity = sensorData[3];
 
   // for priority
   message.priority = packet_priority;
@@ -180,18 +185,6 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   memcpy(buffer, &message, sizeof(message));
 
-  // rpl things
-  // rpl_dag
-  // rpl_instance_t* rpl_now = rpl_get_instance();
-  // rpl_parent_t* rpl_now_parent = rpl_now->current_dag->preferred_parent;
-  // uip_ipaddr_t* rpl_parent_address = rpl_get_parent_ipaddr(rpl_now_parent);
-  // memcpy(buffer, rpl_parent_address, sizeof(rpl_parent_address));
-  // packet_counter += sizeof(rpl_parent_address);
-
-  /* just for testing debug */
-  //packet_priority=(packet_priority+1)%3;
-  //PRINTF("%d \n",packet_priority);
-  /* end of testing */
 
   coap_set_uip_traffic_class(packet_priority);
   REST.set_response_payload(response, buffer, sizeof(message));

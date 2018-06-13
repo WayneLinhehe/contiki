@@ -281,7 +281,7 @@ collect_data_send(char* data)
     count++;
     split = strtok(NULL," ");
   }
-  PRINTF("tempData String : %u .\n",tempData);
+  //PRINTF("tempData String : %u .\n",tempData);
   for (i=0;i<count;i++){
     PRINTF("i : %d , count : %d\n",i, count);
     PRINTF("Each the sensor data %u \n",tempData[i]);
@@ -315,26 +315,28 @@ PROCESS_THREAD(node_process, ev, data)
   uart_set_input(1, serial_line_input_byte);
   
   //etimer_set(&etaa, CLOCK_SECOND * 60);
-  etimer_set(&etaa, CLOCK_SECOND * 5);
+  //etimer_set(&etaa, CLOCK_SECOND * 2);
   while(1) {
-    PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
+    //PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
     //uart1_send_bytes((uint8_t *)string, sizeof(string) - 1);
-    etimer_reset(&etaa);
+    //etimer_reset(&etaa);
     //print_network_status();
     #if DEBUG
-      print_tempAndhumi_status();
+      //print_tempAndhumi_status();
 
       PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
 
       rxdata = data;
-      printf("Data received over UART %s\n", rxdata);
+      PRINTF("Data received over UART %s\n", rxdata);
 
       // the data send to node.c, then compress into packet.
       collect_data_send(rxdata);
       
-      printf("Received Done.\n");
+      PRINTF("Received Done.\n");
+    }else {
+      PRINTF("Nothing... \n");
     }
     #endif
   }
