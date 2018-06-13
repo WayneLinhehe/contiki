@@ -9,13 +9,15 @@
 #ifndef COLLECT_SENSORDATA_H_
 #define COLLECT_SENSORDATA_H_
 
-#include "contiki.h"
+// #include "contiki.h"
 
-unsigned int uart1_send_bytes(const unsigned char *s, unsigned int len);
+// unsigned int uart1_send_bytes(const unsigned char *s, unsigned int len);
 
-void collect_data_send(char* data);
-void print_debug_information(void);
+// void collect_data_send(char* data);
+// void print_debug_information(void);
 
-PROCESS_NAME(collect_sensor_data);
+// PROCESS_NAME(collect_sensor_data);
+
+uint8_t * return_Sensor_Data(void);
 
 #endif /* COLLECT_SENSORDATA_H_ */

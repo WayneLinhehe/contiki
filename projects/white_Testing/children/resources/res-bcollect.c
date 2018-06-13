@@ -13,6 +13,7 @@
 // for sensor
 #include "lib/sensors.h"
 #include "dev/sht21.h"
+#include "../collect_sensorData.h"
 
 #include "core/net/rpl/rpl.h"
 #include "core/net/link-stats.h"
@@ -75,7 +76,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  static uint8_t * sensorData[20];
+  uint8_t * sensorData[20];
 
   if(sht21.status(SENSORS_READY)==1) {
       temperature_temp = sht21.value(SHT21_READ_TEMP);
@@ -102,11 +103,14 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         uint16_t rank; // 30, 31
         uint16_t parnet_link_etx; //32, 33
         int16_t parent_link_rssi; // 34, 35
-        int16_t temperature_temp;
+        int16_t temperature_temp; // 36, 37
         uint8_t end_flag[2]; // 40, 41
         // padding int16_t //42, 43
         // total size = 44
       } message;
+
+      memset(&message, 0, sizeof(message));
+
   }else {
       PRINTF("%u\n",sht21.status(SENSORS_READY));
       PRINTF("SHT21 doesn't open\n");
@@ -136,6 +140,8 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // padding int16_t //42, 43
         // total size = 44
       } message;
+
+      memset(&message, 0, sizeof(message));
   } 
 
   // call main function, get the data information.
@@ -144,7 +150,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   
 
-  memset(&message, 0, sizeof(message));
+  
 
   message.flag[0] = 0x54;
   message.flag[1] = 0x66;
