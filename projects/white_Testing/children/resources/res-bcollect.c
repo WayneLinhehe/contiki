@@ -78,45 +78,71 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   static uint8_t * sensorData[20];
 
   if(sht21.status(SENSORS_READY)==1) {
-        temperature_temp = sht21.value(SHT21_READ_TEMP);
-        //PRINTF("Temperature: %u.%uC\n", temperature / 100, temperature % 100);
-        humidity_temp = sht21.value(SHT21_READ_RHUM);
-        //PRINTF("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
-        sht21_present = 1;
+      temperature_temp = sht21.value(SHT21_READ_TEMP);
+      //PRINTF("Temperature: %u.%uC\n", temperature / 100, temperature % 100);
+      humidity_temp = sht21.value(SHT21_READ_RHUM);
+      //PRINTF("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
+      sht21_present = 1;
+
+
+      struct 
+      {
+        // 32bits to 1 block
+        uint8_t flag[2];  // 0 1
+        uint8_t priority; // 2
+        // padding int8_t // 3
+        uint32_t start_asn; // 4 5 6 7
+        uint32_t end_asn; // 8 9 10 11
+        uint32_t event_counter; // 12 13 14 15
+        uint8_t event_threshold; // 16
+        // padding 3 int8_t and int16_t // 17, 18, 19
+        uint32_t event_threshold_last_change; // 20, 21, 22, 23
+        uint32_t packet_counter; // 24, 25, 26, 27
+        unsigned char parent_address[2]; // uint8[0] , uint8[1] 28,29
+        uint16_t rank; // 30, 31
+        uint16_t parnet_link_etx; //32, 33
+        int16_t parent_link_rssi; // 34, 35
+        int16_t temperature_temp;
+        uint8_t end_flag[2]; // 40, 41
+        // padding int16_t //42, 43
+        // total size = 44
+      } message;
   }else {
       PRINTF("%u\n",sht21.status(SENSORS_READY));
       PRINTF("SHT21 doesn't open\n");
+
+      struct 
+      {
+        // 32bits to 1 block
+        uint8_t flag[2];  // 0 1
+        uint8_t priority; // 2
+        // padding int8_t // 3
+        uint32_t start_asn; // 4 5 6 7
+        uint32_t end_asn; // 8 9 10 11
+        uint32_t event_counter; // 12 13 14 15
+        uint8_t event_threshold; // 16
+        // padding 3 int8_t and int16_t // 17, 18, 19
+        uint32_t event_threshold_last_change; // 20, 21, 22, 23
+        uint32_t packet_counter; // 24, 25, 26, 27
+        unsigned char parent_address[2]; // uint8[0] , uint8[1] 28,29
+        uint16_t rank; // 30, 31
+        uint16_t parnet_link_etx; //32, 33
+        int16_t parent_link_rssi; // 34, 35
+        uint8_t gasData; // 36
+        uint8_t gasAlarm; // 37
+        uint8_t temperature; // 38
+        uint8_t humidity; // 39
+        uint8_t end_flag[2]; // 40, 41
+        // padding int16_t //42, 43
+        // total size = 44
+      } message;
   } 
 
   // call main function, get the data information.
   sensorData = return_Sensor_Data();
 
 
-  struct 
-  {
-    // 32bits to 1 block
-    uint8_t flag[2];  // 0 1
-    uint8_t priority; // 2
-    // padding int8_t // 3
-    uint32_t start_asn; // 4 5 6 7
-    uint32_t end_asn; // 8 9 10 11
-    uint32_t event_counter; // 12 13 14 15
-    uint8_t event_threshold; // 16
-    // padding 3 int8_t and int16_t // 17, 18, 19
-    uint32_t event_threshold_last_change; // 20, 21, 22, 23
-    uint32_t packet_counter; // 24, 25, 26, 27
-    unsigned char parent_address[2]; // uint8[0] , uint8[1] 28,29
-    uint16_t rank; // 30, 31
-    uint16_t parnet_link_etx; //32, 33
-    int16_t parent_link_rssi; // 34, 35
-    uint8_t gasData; // 36
-    uint8_t gasAlarm; // 37
-    uint8_t temperature; // 38
-    uint8_t humidity; // 39
-    uint8_t end_flag[2]; // 40, 41
-    // padding int16_t //42, 43
-    // total size = 44
-  } message;
+  
 
   memset(&message, 0, sizeof(message));
 

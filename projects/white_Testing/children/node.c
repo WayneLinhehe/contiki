@@ -294,7 +294,7 @@ collect_data_send(char* data)
 /*---------------------------------------------------------------------------*/
 // MARK: return Sensor Data Array.
 uint8_t *
-return_Sensor_Data()
+return_Sensor_Data(void)
 {
   return tempData;
 }
