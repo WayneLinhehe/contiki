@@ -141,13 +141,60 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       message.start_asn = tsch_current_asn.ls4b;
 
       // for CPS enviorment Data.
-      message.gasData = sensorData[0];
-      message.gasAlarm = sensorData[1];
-      message.temperature = sensorData[2];
-      message.humidity = sensorData[3];
+      message.gasData = *sensorData[0];
+      message.gasAlarm = *sensorData[1];
+      message.temperature = *sensorData[2];
+      message.humidity = *sensorData[3];
 
       // for priority
       message.priority = packet_priority;
+
+      uint8_t packet_length = 0;
+      rpl_dag_t *dag;
+      rpl_parent_t *preferred_parent;
+      linkaddr_t parent;
+      linkaddr_copy(&parent, &linkaddr_null);
+      struct link_stats *parent_link_stats;
+
+
+      PRINTF("I am B_collect res_get hanlder!\n");
+      REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
+      REST.set_header_max_age(response, res_bcollect.periodic->period / CLOCK_SECOND);
+
+      
+
+      // packet_counter
+      // memcpy(buffer,&packet_counter, sizeof(packet_counter));
+      // packet_counter += sizeof(packet_counter);
+
+      
+      dag = rpl_get_any_dag();
+      if(dag != NULL) {
+        preferred_parent = dag->preferred_parent;
+        if(preferred_parent != NULL) {
+          uip_ds6_nbr_t *nbr;
+          nbr = uip_ds6_nbr_lookup(rpl_get_parent_ipaddr(preferred_parent));
+          if(nbr != NULL) {
+            /* Use parts of the IPv6 address as the parent address, in reversed byte order. */
+            parent.u8[LINKADDR_SIZE - 1] = nbr->ipaddr.u8[sizeof(uip_ipaddr_t) - 2];
+            parent.u8[LINKADDR_SIZE - 2] = nbr->ipaddr.u8[sizeof(uip_ipaddr_t) - 1];
+            parent_link_stats = rpl_get_parent_link_stats(preferred_parent);
+            message.parnet_link_etx = parent_link_stats->etx;
+            message.parent_link_rssi = parent_link_stats->rssi;
+          }
+        }
+        message.rank = dag->rank;
+      } else {
+      }
+
+      message.parent_address[0] = parent.u8[LINKADDR_SIZE - 1];
+      message.parent_address[1] = parent.u8[LINKADDR_SIZE - 2];
+
+      memcpy(buffer, &message, sizeof(message));
+
+
+      coap_set_uip_traffic_class(packet_priority);
+      REST.set_response_payload(response, buffer, sizeof(message));
 
   }
   #else
@@ -176,61 +223,76 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // total size = 44
       } message;
       memset(&message, 0, sizeof(message));
+
+      message.flag[0] = 0x54;
+      message.flag[1] = 0x66;
+      message.end_flag[0] = 0xf0;
+      message.end_flag[1] = 0xff;
+
+      message.event_counter = event_counter;
+      message.event_threshold = event_threshold;
+      message.event_threshold_last_change = event_threshold_last_change;
+      message.packet_counter = packet_counter;
+
+      message.start_asn = tsch_current_asn.ls4b;
+
+      // for CPS enviorment Data.
+      // message.gasData = sensorData[0];
+      // message.gasAlarm = sensorData[1];
+      // message.temperature = sensorData[2];
+      // message.humidity = sensorData[3];
+
+      // for priority
+      message.priority = packet_priority;
+
+      uint8_t packet_length = 0;
+      rpl_dag_t *dag;
+      rpl_parent_t *preferred_parent;
+      linkaddr_t parent;
+      linkaddr_copy(&parent, &linkaddr_null);
+      struct link_stats *parent_link_stats;
+
+
+      PRINTF("I am B_collect res_get hanlder!\n");
+      REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
+      REST.set_header_max_age(response, res_bcollect.periodic->period / CLOCK_SECOND);
+
+      
+
+      // packet_counter
+      // memcpy(buffer,&packet_counter, sizeof(packet_counter));
+      // packet_counter += sizeof(packet_counter);
+
+      
+      dag = rpl_get_any_dag();
+      if(dag != NULL) {
+        preferred_parent = dag->preferred_parent;
+        if(preferred_parent != NULL) {
+          uip_ds6_nbr_t *nbr;
+          nbr = uip_ds6_nbr_lookup(rpl_get_parent_ipaddr(preferred_parent));
+          if(nbr != NULL) {
+            /* Use parts of the IPv6 address as the parent address, in reversed byte order. */
+            parent.u8[LINKADDR_SIZE - 1] = nbr->ipaddr.u8[sizeof(uip_ipaddr_t) - 2];
+            parent.u8[LINKADDR_SIZE - 2] = nbr->ipaddr.u8[sizeof(uip_ipaddr_t) - 1];
+            parent_link_stats = rpl_get_parent_link_stats(preferred_parent);
+            message.parnet_link_etx = parent_link_stats->etx;
+            message.parent_link_rssi = parent_link_stats->rssi;
+          }
+        }
+        message.rank = dag->rank;
+      } else {
+      }
+
+      message.parent_address[0] = parent.u8[LINKADDR_SIZE - 1];
+      message.parent_address[1] = parent.u8[LINKADDR_SIZE - 2];
+
+      memcpy(buffer, &message, sizeof(message));
+
+
+      coap_set_uip_traffic_class(packet_priority);
+      REST.set_response_payload(response, buffer, sizeof(message));
   }
   #endif
-
-  
-
-
-  
-
-
-  uint8_t packet_length = 0;
-  rpl_dag_t *dag;
-  rpl_parent_t *preferred_parent;
-  linkaddr_t parent;
-  linkaddr_copy(&parent, &linkaddr_null);
-  struct link_stats *parent_link_stats;
-
-
-  PRINTF("I am B_collect res_get hanlder!\n");
-  REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
-  REST.set_header_max_age(response, res_bcollect.periodic->period / CLOCK_SECOND);
-
-  
-
-  // packet_counter
-  // memcpy(buffer,&packet_counter, sizeof(packet_counter));
-  // packet_counter += sizeof(packet_counter);
-
-  
-  dag = rpl_get_any_dag();
-  if(dag != NULL) {
-    preferred_parent = dag->preferred_parent;
-    if(preferred_parent != NULL) {
-      uip_ds6_nbr_t *nbr;
-      nbr = uip_ds6_nbr_lookup(rpl_get_parent_ipaddr(preferred_parent));
-      if(nbr != NULL) {
-        /* Use parts of the IPv6 address as the parent address, in reversed byte order. */
-        parent.u8[LINKADDR_SIZE - 1] = nbr->ipaddr.u8[sizeof(uip_ipaddr_t) - 2];
-        parent.u8[LINKADDR_SIZE - 2] = nbr->ipaddr.u8[sizeof(uip_ipaddr_t) - 1];
-        parent_link_stats = rpl_get_parent_link_stats(preferred_parent);
-        message.parnet_link_etx = parent_link_stats->etx;
-        message.parent_link_rssi = parent_link_stats->rssi;
-      }
-    }
-    message.rank = dag->rank;
-  } else {
-  }
-
-  message.parent_address[0] = parent.u8[LINKADDR_SIZE - 1];
-  message.parent_address[1] = parent.u8[LINKADDR_SIZE - 2];
-
-  memcpy(buffer, &message, sizeof(message));
-
-
-  coap_set_uip_traffic_class(packet_priority);
-  REST.set_response_payload(response, buffer, sizeof(message));
 
   // REST.set_response_payload(response, buffer, snprintf((char *)buffer, preferred_size, "[Collect] ec: %lu, et: %lu, lc, %lu, pc: %lu", event_counter, event_threshold, event_threshold_last_change,packet_counter));
 
