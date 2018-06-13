@@ -152,7 +152,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // total size = 44
       } message;
   }
-      
+  #endif
   memset(&message, 0, sizeof(message));
 
 
