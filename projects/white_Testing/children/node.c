@@ -335,9 +335,9 @@ PROCESS_THREAD(node_process, ev, data)
       collect_data_send(rxdata);
       
       PRINTF("Received Done.\n");
-    }else {
-      PRINTF("Nothing... \n");
-    }
+      }else {
+        PRINTF("Nothing... \n");
+      }
     #endif
   }
 

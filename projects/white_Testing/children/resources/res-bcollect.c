@@ -18,7 +18,7 @@
 #include "core/net/rpl/rpl.h"
 #include "core/net/link-stats.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -158,6 +158,8 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
 
       PRINTF("I am B_collect res_get hanlder!\n");
+      PRINTF("Temperature: %d \n",sensorData[2]);
+      PRINTF("humidity : %d. \n",sensorData[3]);
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
       REST.set_header_max_age(response, res_bcollect.periodic->period / CLOCK_SECOND);
 
