@@ -120,10 +120,10 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         int16_t parent_link_rssi; // 34, 35
         uint8_t gasData; // 36
         uint8_t gasAlarm; // 37
-        uint8_t temperature; // 38
-        uint8_t humidity; // 39
-        uint8_t end_flag[2]; // 40, 41
-        // padding int16_t //42, 43
+        int16_t temperature; // 38, 39
+        int16_t humidity; // 40, 41
+        uint8_t end_flag[2]; // 42, 43
+        // padding int16_t //42, 43 null
         // total size = 44
       } message;
       memset(&message, 0, sizeof(message));
@@ -142,7 +142,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
       // for CPS enviorment Data.
       message.gasData = sensorData[0];
-      message.gasAlarm = sensorData[1];
+      message.gasAlarm =  sensorData[1];
       message.temperature = sensorData[2];
       message.humidity = sensorData[3];
 
@@ -160,6 +160,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       PRINTF("I am B_collect res_get hanlder!\n");
       PRINTF("Temperature: %d \n",sensorData[2]);
       PRINTF("humidity : %d. \n",sensorData[3]);
+
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
       REST.set_header_max_age(response, res_bcollect.periodic->period / CLOCK_SECOND);
 
