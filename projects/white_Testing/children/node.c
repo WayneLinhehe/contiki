@@ -93,7 +93,7 @@
 
 //#include "dev/max44009.h"  //light
 
-extern resource_t res_hello, res_push, res_toggle, res_collect, res_bcollect; // , res_temperature;
+extern resource_t res_hello, res_push, res_toggle, res_collect, res_arduinoBoard; // , res_temperature;
 
 uint8_t * tempData[20];
 #define haveArduino 1
@@ -136,7 +136,7 @@ PROCESS_THREAD(er_example_server, ev, data)
   rest_activate_resource(&res_push, "test/push");
   rest_activate_resource(&res_toggle, "actuators/toggle");
   rest_activate_resource(&res_collect, "g/collect");
-  rest_activate_resource(&res_bcollect, "g/bcollect");
+  rest_activate_resource(&res_arduinoBoard, "g/arduinoBoard");
   //rest_activate_resource(&res_temperature, "g/res_temperature");
 
 #if PLATFORM_HAS_LEDS
@@ -294,7 +294,7 @@ collect_data_send(char* data)
 
 /*---------------------------------------------------------------------------*/
 // MARK: return Sensor Data Array.
-uint8_t *
+int16_t *
 return_Sensor_Data(void)
 {
   return tempData;

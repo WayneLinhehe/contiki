@@ -37,7 +37,7 @@ static void res_get_handler(void *request, void *response, uint8_t *buffer, uint
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_periodic_handler(void);
 
-PERIODIC_RESOURCE(res_bcollect,
+PERIODIC_RESOURCE(res_arduinoBoard,
                   "title=\"Binary collect\";obs",
                   res_get_handler,
                   res_post_handler,
@@ -80,7 +80,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  uint8_t * sensorData[20]={};
+  int16_t * sensorData[20]={};
 
   if(sht21.status(SENSORS_READY)==1) {
       temperature_temp = sht21.value(SHT21_READ_TEMP);
@@ -106,7 +106,8 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // 32bits to 1 block
         uint8_t flag[2];  // 0 1
         uint8_t priority; // 2
-        // padding int8_t // 3
+        int8_t gasAlarm; // 3
+        // Done padding int8_t // null
         uint32_t start_asn; // 4 5 6 7
         uint32_t end_asn; // 8 9 10 11
         uint32_t event_counter; // 12 13 14 15
@@ -118,12 +119,13 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         uint16_t rank; // 30, 31
         uint16_t parnet_link_etx; //32, 33
         int16_t parent_link_rssi; // 34, 35
-        uint8_t gasData; // 36
-        uint8_t gasAlarm; // 37
+        int16_t gasValue; // 36, 37
+        //int8_t gasAlarm; // 38
+        
         int16_t temperature; // 38, 39
         int16_t humidity; // 40, 41
         uint8_t end_flag[2]; // 42, 43
-        // padding int16_t //42, 43 null
+        // Done padding int16_t //42, 43 null
         // total size = 44
       } message;
       memset(&message, 0, sizeof(message));
@@ -141,7 +143,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       message.start_asn = tsch_current_asn.ls4b;
 
       // for CPS enviorment Data.
-      message.gasData = sensorData[0];
+      message.gasValue = sensorData[0];
       message.gasAlarm =  sensorData[1];
       message.temperature = sensorData[2];
       message.humidity = sensorData[3];
@@ -352,6 +354,6 @@ res_periodic_handler()
     PRINTF("Generate a new packet! , %08x. \n",tsch_current_asn.ls4b);
 
     /* Notify the registered observers which will trigger the res_get_handler to create the response. */
-    REST.notify_subscribers(&res_bcollect);
+    REST.notify_subscribers(&res_arduinoBoard);
   }
 }

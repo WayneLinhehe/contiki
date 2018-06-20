@@ -175,10 +175,12 @@ output(void)
 
       #if haveArduino 
       {
-        uint8_t gasValue = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
-        uint8_t gasAlarm = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37];
-        int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
-                              ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
+        int8_t gasValue = ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
+                          ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
+
+        int8_t gasAlarm = ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 3];
+        int16_t temperature = ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
+                              ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
 
         int16_t humidity =  ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 41] << 8 |
                             ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 40];
