@@ -120,12 +120,11 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         uint16_t parnet_link_etx; //32, 33
         int16_t parent_link_rssi; // 34, 35
         int16_t gasValue; // 36, 37
-        //int8_t gasAlarm; // 38
-        
+        //int8_t gasAlarm; // X
         int16_t temperature; // 38, 39
         int16_t humidity; // 40, 41
         uint8_t end_flag[2]; // 42, 43
-        // Done padding int16_t //42, 43 null
+        // Done padding int16_t //X null
         // total size = 44
       } message;
       memset(&message, 0, sizeof(message));
@@ -159,14 +158,12 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       struct link_stats *parent_link_stats;
 
 
-      PRINTF("I am B_collect res_get hanlder!\n");
+      PRINTF("I am arduinoBoard res_get hanlder!\n");
       PRINTF("Temperature: %d \n",sensorData[2]);
       PRINTF("humidity : %d. \n",sensorData[3]);
 
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
       REST.set_header_max_age(response, res_arduinoBoard.periodic->period / CLOCK_SECOND);
-
-      
 
       // packet_counter
       // memcpy(buffer,&packet_counter, sizeof(packet_counter));

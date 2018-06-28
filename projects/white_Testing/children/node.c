@@ -149,8 +149,7 @@ PROCESS_THREAD(er_example_server, ev, data)
   /* Define application-specific events here. */
   while(1) {
     PROCESS_WAIT_EVENT();
-  } 
-
+  }
   PROCESS_END();
 }
 
@@ -261,7 +260,7 @@ print_tempAndhumi_status(void)
     else {
       PRINTF("%u\n",sht21.status(SENSORS_READY));
       PRINTF("SHT21 doesn't open\n");
-    } 
+    }
   PRINTF("============================\n");
 }
 
