@@ -48,7 +48,8 @@
     "button-sensor.h": "c",
     "tsch-private.h": "c",
     "iosfwd": "c",
-    "uip-debug.h": "c"
+    "uip-debug.h": "c",
+    "__functional_03": "c"
   },
   "C_Cpp.errorSquiggles": "Disabled",
   "C_Cpp.intelliSenseEngineFallback": "Enabled",
