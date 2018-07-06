@@ -34,7 +34,7 @@ static void res_get_handler(void *request, void *response, uint8_t *buffer, uint
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_periodic_handler(void);
 
-PERIODIC_RESOURCE(res_arduinoBoard,
+PERIODIC_RESOURCE(res_sht21,
                   "title=\"Binary collect\";obs",
                   res_get_handler,
                   res_post_handler,
@@ -75,14 +75,26 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
    * This would be a TODO in the corresponding files in contiki/apps/erbium/!
    */
 
-  // static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
-  // static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  int16_t * sensorData[20]={}; //restore sensor data from node.c by UART.h
+  static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
+  static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
+  //int16_t * sensorData[20]={}; //restore sensor data from node.c by UART.h
+
+  if(sht21.status(SENSORS_READY)==1) {
+      temperature_temp = sht21.value(SHT21_READ_TEMP);
+      //PRINTF("Temperature: %u.%uC\n", temperature / 100, temperature % 100);
+      humidity_temp = sht21.value(SHT21_READ_RHUM);
+      //PRINTF("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
+      sht21_present = 1;
+
+  }else {
+      PRINTF("%u\n",sht21.status(SENSORS_READY));
+      PRINTF("SHT21 doesn't open\n");
+  }
+
 
   // call main function, get the sensor data.
   //sensorData = return_Sensor_Data();
-  memcpy(sensorData, return_Sensor_Data(), sizeof(sensorData));
-
+  // memcpy(sensorData, return_Sensor_Data(), sizeof(sensorData)); // for arduinoBoard
   {
       struct 
       {
@@ -125,10 +137,14 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       message.start_asn = tsch_current_asn.ls4b;
 
       // for CPS enviorment Data.
-      message.gasValue = sensorData[0];
-      message.gasAlarm =  sensorData[1];
-      message.temperature = sensorData[2];
-      message.humidity = sensorData[3];
+      message.gasData = 0x00;
+      message.gasAlarm = 0x00;
+      message.temperature = temperature_temp;
+      message.humidity = humidity_temp;
+      // message.gasData = sensorData[0];
+      // message.gasAlarm = sensorData[1];
+      // message.temperature = sensorData[2];
+      // message.humidity = sensorData[3];
 
       // for priority
       message.priority = packet_priority;
@@ -141,12 +157,11 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       struct link_stats *parent_link_stats;
 
 
-      PRINTF("I am arduinoBoard res_get hanlder!\n");
-      // PRINTF("Temperature: %d \n",sensorData[2]);
-      // PRINTF("humidity : %d. \n",sensorData[3]);
-
+      PRINTF("I am sht21 res_get hanlder!\n");
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
-      REST.set_header_max_age(response, res_arduinoBoard.periodic->period / CLOCK_SECOND);
+      REST.set_header_max_age(response, res_bcollect.periodic->period / CLOCK_SECOND);
+
+      
 
       // packet_counter
       // memcpy(buffer,&packet_counter, sizeof(packet_counter));
@@ -180,7 +195,6 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
       coap_set_uip_traffic_class(packet_priority);
       REST.set_response_payload(response, buffer, sizeof(message));
-
   }
 
   // REST.set_response_payload(response, buffer, snprintf((char *)buffer, preferred_size, "[Collect] ec: %lu, et: %lu, lc, %lu, pc: %lu", event_counter, event_threshold, event_threshold_last_change,packet_counter));

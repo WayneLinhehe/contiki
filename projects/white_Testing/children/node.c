@@ -93,10 +93,9 @@
 
 //#include "dev/max44009.h"  //light
 
-extern resource_t res_hello, res_push, res_toggle, res_collect, res_arduinoBoard; // , res_temperature;
+extern resource_t res_hello, res_push, res_toggle, res_collect, res_arduinoBoard, res_sht21; // , res_temperature;
 
-uint8_t * tempData[20];
-#define haveArduino 1
+int16_t * tempData[20];
 
 /*---------------------------------------------------------------------------*/
 
@@ -137,6 +136,7 @@ PROCESS_THREAD(er_example_server, ev, data)
   rest_activate_resource(&res_toggle, "actuators/toggle");
   rest_activate_resource(&res_collect, "g/collect");
   rest_activate_resource(&res_arduinoBoard, "g/arduinoBoard");
+  rest_activate_resource(&res_sht21, "g/sht21");
   //rest_activate_resource(&res_temperature, "g/res_temperature");
 
 #if PLATFORM_HAS_LEDS
@@ -241,7 +241,6 @@ print_network_status(void)
 }
 #endif
 
-#if haveArduino
 static void
 print_tempAndhumi_status(void) 
 {
@@ -289,8 +288,6 @@ collect_data_send(char* data)
   return 0;
 }
 
-#endif
-
 /*---------------------------------------------------------------------------*/
 // MARK: return Sensor Data Array.
 int16_t *
@@ -314,15 +311,10 @@ PROCESS_THREAD(node_process, ev, data)
 
   uart_set_input(1, serial_line_input_byte);
   
-  //etimer_set(&etaa, CLOCK_SECOND * 60);
-  //etimer_set(&etaa, CLOCK_SECOND * 2);
   while(1) {
-    //PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
-    //uart1_send_bytes((uint8_t *)string, sizeof(string) - 1);
-    //etimer_reset(&etaa);
-    //print_network_status();
-    #if haveArduino
-      //print_tempAndhumi_status();
+
+    if(sht21.status(SENSORS_READY) == 0) {
+
       PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
@@ -337,7 +329,7 @@ PROCESS_THREAD(node_process, ev, data)
       }else {
         PRINTF("Nothing... \n");
       }
-    #endif
+    }
   }
 
   PROCESS_END();
