@@ -159,7 +159,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
       PRINTF("I am sht21 res_get hanlder!\n");
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
-      REST.set_header_max_age(response, res_bcollect.periodic->period / CLOCK_SECOND);
+      REST.set_header_max_age(response, res_sht21.periodic->period / CLOCK_SECOND);
 
       
 
