@@ -61,22 +61,11 @@
 #include "dev/serial-line.h"
 #include "collect_sensorData.h"
 
-// #if CONTIKI_TARGET_Z1
-// #include "dev/uart0.h"
-// #else
-// #include "dev/uart1.h"
-// #endif
-// #include "collect-common.h"
-// #include "collect-view.h"
-// #include "command-type.h"
-// #include "dev/serial-line.h"
-
-
 #if WITH_ORCHESTRA
 #include "orchestra.h"
 #endif
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -329,6 +318,10 @@ PROCESS_THREAD(node_process, ev, data)
       }else {
         PRINTF("Nothing... \n");
       }
+    } else {
+      PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
+      etimer_reset(&etaa);
+      print_tempAndhumi_status();
     }
   }
 
