@@ -137,7 +137,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       message.start_asn = tsch_current_asn.ls4b;
 
       // for CPS enviorment Data.
-      message.gasData = 0x00;
+      message.gasValue = 0x00;
       message.gasAlarm = 0x00;
       message.temperature = temperature_temp;
       message.humidity = humidity_temp;
