@@ -80,7 +80,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  int16_t * sensorData[20]={};
+  int16_t * sensorData[20]={}; //restore sensor data from node.c by UART.h
 
   if(sht21.status(SENSORS_READY)==1) {
       temperature_temp = sht21.value(SHT21_READ_TEMP);
@@ -95,7 +95,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   }
 
 
-  // call main function, get the data information.
+  // call main function, get the sensor data.
   //sensorData = return_Sensor_Data();
   memcpy(sensorData, return_Sensor_Data(), sizeof(sensorData));
 
