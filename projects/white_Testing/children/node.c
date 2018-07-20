@@ -58,7 +58,7 @@
 
 #if CONTIKI_TARGET_COOJA
 // Testing 
-PRINTF("Running Cooja mote.\n");
+//PRINTF("Running Cooja mote.\n");
 #else
 #include "dev/uart.h"
 #include "dev/serial-line.h"
