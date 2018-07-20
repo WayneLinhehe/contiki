@@ -56,9 +56,13 @@
 #include "dev/button-sensor.h"
 #endif
 
+#if CONTIKI_TARGET_COOJA
 // Testing 
+PRINTF("Running Cooja mote.\n");
+#else
 #include "dev/uart.h"
 #include "dev/serial-line.h"
+#endif /* CONTIKI_TARGET_COOJA */
 #include "collect_sensorData.h"
 
 #if WITH_ORCHESTRA
@@ -298,7 +302,11 @@ PROCESS_THREAD(node_process, ev, data)
 
   PROCESS_BEGIN();
 
-  uart_set_input(1, serial_line_input_byte);
+  #if CONTIKI_TARGET_COOJA
+    PRINTF("Running Cooja mote.\n");
+  #else
+    uart_set_input(1, serial_line_input_byte);
+  #endif /* CONTIKI_TARGET_COOJA */
   
   while(1) {
 
