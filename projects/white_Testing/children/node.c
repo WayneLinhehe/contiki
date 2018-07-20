@@ -62,6 +62,7 @@ PRINTF("Running Cooja mote.\n");
 #else
 #include "dev/uart.h"
 #include "dev/serial-line.h"
+#include "dev/sht21.h"  //temporaly
 #endif /* CONTIKI_TARGET_COOJA */
 #include "collect_sensorData.h"
 
@@ -82,7 +83,7 @@ PRINTF("Running Cooja mote.\n");
 #endif
 
 #include "dev/leds.h"
-#include "dev/sht21.h"  //temporaly
+
 
 //#include "dev/max44009.h"  //light
 
@@ -303,7 +304,7 @@ PROCESS_THREAD(node_process, ev, data)
   PROCESS_BEGIN();
 
   #if CONTIKI_TARGET_COOJA
-    PRINTF("Running Cooja mote.\n");
+    //PRINTF("Running Cooja mote.\n");
   #else
     uart_set_input(1, serial_line_input_byte);
   #endif /* CONTIKI_TARGET_COOJA */
