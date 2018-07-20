@@ -70,7 +70,7 @@ PRINTF("Running Cooja mote.\n");
 #include "orchestra.h"
 #endif
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -233,7 +233,6 @@ print_network_status(void)
 #endif
   PRINTF("----------------------\n");
 }
-#endif
 
 static void
 print_tempAndhumi_status(void) 
@@ -256,6 +255,9 @@ print_tempAndhumi_status(void)
     }
   PRINTF("============================\n");
 }
+
+#endif /* Debug */
+
 
 void
 collect_data_send(char* data) 
@@ -330,7 +332,7 @@ PROCESS_THREAD(node_process, ev, data)
     } else {
       PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
       etimer_reset(&etaa);
-      print_tempAndhumi_status();
+      //print_tempAndhumi_status();
     }
   }
 
