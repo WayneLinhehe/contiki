@@ -149,7 +149,7 @@ PROCESS_THREAD(er_example_server, ev, data)
 
 /*---------------------------------------------------------------------------*/
 
-#if DEBUG || 1
+#if DEBUG
 
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
