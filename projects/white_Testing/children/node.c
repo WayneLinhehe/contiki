@@ -313,7 +313,7 @@ PROCESS_THREAD(node_process, ev, data)
   
   while(1) {
 
-    if(sht21.status(SENSORS_READY) == 0) {
+    //if(sht21.status(SENSORS_READY) == 0) {
 
       PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
@@ -329,11 +329,11 @@ PROCESS_THREAD(node_process, ev, data)
       }else {
         PRINTF("Nothing... \n");
       }
-    } else {
-      PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
-      etimer_reset(&etaa);
-      //print_tempAndhumi_status();
-    }
+    // } else {
+    //   PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
+    //   etimer_reset(&etaa);
+    //   //print_tempAndhumi_status();
+    // }
   }
 
   PROCESS_END();
