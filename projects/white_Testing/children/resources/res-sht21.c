@@ -62,7 +62,9 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-
+int warning = 0;
+int threshold = -1;
+int priority = -1;
 
 
 
@@ -156,6 +158,20 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       linkaddr_copy(&parent, &linkaddr_null);
       struct link_stats *parent_link_stats;
 
+      if (warning) {
+        if (temperature_temp > warning) {
+          priority = 1;
+          event_threshold = 1; // have a warning alarm.
+        } else {
+          if (threshold < 0)){
+            event_threshold = 20; // go to Default value.
+          } else {
+            event_threshold = threshold;
+          }
+          priority = 0;
+        }
+      }
+
 
       PRINTF("I am sht21 res_get hanlder!\n");
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
@@ -209,8 +225,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 {
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
-  int threshold = -1;
-  int priority = -1;
+  const char *warning_c = NULL;
 
   if(REST.get_query_variable(request, "thd", &threshold_c)) {
     threshold = (uint8_t)atoi(threshold_c);
@@ -218,6 +233,10 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 
   if(REST.get_query_variable(request, "pp", &priority_c)) {
     priority = (uint8_t)atoi(priority_c);
+  }
+
+  if(REST.get_query_variable(request, "w", $warning_c)) {
+    warning = (uint8_t)atoi(warning_c);
   }
 
   if(threshold < 1 && (priority<0||priority>2)) {
