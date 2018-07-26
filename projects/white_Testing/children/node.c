@@ -58,7 +58,7 @@
 
 
 // Testing 
-#include "dev/uart1.h"
+#include "dev/uart.h"
 #include "dev/serial-line.h"
 #include "dev/sht21.h"  //temporaly
 
@@ -300,12 +300,11 @@ PROCESS_THREAD(node_process, ev, data)
   //static struct etimer etaa;
   //static char* collect_data;
   //char string[20];
-  
 
   PROCESS_BEGIN();
 
-  //uart_set_input(1, serial_line_input_byte);
-  uart1_set_input(serial_line_input_byte);
+  uart_set_input(1, serial_line_input_byte);
+  //uart1_set_input(serial_line_input_byte);
   
   while(1) {
 
