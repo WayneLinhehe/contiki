@@ -163,7 +163,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
           priority = 1;
           event_threshold = 1; // have a warning alarm.
         } else {
-          if (threshold < 0)){
+          if (threshold < 0){
             event_threshold = 20; // go to Default value.
           } else {
             event_threshold = threshold;
@@ -177,13 +177,10 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
       REST.set_header_max_age(response, res_sht21.periodic->period / CLOCK_SECOND);
 
-      
-
       // packet_counter
       // memcpy(buffer,&packet_counter, sizeof(packet_counter));
       // packet_counter += sizeof(packet_counter);
 
-      
       dag = rpl_get_any_dag();
       if(dag != NULL) {
         preferred_parent = dag->preferred_parent;

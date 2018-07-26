@@ -146,7 +146,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         priority = 2;
         event_threshold = 1;
       } else {
-        if (threshold < 0)){
+        if (threshold < 0){
             event_threshold = 20; // go to Default value.
           } else {
             event_threshold = threshold;
@@ -156,7 +156,6 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
 
       PRINTF("I am arduinoBoard res_get hanlder!\n");
-
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
       REST.set_header_max_age(response, res_arduinoBoard.periodic->period / CLOCK_SECOND);
 
