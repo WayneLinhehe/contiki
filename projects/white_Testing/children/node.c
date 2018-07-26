@@ -300,7 +300,7 @@ PROCESS_THREAD(node_process, ev, data)
   //static struct etimer etaa;
   //static char* collect_data;
   //char string[20];
-  char *rxdata;
+  
 
   PROCESS_BEGIN();
 
@@ -311,8 +311,10 @@ PROCESS_THREAD(node_process, ev, data)
 
     PROCESS_WAIT_EVENT();
     if(sht21.status(SENSORS_READY) == 0) {
+      
       if(ev == serial_line_event_message) {
-      leds_toggle(LEDS_RED);
+      char *rxdata;
+      //leds_toggle(LEDS_RED);
 
       rxdata = data;
       PRINTF("Data received over UART %s\n", rxdata);
