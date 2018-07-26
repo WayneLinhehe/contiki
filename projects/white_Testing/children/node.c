@@ -297,8 +297,8 @@ return_Sensor_Data(void)
 
 PROCESS_THREAD(node_process, ev, data)
 {
-  static struct etimer etaa;
-  static char* collect_data;
+  //static struct etimer etaa;
+  //static char* collect_data;
   //char string[20];
   char *rxdata;
 
