@@ -309,9 +309,8 @@ PROCESS_THREAD(node_process, ev, data)
   
   while(1) {
 
+    PROCESS_WAIT_EVENT();
     if(sht21.status(SENSORS_READY) == 0) {
-
-      PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
       leds_toggle(LEDS_RED);
 
