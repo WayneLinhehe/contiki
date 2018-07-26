@@ -232,7 +232,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
     priority = (uint8_t)atoi(priority_c);
   }
 
-  if(REST.get_query_variable(request, "w", $warning_c)) {
+  if(REST.get_query_variable(request, "w", &warning_c)) {
     warning = (uint8_t)atoi(warning_c);
   }
 
