@@ -205,6 +205,31 @@ print_network_status(void)
 
 #endif
 
+#if RPL_WITH_NON_STORING
+
+  /* Our routing links */
+  PRINTF("- Routing links (%u in total):\n", rpl_ns_num_nodes());
+  link = rpl_ns_node_head();
+  while(link != NULL) {
+    uip_ipaddr_t child_ipaddr;
+    uip_ipaddr_t parent_ipaddr;
+    rpl_ns_get_node_global_addr(&child_ipaddr, link);
+    rpl_ns_get_node_global_addr(&parent_ipaddr, link->parent);
+    PRINTF("-- ");
+    PRINT6ADDR(&child_ipaddr);
+    if(link->parent == NULL) {
+      memset(&parent_ipaddr, 0, sizeof(parent_ipaddr));
+      PRINTF(" --- DODAG root ");
+    } else {
+      PRINTF(" to ");
+      PRINT6ADDR(&parent_ipaddr);
+    }
+    PRINTF(" (lifetime: %lu seconds)\n", (unsigned long)link->lifetime);
+    link = rpl_ns_node_next(link);
+  }
+
+#endif
+
 
   PRINTF("----------------------\n");
 }
@@ -233,30 +258,7 @@ print_tempAndhumi_status(void)
 
 #endif /* Debug */
 
-#if RPL_WITH_NON_STORING
 
-  /* Our routing links */
-  PRINTF("- Routing links (%u in total):\n", rpl_ns_num_nodes());
-  link = rpl_ns_node_head();
-  while(link != NULL) {
-    uip_ipaddr_t child_ipaddr;
-    uip_ipaddr_t parent_ipaddr;
-    rpl_ns_get_node_global_addr(&child_ipaddr, link);
-    rpl_ns_get_node_global_addr(&parent_ipaddr, link->parent);
-    PRINTF("-- ");
-    PRINT6ADDR(&child_ipaddr);
-    if(link->parent == NULL) {
-      memset(&parent_ipaddr, 0, sizeof(parent_ipaddr));
-      PRINTF(" --- DODAG root ");
-    } else {
-      PRINTF(" to ");
-      PRINT6ADDR(&parent_ipaddr);
-    }
-    PRINTF(" (lifetime: %lu seconds)\n", (unsigned long)link->lifetime);
-    link = rpl_ns_node_next(link);
-  }
-
-#endif
 
 void
 collect_data_send(char* data) 
