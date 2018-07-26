@@ -62,9 +62,9 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-int warning = 0;
-int threshold = -1;
-int priority = -1;
+static int warning = 0;
+static int threshold = -1;
+static int priority = -1;
 
 
 
