@@ -60,7 +60,7 @@
 // Testing 
 #include "dev/uart.h"
 #include "dev/serial-line.h"
-#include "dev/sht21.h"  //temporaly
+
 
 #include "collect_sensorData.h"
 
@@ -81,7 +81,7 @@
 #endif
 
 #include "dev/leds.h"
-
+#include "dev/sht21.h"  //temporaly
 
 //#include "dev/max44009.h"  //light
 
