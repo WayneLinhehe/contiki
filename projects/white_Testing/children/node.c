@@ -146,8 +146,6 @@ PROCESS_THREAD(er_example_server, ev, data)
 
 /*---------------------------------------------------------------------------*/
 
-#if DEBUG
-
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
@@ -235,7 +233,7 @@ print_tempAndhumi_status(void)
 {
   //static int16_t sht21_present; //,max44009_present;  //uint16 to int16----important
   static int16_t temperature, humidity; //,light;
-
+  
   PRINTF("============================\n");
   if(sht21.status(SENSORS_READY) == 1) {//sht21_present != SHT21_ERROR
     temperature = sht21.value(SHT21_READ_TEMP);
@@ -251,10 +249,6 @@ print_tempAndhumi_status(void)
     }
   PRINTF("============================\n");
 }
-
-#endif /* Debug */
-
-
 
 void
 collect_data_send(char* data) 
