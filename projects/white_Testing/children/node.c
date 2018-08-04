@@ -295,7 +295,7 @@ PROCESS_THREAD(node_process, ev, data)
 
   uart_set_input(1, serial_line_input_byte);
   //uart1_set_input(serial_line_input_byte);
-  
+  etimer_set(&etaa, CLOCK_SECOND * 20);
   while(1) {
 
     if(sht21.status(SENSORS_READY) == 0) {
