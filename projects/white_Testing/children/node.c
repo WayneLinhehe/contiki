@@ -60,9 +60,8 @@
 // Testing 
 #include "dev/uart.h"
 #include "dev/serial-line.h"
-
-
 #include "collect_sensorData.h"
+
 
 #if WITH_ORCHESTRA
 #include "orchestra.h"
@@ -203,7 +202,7 @@ print_network_status(void)
     route = uip_ds6_route_next(route);
   }
 
-#endif
+#endif /* RPL_WITH_STORING */
 
 #if RPL_WITH_NON_STORING
 
@@ -227,10 +226,7 @@ print_network_status(void)
     PRINTF(" (lifetime: %lu seconds)\n", (unsigned long)link->lifetime);
     link = rpl_ns_node_next(link);
   }
-
-#endif
-
-
+#endif  /* RPL_WITH_NON_STORING */
   PRINTF("----------------------\n");
 }
 
@@ -300,8 +296,6 @@ return_Sensor_Data(void)
 PROCESS_THREAD(node_process, ev, data)
 {
   static struct etimer etaa;
-  //static char* collect_data;
-  //char string[20];
 
   PROCESS_BEGIN();
 
@@ -310,9 +304,8 @@ PROCESS_THREAD(node_process, ev, data)
   
   while(1) {
 
-    PROCESS_WAIT_EVENT();
     if(sht21.status(SENSORS_READY) == 0) {
-      
+      PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
       char *rxdata;
       //leds_toggle(LEDS_RED);
@@ -327,8 +320,7 @@ PROCESS_THREAD(node_process, ev, data)
       }else {
         PRINTF("Nothing... \n");
       }
-    }
-    else {
+    }else {
       PROCESS_YIELD_UNTIL(etimer_expired(&etaa));
       etimer_reset(&etaa);
       print_tempAndhumi_status();
