@@ -205,7 +205,6 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
       memcpy(buffer, &message, sizeof(message));
 
-
       coap_set_uip_traffic_class(packet_priority);
       REST.set_response_payload(response, buffer, sizeof(message));
   }
