@@ -63,10 +63,6 @@ static uint8_t packet_priority = 0;
 extern struct tsch_asn_t tsch_current_asn;
 
 static uint16_t warning = 0x00;
-static int threshold = -1;
-static int priority = -1;
-
-
 
 static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)

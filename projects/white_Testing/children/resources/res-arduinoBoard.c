@@ -62,12 +62,6 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-static int threshold = -1;
-static int priority = -1;
-static int warning = -1;
-
-
-
 static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
@@ -146,12 +140,9 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         packet_priority = 2;
         event_threshold = 1;
       } else {
-        if (threshold < 0){
-            event_threshold = 20; // go to Default value.
-          } else {
-            event_threshold = threshold;
-          }
+          event_threshold = 20;
           packet_priority = 0;
+        }
       }
 
 
@@ -204,7 +195,6 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 {
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
-  const char *warning_c = NULL;
 
   if(REST.get_query_variable(request, "thd", &threshold_c)) {
     threshold = (uint8_t)atoi(threshold_c);
@@ -212,10 +202,6 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 
   if(REST.get_query_variable(request, "pp", &priority_c)) {
     priority = (uint8_t)atoi(priority_c);
-  }
-
-  if(REST.get_query_variable(request, "w", &warning_c)) {
-    warning = (uint8_t)atoi(warning_c);
   }
 
   if(threshold < 1 && (priority<0||priority>2)) {
