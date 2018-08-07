@@ -196,6 +196,9 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
 
+  int threshold = -1;
+  int priority = -1;
+
   if(REST.get_query_variable(request, "thd", &threshold_c)) {
     threshold = (uint8_t)atoi(threshold_c);
   }
