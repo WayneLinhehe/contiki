@@ -148,9 +148,6 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       // message.temperature = sensorData[2];
       // message.humidity = sensorData[3];
 
-      // for priority
-      message.priority = packet_priority;
-
       uint8_t packet_length = 0;
       rpl_dag_t *dag;
       rpl_parent_t *preferred_parent;
@@ -158,19 +155,24 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       linkaddr_copy(&parent, &linkaddr_null);
       struct link_stats *parent_link_stats;
 
+
+      /* The Function for Sensor warning of CPS */
       if (warning) {
         if (temperature_temp > warning) {
-          priority = 1;
+          packet_priority = 1;
           event_threshold = 1; // have a warning alarm.
         } else {
-          if (threshold < 0){
+          if (threshold < 0) {
             event_threshold = 20; // go to Default value.
           } else {
             event_threshold = threshold;
           }
-          priority = 0;
+          packet_priority = 0;
         }
       }
+
+      // for priority
+      message.priority = packet_priority;
 
 
       PRINTF("I am sht21 res_get hanlder!\n");

@@ -143,7 +143,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       struct link_stats *parent_link_stats;
 
       if (message.gasAlarm) {
-        priority = 2;
+        packet_priority = 2;
         event_threshold = 1;
       } else {
         if (threshold < 0){
@@ -151,7 +151,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
           } else {
             event_threshold = threshold;
           }
-          priority = 0;
+          packet_priority = 0;
       }
 
 
