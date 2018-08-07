@@ -62,7 +62,7 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-static int warning = 0;
+static int16_t warning = 0x00;
 static int threshold = -1;
 static int priority = -1;
 
@@ -234,7 +234,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
   }
 
   if(REST.get_query_variable(request, "w", &warning_c)) {
-    warning = (uint8_t)atoi(warning_c);
+    warning = (uint16_t)atoi(warning_c);
   }
 
   if(threshold < 1 && (priority<0||priority>2)) {
