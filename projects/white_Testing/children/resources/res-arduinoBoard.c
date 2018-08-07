@@ -140,9 +140,8 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         packet_priority = 2;
         event_threshold = 1;
       } else {
-          event_threshold = 20;
-          packet_priority = 0;
-        }
+        event_threshold = 20;
+        packet_priority = 0;
       }
 
 
