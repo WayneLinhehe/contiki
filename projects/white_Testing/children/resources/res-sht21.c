@@ -62,7 +62,7 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-static int16_t warning = 0x00;
+static uint16_t warning = 0x00;
 static int threshold = -1;
 static int priority = -1;
 
@@ -160,13 +160,9 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       if (warning) {
         if (temperature_temp > warning) {
           packet_priority = 1;
-          event_threshold = 1; // have a warning alarm.
+          event_threshold = 2; // have a warning alarm.
         } else {
-          if (threshold < 0) {
-            event_threshold = 20; // go to Default value.
-          } else {
-            event_threshold = threshold;
-          }
+          event_threshold = 20;
           packet_priority = 0;
         }
       }
@@ -223,7 +219,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 {
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
-  const char *warning_c = NULL;
+  const uint16_t *warning_c = NULL;
 
   if(REST.get_query_variable(request, "thd", &threshold_c)) {
     threshold = (uint8_t)atoi(threshold_c);
