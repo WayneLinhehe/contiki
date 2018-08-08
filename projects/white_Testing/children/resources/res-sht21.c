@@ -62,7 +62,7 @@ static uint8_t packet_priority = 0;
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-static uint16_t warning = 0x00; // For Sensor Alarm flag.
+static int16_t warning = 0; // For Sensor Alarm flag.
 
 static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
@@ -215,7 +215,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 {
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
-  const uint16_t *warning_c = NULL;
+  const int16_t *warning_c = NULL;
 
   int threshold = -1;
   int priority = -1;
@@ -230,7 +230,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
   }
 
   if(REST.get_query_variable(request, "w", &warning_c)) {
-    warning = (uint16_t)atoi(warning_c);
+    warning = (int16_t)atoi(warning_c);
   }
 
   if(threshold < 1 && (priority<0||priority>2)) {
