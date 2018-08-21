@@ -67,7 +67,7 @@
 #include "orchestra.h"
 #endif
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -84,9 +84,10 @@
 
 //#include "dev/max44009.h"  //light
 
-extern resource_t res_hello, res_push, res_toggle, res_collect, res_arduinoBoard, res_sht21; // , res_temperature;
+//extern resource_t res_hello, res_push, res_toggle, res_collect;
+extern resource_t res_arduinoBoard, res_sht21, res_sicslowpan; // , res_temperature;
 
-int16_t * tempData[20];
+int32_t * tempData[3000];
 
 /*---------------------------------------------------------------------------*/
 
@@ -122,12 +123,13 @@ PROCESS_THREAD(er_example_server, ev, data)
    * WARNING: Activating twice only means alternate path, not two instances!
    * All static variables are the same for each URI path.
    */
-  rest_activate_resource(&res_hello, "test/hello");
-  rest_activate_resource(&res_push, "test/push");
-  rest_activate_resource(&res_toggle, "actuators/toggle");
-  rest_activate_resource(&res_collect, "g/collect");
+  //rest_activate_resource(&res_hello, "test/hello");
+  //rest_activate_resource(&res_push, "test/push");
+  //rest_activate_resource(&res_toggle, "actuators/toggle");
+  //rest_activate_resource(&res_collect, "g/collect");
   rest_activate_resource(&res_arduinoBoard, "g/arduinoBoard");
   rest_activate_resource(&res_sht21, "g/sht21");
+  rest_activate_resource(&res_sicslowpan, "g/sicslowpan");
   //rest_activate_resource(&res_temperature, "g/res_temperature");
 
 #if PLATFORM_HAS_LEDS
@@ -258,14 +260,14 @@ collect_data_send(char* data)
   int i=0;
 
   PRINTF("The String is : %s \n",data);
-  split = strtok(data," ");
+  split = strtok(data," ,");
   while (split != NULL)
   {
     // convert the string into Int.
     //strcpy(tempData[count], atoi(split));
     tempData[count] = atoi(split);
     count++;
-    split = strtok(NULL," ");
+    split = strtok(NULL," ,");
   }
   //PRINTF("tempData String : %u .\n",tempData);
   for (i=0;i<count;i++){
