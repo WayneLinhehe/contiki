@@ -87,7 +87,7 @@
 //extern resource_t res_hello, res_push, res_toggle, res_collect;
 extern resource_t res_arduinoBoard, res_sht21, res_sicslowpan; // , res_temperature;
 
-int32_t * tempData[3000];
+int32_t * tempData[33];
 
 /*---------------------------------------------------------------------------*/
 
