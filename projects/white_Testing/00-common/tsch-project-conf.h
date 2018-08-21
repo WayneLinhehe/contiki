@@ -80,6 +80,10 @@
 #undef RF2XX_WITH_TSCH
 #define RF2XX_WITH_TSCH 1
 
+/* Large packet to compress. */
+#undef SICSLOWPAN_CONF_FRAG
+#define SICSLOWPAN_CONF_FRAG 1
+
 /*******************************************************/
 /******************* Configure TSCH ********************/
 /*******************************************************/
