@@ -135,7 +135,7 @@ output(void)
     uint8_t flag2 = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 1];
     
     if(flag1 == 0x54 && flag2 == 0x66){
-      PRINTF("\nFound_flag:%02x %02x\n", flag1, flag2);  
+      PRINTF("\nFound_flag:%02x %02x\n", flag1, flag2);
       // tsch_current_asn.ls4b
       PRINTF("Source_IP_Address:");
       PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
