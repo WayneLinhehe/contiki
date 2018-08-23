@@ -269,6 +269,7 @@ collect_data_send(char* data)
   if(split == 54){
     collect_flag = 1;
     count = 0;
+    memset(tempData,'\0',sizeof(tempData)); // free the tempData
   }
   // found end word, goto default value.
   else if(split == 66 || count == 32){
@@ -278,7 +279,6 @@ collect_data_send(char* data)
     }
     count = 0;
     collect_flag = 0;
-    memset(tempData,'\0',sizeof(tempData)); // free the tempData
   }
   else if(collect_flag){
     //tempData[count] = atoi(split);
