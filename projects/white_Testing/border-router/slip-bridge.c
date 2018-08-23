@@ -107,11 +107,13 @@ init(void)
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-// #include "apps/er-coap/er-coap.h"
+#include "apps/er-coap/er-coap.h"
+coap_packet_t *const coap_pkt = (coap_packet_t *)packet; // peek coap_payload_length
+
 // #include "er-coap.h"
 
-#include "er-coap-constants.h"
-#include "er-coap-engine.h"
+// #include "er-coap-constants.h"
+// #include "er-coap-engine.h"
 
 static int
 output(void)
@@ -125,7 +127,7 @@ output(void)
     PRINT6ADDR(&UIP_IP_BUF->destipaddr);
     PRINTF("\n");
   } else {
-    coap_packet_t *const coap_pkt = (coap_packet_t *)packet; // peek coap_payload_length
+    
 
     PRINTF("Got things to send to PC\n");
     PRINTF(" dst=");
