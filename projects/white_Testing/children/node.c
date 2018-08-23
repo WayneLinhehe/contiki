@@ -255,13 +255,13 @@ print_tempAndhumi_status(void)
 }
 
 void
-collect_data_send(char* data) 
+collect_data_send(float* data) 
 {
-  char* split;
+  float* split;
   int count;
   int i;
 
-  PRINTF("The String is : %s \n",data);
+  PRINTF("The String is : %f \n",data);
   split = strtok(data,",");
 
   // found start word, goto default value.
@@ -271,14 +271,13 @@ collect_data_send(char* data)
   // found end word, goto default value.
   else if(split == 66 || count == 32){
     count = 0;
-    memset(tempData,'\0',sizeof(tempData)); // free the tempData array.
+    memset(tempData,'\0',sizeof(tempData)); // free the tempData
   }
   else {
     while (split != NULL)
     {
-      // convert the string into Int.
-      // strcpy(tempData[count], atoi(split));
-      tempData[count] = atoi(split);
+      //tempData[count] = atoi(split);
+      tempData[count] = split;
       count++;
       split = strtok(NULL,",");
     }
@@ -296,7 +295,7 @@ collect_data_send(char* data)
 
 /*---------------------------------------------------------------------------*/
 // MARK: return Sensor Data Array.
-int16_t *
+float *
 return_Sensor_Data(void)
 {
   return tempData;
@@ -320,11 +319,11 @@ PROCESS_THREAD(node_process, ev, data)
     //if(sht21.status(SENSORS_READY) == 0) {
       PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
-      unsigned char* rxdata;
+      float * rxdata;
       //leds_toggle(LEDS_RED);
 
       rxdata = data;
-      PRINTF("Data received over UART %s\n", rxdata);
+      PRINTF("Data received over UART %f\n", rxdata);
 
       // the data send to node.c, then compress into packet.
       collect_data_send(rxdata);
