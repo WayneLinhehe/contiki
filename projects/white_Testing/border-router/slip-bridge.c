@@ -107,8 +107,8 @@ init(void)
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-#include "apps/er-coap/er-coap.h"
-
+// #include "apps/er-coap/er-coap.h"
+#include "er-coap.h"
 
 static int
 output(void)
