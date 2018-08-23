@@ -45,7 +45,7 @@
 #include "contiki.h"
 #include "contiki-net.h"
 #include "rest-engine.h"
-#include "er-coap-engine.h" // peek coap_payload_length
+
 
 #include "net/rpl/rpl.h"
 #include "net/rpl/rpl-private.h"
@@ -155,7 +155,7 @@ extern struct tsch_asn_t tsch_current_asn;
 static void
 print_network_status(void)
 {
-  
+
   int i;
   uint8_t state;
   uip_ds6_defrt_t *default_route;
