@@ -257,7 +257,7 @@ print_tempAndhumi_status(void)
 void
 collect_data_send(char* data) 
 {
-  float* split;
+  double* split;
   int count;
   int i;
 
