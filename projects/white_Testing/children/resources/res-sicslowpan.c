@@ -18,7 +18,7 @@
 #include "core/net/rpl/rpl.h"
 #include "core/net/link-stats.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -73,7 +73,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   // static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   // static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  int32_t * sensorData[33]={}; //restore sensor data from node.c by UART.h
+  int32_t * sensorData[32]={}; //restore sensor data from node.c by UART.h
 
   // call main function, get the sensor data.
   //sensorData = return_Sensor_Data();
@@ -83,7 +83,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       struct 
       {
         // // 32bits to 1 block
-        // uint8_t flag[2];  // 0 1
+        uint8_t flag[2];  // 0 1
         // uint8_t priority; // 2
         // int8_t gasAlarm; // 3
         // // Done padding int8_t // null
@@ -109,14 +109,14 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       } message;
       memset(&message, 0, sizeof(message));
 
+      message.flag[0] = 0x54;
+      message.flag[1] = 0x66;
+
       int temp;
       for (temp = 0;temp<32 ;temp++){
         message.motoData[temp] = sensorData[temp];
       }
       PRINTF("Copy Done.\n");
-
-      // message.flag[0] = 0x54;
-      // message.flag[1] = 0x66;
       // message.end_flag[0] = 0xf0;
       // message.end_flag[1] = 0xff;
 

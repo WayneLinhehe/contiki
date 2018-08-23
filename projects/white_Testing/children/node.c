@@ -88,7 +88,7 @@
 //extern resource_t res_hello, res_push, res_toggle, res_collect;
 extern resource_t res_arduinoBoard, res_sht21, res_sicslowpan; // , res_temperature;
 
-int32_t * tempData[33];
+int32_t * tempData[66];
 
 /*---------------------------------------------------------------------------*/
 
@@ -305,7 +305,7 @@ PROCESS_THREAD(node_process, ev, data)
     //if(sht21.status(SENSORS_READY) == 0) {
       PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
-      char *rxdata;
+      unsigned char* rxdata;
       //leds_toggle(LEDS_RED);
 
       rxdata = data;

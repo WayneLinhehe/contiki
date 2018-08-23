@@ -138,7 +138,7 @@ output(void)
     //PRINTF("coap_payload_length:%d \n",coap_pkt->payload_len)
 
     uint8_t ip_payload_length = UIP_IP_BUF->len[1];
-    uint8_t coap_packet_start_location = UIP_IPH_LEN + ip_payload_length - 44;  //44 is coap payload length
+    uint8_t coap_packet_start_location = UIP_IPH_LEN + ip_payload_length - 130;  //44 is coap payload length
 
     uint8_t flag1 = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location];
     uint8_t flag2 = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 1];
@@ -149,68 +149,56 @@ output(void)
       PRINTF("Source_IP_Address:");
       PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
 
-      // uint32_t endASN.
-      ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 8] = tsch_current_asn.ls4b & 0xff;
-      ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 9] = (tsch_current_asn.ls4b >> 8) & 0xff;
-      ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 10] = (tsch_current_asn.ls4b >> 16) & 0xff;
-      ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 11] = (tsch_current_asn.ls4b >> 24) & 0xff;
+      // // uint32_t endASN.
+      // ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 8] = tsch_current_asn.ls4b & 0xff;
+      // ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 9] = (tsch_current_asn.ls4b >> 8) & 0xff;
+      // ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 10] = (tsch_current_asn.ls4b >> 16) & 0xff;
+      // ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 11] = (tsch_current_asn.ls4b >> 24) & 0xff;
 
-      // uint32_t startASN.
-      uint32_t startASN = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 7] << 24 | 
-                          ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 6] << 16 |
-                          ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 5] << 8 |
-                          ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 4];
+      // // uint32_t startASN.
+      // uint32_t startASN = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 7] << 24 | 
+      //                     ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 6] << 16 |
+      //                     ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 5] << 8 |
+      //                     ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 4];
 
       
-      // Packet Priority.
-      uint8_t priority = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 2];
-      // uint32_t event_counter.
-      /**
-       * uint32_t eventCounter = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 15] << 24 | 
-                              ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 14] << 16 |
-                              ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 13] << 8 |
-                              ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 12];
-       */
+      // // Packet Priority.
+      // uint8_t priority = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 2];
+      // // uint32_t event_counter.
+      // /**
+      //  * uint32_t eventCounter = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 15] << 24 | 
+      //                         ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 14] << 16 |
+      //                         ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 13] << 8 |
+      //                         ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 12];
+      //  */
       
-      // memcpy(UIP_IP_BUF[coap_packet_start_location + 8], &(tsch_current_asn.ls4b), 4)
-      PRINTF("\nStart_ASN_Numbers:%08x\n",startASN);
-      PRINTF("End_ASN_Numbers:%08x\n",tsch_current_asn.ls4b);
-      //PRINTF("Event_Counter:%d\n",eventCounter);
-      PRINTF("The_Packet_Latancy_is:%u",((tsch_current_asn.ls4b - startASN)) * 10 ); //ms time.
-      PRINTF(" ms\n");
-      //PRINTF("The Packet Latancy is %u ms. \n",((tsch_current_asn.ls4b - startASN) - 4294967296) * 10 ); //ms time.                                       
-      //PRINTF("Traffic_Classes:%02x. \n",UIP_IP_BUF->tcflow);
-      PRINTF("Traffic_Classes:%d. \n",priority);
+      // // memcpy(UIP_IP_BUF[coap_packet_start_location + 8], &(tsch_current_asn.ls4b), 4)
+      // PRINTF("\nStart_ASN_Numbers:%08x\n",startASN);
+      // PRINTF("End_ASN_Numbers:%08x\n",tsch_current_asn.ls4b);
+      // //PRINTF("Event_Counter:%d\n",eventCounter);
+      // PRINTF("The_Packet_Latancy_is:%u",((tsch_current_asn.ls4b - startASN)) * 10 ); //ms time.
+      // PRINTF(" ms\n");
+      // //PRINTF("The Packet Latancy is %u ms. \n",((tsch_current_asn.ls4b - startASN) - 4294967296) * 10 ); //ms time.                                       
+      // //PRINTF("Traffic_Classes:%02x. \n",UIP_IP_BUF->tcflow);
+      // PRINTF("Traffic_Classes:%d. \n",priority);
 
-      #if haveArduino 
-      {
-        int16_t gasValue = ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
-                          ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
+      
+      //   int16_t gasValue = ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
+      //                     ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
 
-        int8_t gasAlarm = ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 3];
+      //   int8_t gasAlarm = ((int8_t *) (UIP_IP_BUF))[coap_packet_start_location + 3];
 
-        int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
-                              ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
+      //   int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
+      //                         ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
 
-        uint16_t humidity =  ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 41] << 8 |
-                            ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 40];
-        PRINTF("Temperature: %d.%dC\n", temperature / 100, temperature % 100);
-        PRINTF("Rel. humidity: %d.%d%%\n", humidity / 100, humidity % 100);
-        PRINTF("Gas Sensor Value : %d. \n",gasValue);
-        PRINTF("Gas Sensor Alarm : %d. \n",gasAlarm);
-      }
-      #else
-      {
-        // for CPS enviorment Data.
-        int16_t temperature = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 37] << 8 |
-                             ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 36];
+      //   uint16_t humidity =  ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 41] << 8 |
+      //                       ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 40];
+      //   PRINTF("Temperature: %d.%dC\n", temperature / 100, temperature % 100);
+      //   PRINTF("Rel. humidity: %d.%d%%\n", humidity / 100, humidity % 100);
+      //   PRINTF("Gas Sensor Value : %d. \n",gasValue);
+      //   PRINTF("Gas Sensor Alarm : %d. \n",gasAlarm);
+      
 
-        int16_t humidity =    ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 39] << 8 |
-                            ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 38];
-        PRINTF("Temperature: %d.%dC\n", temperature / 100, temperature % 100);
-        PRINTF("Rel. humidity: %d.%d%%\n", humidity / 100, humidity % 100);
-      }
-      #endif
       
       
       //PRINTF("Flow Table : %04x. \n",UIP_IP_BUF->flow);
