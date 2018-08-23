@@ -18,6 +18,6 @@
 
 // PROCESS_NAME(collect_sensor_data);
 
-int16_t * return_Sensor_Data(void);
+float * return_Sensor_Data(void);
 
 #endif /* COLLECT_SENSORDATA_H_ */
