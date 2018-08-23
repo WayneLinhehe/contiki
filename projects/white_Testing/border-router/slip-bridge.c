@@ -108,6 +108,7 @@ init(void)
 extern struct tsch_asn_t tsch_current_asn;
 
 #include "apps/er-coap/er-coap.h"
+#include "apps/rest-engine/rest-engine.h"
 coap_packet_t *const coap_pkt = (coap_packet_t *)packet; // peek coap_payload_length
 
 // #include "er-coap.h"
