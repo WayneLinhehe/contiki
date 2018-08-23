@@ -73,7 +73,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   // static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   // static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  int32_t * sensorData[32]={}; //restore sensor data from node.c by UART.h
+  float * sensorData[32]={}; //restore sensor data from node.c by UART.h
 
   // call main function, get the sensor data.
   //sensorData = return_Sensor_Data();
@@ -105,7 +105,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // uint8_t end_flag[2]; // 42, 43
         // // Done padding int16_t //X null
         // // total size = 44
-        int32_t motoData[32]; // 0 ~ 31
+        float motoData[32]; // 0 ~ 31
       } message;
       memset(&message, 0, sizeof(message));
 
@@ -152,7 +152,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       // }
 
 
-      PRINTF("I am arduinoBoard res_get hanlder!\n");
+      PRINTF("I am sicslowpan res_get hanlder!\n");
       REST.set_header_content_type(response, REST.type.APPLICATION_OCTET_STREAM);
       REST.set_header_max_age(response, res_sicslowpan.periodic->period / CLOCK_SECOND);
 

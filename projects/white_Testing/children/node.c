@@ -88,7 +88,7 @@
 //extern resource_t res_hello, res_push, res_toggle, res_collect;
 extern resource_t res_arduinoBoard, res_sht21, res_sicslowpan; // , res_temperature;
 
-int32_t * tempData[66];
+float * tempData[32];
 
 /*---------------------------------------------------------------------------*/
 
@@ -258,24 +258,39 @@ void
 collect_data_send(char* data) 
 {
   char* split;
-  int count=0;
-  int i=0;
+  int count;
+  int i;
 
   PRINTF("The String is : %s \n",data);
   split = strtok(data,",");
-  while (split != NULL)
-  {
-    // convert the string into Int.
-    //strcpy(tempData[count], atoi(split));
-    tempData[count] = atoi(split);
-    count++;
-    split = strtok(NULL,",");
+
+  // found start word, goto default value.
+  if(split == 54 || count == 32){
+    count = 0;
   }
-  //PRINTF("tempData String : %u .\n",tempData);
-  for (i=0;i<count;i++){
-    PRINTF("i : %d , count : %d\n",i, count);
-    PRINTF("Each the sensor data %u \n",tempData[i]);
+  // found end word, goto default value.
+  else if(split == 66 || count == 32){
+    count = 0;
+    memset(tempData,'\0',sizeof(tempData)); // free the tempData array.
   }
+  else {
+    while (split != NULL)
+    {
+      // convert the string into Int.
+      // strcpy(tempData[count], atoi(split));
+      tempData[count] = atoi(split);
+      count++;
+      split = strtok(NULL,",");
+    }
+    //PRINTF("tempData String : %u .\n",tempData);
+    for (i=0;i<count;i++){
+      PRINTF("i : %d , count : %d\n",i, count);
+      PRINTF("Each the sensor data %u \n",tempData[i]);
+    }
+  }
+
+
+  
   return 0;
 }
 
