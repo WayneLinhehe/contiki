@@ -270,26 +270,18 @@ collect_data_send(char* data)
   }
   // found end word, goto default value.
   else if(split == 66 || count == 32){
-    count = 0;
-    memset(tempData,'\0',sizeof(tempData)); // free the tempData
-  }
-  else {
-    while (split != NULL)
-    {
-      //tempData[count] = atoi(split);
-      tempData[count] = split;
-      count++;
-      //split = strtok(NULL,",");
-    }
-    //PRINTF("tempData String : %u .\n",tempData);
     for (i=0;i<count;i++){
       PRINTF("i : %d , count : %d\n",i, count);
       PRINTF("Each the sensor data %u \n",tempData[i]);
     }
+    count = 0;
+    memset(tempData,'\0',sizeof(tempData)); // free the tempData
   }
-
-
-  
+  else {
+    //tempData[count] = atoi(split);
+    tempData[count] = split;
+    count++;
+  }
   return 0;
 }
 
