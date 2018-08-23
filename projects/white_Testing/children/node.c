@@ -262,14 +262,14 @@ collect_data_send(char* data)
   int i=0;
 
   PRINTF("The String is : %s \n",data);
-  split = strtok(data," ,");
+  split = strtok(data,",");
   while (split != NULL)
   {
     // convert the string into Int.
     //strcpy(tempData[count], atoi(split));
     tempData[count] = atoi(split);
     count++;
-    split = strtok(NULL," ,");
+    split = strtok(NULL,",");
   }
   //PRINTF("tempData String : %u .\n",tempData);
   for (i=0;i<count;i++){
