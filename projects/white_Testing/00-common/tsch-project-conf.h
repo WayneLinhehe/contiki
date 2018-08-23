@@ -80,9 +80,9 @@
 #undef RF2XX_WITH_TSCH
 #define RF2XX_WITH_TSCH 1
 
-/* CoAP */
-#undef REST_MAX_CHUNK_SIZE
-#define REST_MAX_CHUNK_SIZE      256
+// /* CoAP */
+// #undef REST_MAX_CHUNK_SIZE
+// #define REST_MAX_CHUNK_SIZE      256
 
 /* Network config */
 #undef SICSLOWPAN_CONF_FRAG
