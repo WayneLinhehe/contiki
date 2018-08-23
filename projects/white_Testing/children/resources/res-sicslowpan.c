@@ -83,7 +83,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
       struct 
       {
         // // 32bits to 1 block
-        // uint8_t flag[2];  // 0 1
+        uint8_t flag[2];  // 0 1
         // uint8_t priority; // 2
         // int8_t gasAlarm; // 3
         // // Done padding int8_t // null
