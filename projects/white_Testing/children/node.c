@@ -89,6 +89,8 @@
 extern resource_t res_arduinoBoard, res_sht21, res_sicslowpan; // , res_temperature;
 
 uint32_t * tempData[32];
+static int count = 0;
+static int collect_flag = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -258,14 +260,14 @@ void
 collect_data_send(char* data) 
 {
   int split;
-  int count;
   int i;
 
   PRINTF("The data is : %s \n",data);
   //split = strtok(data,",");
   split = atoi(data);
   // found start word, goto default value.
-  if(split == 54 || count == 32){
+  if(split == 54){
+    collect_flag = 1;
     count = 0;
   }
   // found end word, goto default value.
@@ -275,9 +277,10 @@ collect_data_send(char* data)
       PRINTF("Each the sensor data %u \n",tempData[i]);
     }
     count = 0;
+    collect_flag = 0;
     memset(tempData,'\0',sizeof(tempData)); // free the tempData
   }
-  else {
+  else if(collect_flag){
     //tempData[count] = atoi(split);
     tempData[count] = split;
     count++;
