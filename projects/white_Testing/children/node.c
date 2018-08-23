@@ -257,13 +257,13 @@ print_tempAndhumi_status(void)
 void
 collect_data_send(char* data) 
 {
-  double *split;
+  int split;
   int count;
   int i;
 
   PRINTF("The data is : %s \n",data);
   //split = strtok(data,",");
-  split = (double *)atof(data);
+  split = atoi(data);
   // found start word, goto default value.
   if(split == 54 || count == 32){
     count = 0;
