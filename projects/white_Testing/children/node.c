@@ -88,7 +88,7 @@
 //extern resource_t res_hello, res_push, res_toggle, res_collect;
 extern resource_t res_arduinoBoard, res_sht21, res_sicslowpan; // , res_temperature;
 
-float * tempData[32];
+uint32_t * tempData[32];
 
 /*---------------------------------------------------------------------------*/
 
@@ -255,15 +255,15 @@ print_tempAndhumi_status(void)
 }
 
 void
-collect_data_send(float* data) 
+collect_data_send(char* data) 
 {
   float* split;
   int count;
   int i;
 
-  PRINTF("The data is : %f \n",data);
+  PRINTF("The data is : %s \n",data);
   //split = strtok(data,",");
-
+  split = atof(data);
   // found start word, goto default value.
   if(split == 54 || count == 32){
     count = 0;
@@ -295,7 +295,7 @@ collect_data_send(float* data)
 
 /*---------------------------------------------------------------------------*/
 // MARK: return Sensor Data Array.
-float *
+uint32_t *
 return_Sensor_Data(void)
 {
   return tempData;
@@ -319,11 +319,11 @@ PROCESS_THREAD(node_process, ev, data)
     //if(sht21.status(SENSORS_READY) == 0) {
       PROCESS_WAIT_EVENT();
       if(ev == serial_line_event_message) {
-      float * rxdata;
+      char * rxdata;
       //leds_toggle(LEDS_RED);
 
       rxdata = data;
-      PRINTF("Data received over UART %f\n", rxdata);
+      PRINTF("Data received over UART %s\n", rxdata);
 
       // the data send to node.c, then compress into packet.
       collect_data_send(rxdata);

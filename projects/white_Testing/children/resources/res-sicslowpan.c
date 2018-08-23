@@ -73,7 +73,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
   // static int8_t sht21_present=0; //, max44009_present=0, adxl346_present=0; 
   // static int16_t temperature_temp, humidity_temp; //, light, accelx, accely, accelz;
-  float sensorData[32]={}; //restore sensor data from node.c by UART.h
+  uint32_t * sensorData[32]={}; //restore sensor data from node.c by UART.h
 
   // call main function, get the sensor data.
   //sensorData = return_Sensor_Data();
@@ -105,7 +105,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // uint8_t end_flag[2]; // 42, 43
         // // Done padding int16_t //X null
         // // total size = 44
-        float motoData[32]; // 0 ~ 31
+        uint32_t motoData[32]; // 0 ~ 31
       } message;
       memset(&message, 0, sizeof(message));
 
