@@ -107,9 +107,9 @@ init(void)
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
 
-#include "apps/er-coap/er-coap.h"
-#include "apps/rest-engine/rest-engine.h"
-coap_packet_t *const coap_pkt = (coap_packet_t *)packet; // peek coap_payload_length
+//#include "apps/er-coap/er-coap.h"
+
+// coap_packet_t *const coap_pkt = (coap_packet_t *)packet; // peek coap_payload_length
 
 // #include "er-coap.h"
 
@@ -135,7 +135,7 @@ output(void)
     PRINT6ADDR(&UIP_IP_BUF->destipaddr);
     PRINTF("\n");
     PRINTF("packet_length:%d \n", UIP_IP_BUF->len[1]);
-    PRINTF("coap_payload_length:%d \n",coap_pkt->payload_len)
+    //PRINTF("coap_payload_length:%d \n",coap_pkt->payload_len)
 
     uint8_t ip_payload_length = UIP_IP_BUF->len[1];
     uint8_t coap_packet_start_location = UIP_IPH_LEN + ip_payload_length - 44;  //44 is coap payload length
