@@ -122,7 +122,7 @@ output(void)
   if(uip_ipaddr_cmp(&last_sender, &UIP_IP_BUF->srcipaddr)) {
     /* Do not bounce packets back over SLIP if the packet was received
        over SLIP */
-    PRINTF("slip-bridge: Destination off-link but no route src=");
+    PRINTF("\nslip-bridge: Destination off-link but no route src=");
     PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
     PRINTF(" dst=");
     PRINT6ADDR(&UIP_IP_BUF->destipaddr);
@@ -130,7 +130,7 @@ output(void)
   } else {
     
 
-    PRINTF("Got things to send to PC\n");
+    PRINTF("\nGot things to send to PC\n");
     PRINTF(" dst=");
     PRINT6ADDR(&UIP_IP_BUF->destipaddr);
     PRINTF("\n");
