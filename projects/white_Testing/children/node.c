@@ -261,8 +261,8 @@ collect_data_send(float* data)
   int count;
   int i;
 
-  PRINTF("The String is : %f \n",data);
-  split = strtok(data,",");
+  PRINTF("The data is : %f \n",data);
+  //split = strtok(data,",");
 
   // found start word, goto default value.
   if(split == 54 || count == 32){
@@ -279,7 +279,7 @@ collect_data_send(float* data)
       //tempData[count] = atoi(split);
       tempData[count] = split;
       count++;
-      split = strtok(NULL,",");
+      //split = strtok(NULL,",");
     }
     //PRINTF("tempData String : %u .\n",tempData);
     for (i=0;i<count;i++){
