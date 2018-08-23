@@ -82,7 +82,7 @@
 
 /* CoAP */
 #undef REST_MAX_CHUNK_SIZE
-#define REST_MAX_CHUNK_SIZE      64
+#define REST_MAX_CHUNK_SIZE      128
 
 /* Network config */
 #undef SICSLOWPAN_CONF_FRAG
