@@ -50,7 +50,8 @@
     "iosfwd": "c",
     "uip-debug.h": "c",
     "__functional_03": "c",
-    "collect_sensordata.h": "c"
+    "collect_sensordata.h": "c",
+    "iostream": "c"
   },
   "C_Cpp.errorSquiggles": "Disabled",
   "C_Cpp.intelliSenseEngineFallback": "Enabled",
