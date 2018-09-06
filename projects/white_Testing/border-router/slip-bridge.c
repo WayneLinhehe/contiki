@@ -150,7 +150,7 @@ output(void)
       PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
 
       int i;
-      for(i=2, i <= 131, i+=4) {
+      for(i=2; i <= 131; i+=4) {
         uint32_t moto_bytes = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+3] << 24 | 
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+2] << 16 |
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+1] << 8 |
