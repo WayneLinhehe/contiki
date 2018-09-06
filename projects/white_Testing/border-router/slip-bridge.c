@@ -151,60 +151,16 @@ output(void)
       PRINTF("Source_IP_Address:");
       PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
 
-      char data_body;
-      char data_moto;
-
       int i;
       for(i=2, i <= 131, i+=4) {
         uint32_t moto_bytes = ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+3] << 24 | 
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+2] << 16 |
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+1] << 8 |
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i];
-        if (i>127) {
-          data_moto += moto_bytes;
-        }else {
-          data_moto += moto_bytes+",";
-          //data_moto += ",";
-        }
-        
+        PRINTF("\nGot Binary Data is : %u\n", moto_bytes);
       }
 
-      CURL *curl;
-      CURLcode res;
-      /* In windows, this will init the winsock stuff */ 
-		  curl_global_init(CURL_GLOBAL_ALL);
-		 
-		  /* get a curl handle */ 
-		  curl = curl_easy_init();
-		  struct curl_slist *list = NULL;
-
-      if(curl) {
-        /* The Uarl only for CPS_MOTO_FFT */
-        curl_easy_setopt(curl, CURLOPT_URL, "http://140.124.184.204:8082/~/in-cse/cnt-706018400");
-
-        // header
-        list = curl_slist_append(list,"X-M2M-Origin:admin:admin");
-				list = curl_slist_append(list,"Content-Type: application/json;ty=4");
-			  curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
-
-        data_body += " { \"m2m:cin\":{\"cnf\": \"json\",\"con\": \"";
-        data_body += data_moto;
-        data_body +="\"}}";
-        
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
-	      curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
-
-        res = curl_easy_perform(curl);
-
-        if(res != CURLE_OK)
-	      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-	              curl_easy_strerror(res));
-	 
-	      /* always cleanup */ 
-	      curl_easy_cleanup(curl);
-
-      }
-      curl_global_cleanup();
+    
 
       // // uint32_t endASN.
       // ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + 8] = tsch_current_asn.ls4b & 0xff;
