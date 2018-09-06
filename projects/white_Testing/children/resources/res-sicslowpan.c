@@ -105,7 +105,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         // uint8_t end_flag[2]; // 42, 43
         // // Done padding int16_t //X null
         // // total size = 44
-        uint32_t motoData[32]; // 2 3 4 5 ~ 128 129 130 131
+        uint32_t motoData[32]; // 4 5 ~ 130 131 132 133
       } message;
       memset(&message, 0, sizeof(message));
 
