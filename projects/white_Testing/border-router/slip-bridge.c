@@ -44,8 +44,6 @@
 #include "dev/uart1.h"
 #include <string.h>
 
-#include <curl/curl.h>
-
 #define UIP_IP_BUF        ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
 #define UIP_UDP_BUF       ((struct uip_udp_hdr *)&uip_buf[UIP_LLIPH_LEN])
 
@@ -157,7 +155,7 @@ output(void)
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+2] << 16 |
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i+1] << 8 |
                               ((uint8_t *) (UIP_IP_BUF))[coap_packet_start_location + i];
-        PRINTF("\nGot Binary Data is : %u\n", moto_bytes);
+        PRINTF("\nGot %d Binary Data is : %u\n", i, moto_bytes);
       }
 
     
