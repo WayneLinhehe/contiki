@@ -206,13 +206,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   // REST.set_response_payload(response, buffer, snprintf((char *)buffer, preferred_size, "[Collect] ec: %lu, et: %lu, lc, %lu, pc: %lu", event_counter, event_threshold, event_threshold_last_change,packet_counter));
 
   /* The REST.subscription_handler() will be called for observable resources by the REST framework. */
-}
 
-
-/* Used for update the threshold */
-static void
-res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
-{
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
   const int16_t *warning_c = NULL;
@@ -234,19 +228,28 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
   }
 
   if(threshold < 1 && (priority<0||priority>2)) {
-    /* Threashold is too smaill ignore it! */
-    REST.set_response_status(response, REST.status.BAD_REQUEST);
+
+    
   } else {
     if(threshold>=1){
       /* Update to new threshold */
       event_threshold = threshold;
       event_threshold_last_change = event_counter;
-    }
-    if(priority>=0 && priority<= 2)
-    {
-      packet_priority = priority;
+      
+      if(priority>=0 && priority<= 2) {
+        packet_priority = priority;
+      }
     }
   }
+
+}
+
+
+/* Used for update the threshold */
+static void
+res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+{
+  REST.set_response_status(response, REST.status.BAD_REQUEST);
 }
 
 /*
