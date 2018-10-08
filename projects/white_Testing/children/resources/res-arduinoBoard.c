@@ -195,7 +195,34 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 static void
 res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
-  REST.set_response_status(response, REST.status.BAD_REQUEST);
+  const char *threshold_c = NULL;
+  const char *priority_c = NULL;
+
+  int threshold = -1;
+  int priority = -1;
+  
+
+  if(REST.get_query_variable(request, "thd", &threshold_c)) {
+    threshold = (uint8_t)atoi(threshold_c);
+  }
+
+  if(REST.get_query_variable(request, "pp", &priority_c)) {
+    priority = (uint8_t)atoi(priority_c);
+  }
+
+  if(threshold < 1 && (priority<0||priority>2)) {
+    REST.set_response_status(response, REST.status.BAD_REQUEST);
+  } else {
+    if(threshold>=1){
+      /* Update to new threshold */
+      event_threshold = threshold;
+      event_threshold_last_change = event_counter;
+      
+      if(priority>=0 && priority<= 2) {
+        packet_priority = priority;
+      }
+    }
+  }
 }
 
 /*
