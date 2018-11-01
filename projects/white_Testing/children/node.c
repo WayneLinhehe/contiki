@@ -84,7 +84,7 @@
 
 //#include "dev/max44009.h"  //light
 
-extern resource_t res_hello, res_push, res_toggle, res_collect, res_arduinoBoard, res_sht21; // , res_temperature;
+extern resource_t res_hello, res_push, res_toggle, res_bcollect, res_arduinoBoard, res_sht21; // , res_temperature;
 
 int16_t * tempData[20];
 
@@ -125,7 +125,7 @@ PROCESS_THREAD(er_example_server, ev, data)
   rest_activate_resource(&res_hello, "test/hello");
   rest_activate_resource(&res_push, "test/push");
   rest_activate_resource(&res_toggle, "actuators/toggle");
-  rest_activate_resource(&res_collect, "g/collect");
+  rest_activate_resource(&res_bcollect, "g/bcollect");
   rest_activate_resource(&res_arduinoBoard, "g/arduinoBoard");
   rest_activate_resource(&res_sht21, "g/sht21");
   //rest_activate_resource(&res_temperature, "g/res_temperature");
