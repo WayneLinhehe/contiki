@@ -86,7 +86,7 @@
 
 /* Network config */
 #undef SICSLOWPAN_CONF_FRAG
-#define SICSLOWPAN_CONF_FRAG     1
+#define SICSLOWPAN_CONF_FRAG     0
 
 /*******************************************************/
 /******************* Configure TSCH ********************/
@@ -98,7 +98,7 @@
 #define TSCH_LOG_CONF_LEVEL 0
 
 // #define TSCH_CONF_DEFAULT_HOPPING_SEQUENCE (uint8_t[]){ 11, 13, 15, 17 }
-#define TSCH_CONF_DEFAULT_HOPPING_SEQUENCE (uint8_t[]){ 12, 14, 17, 20 }
+#define TSCH_CONF_DEFAULT_HOPPING_SEQUENCE (uint8_t[]){ 11, 13 }
 
 /* 6TiSCH minimal schedule length.
  * Larger values result in less frequent active slots: reduces capacity and saves energy. */
