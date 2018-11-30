@@ -175,8 +175,6 @@ PROCESS_THREAD(node_process, ev, data)
   PROCESS_END();
 }
 
-
-#if WHITE_DEBUG
 PROCESS_THREAD(node_process, ev, data)
 {
   static struct etimer et;
@@ -269,7 +267,6 @@ PROCESS_THREAD(node_process, ev, data)
 
   PROCESS_END();
 }
-#endif
 
 
 PROCESS_THREAD(node_process, ev, data)

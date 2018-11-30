@@ -91,7 +91,7 @@
 /* TSCH logging. 0: disabled. 1: basic log. 2: with delayed
  * log messages from interrupt */
 #undef TSCH_LOG_CONF_LEVEL
-#define TSCH_LOG_CONF_LEVEL 0
+#define TSCH_LOG_CONF_LEVEL 2
 
 // #define TSCH_CONF_DEFAULT_HOPPING_SEQUENCE (uint8_t[]){ 14, 18, 22, 26 }
 #define TSCH_CONF_DEFAULT_HOPPING_SEQUENCE (uint8_t[]){ 11, 13}
@@ -163,8 +163,8 @@
 #define UIP_CONF_ND6_SEND_NA 0
 #undef SICSLOWPAN_CONF_FRAG
 #define SICSLOWPAN_CONF_FRAG 0
-#undef ENABLE_QOS_WHITE
-#define ENABLE_QOS_WHITE 1
+#undef ENABLE_QOS
+#define ENABLE_QOS 1
 #endif /* CONTIKI_TARGET_Z1 */
 
 
