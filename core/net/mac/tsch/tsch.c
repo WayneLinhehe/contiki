@@ -926,7 +926,7 @@ send_packet(mac_callback_t sent, void *ptr)
   for (i; i<=ringbufindex_size(&input_ringbuf); i++) {
     total = total*2;
   }
-  PRINTF("TSCH-Testing: currentBuf : %d totalBuf : %d , Percent : %2.0f\n",current ,total, current/total);
+  PRINTF("TSCH-Testing: currentBuf : %d totalBuf : %d , Percent : %2.0f\n",current ,total, (current/total)*100);
 
   if((hdr_len = NETSTACK_FRAMER.create()) < 0) {
     PRINTF("TSCH:! can't send packet due to framer error\n");
