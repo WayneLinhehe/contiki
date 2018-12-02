@@ -292,7 +292,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             for (i = 0; i < dataLen; i++)
             {
               uint8_t data = ((uint8_t *)queuebuf_dataptr(p->qb))[i];
-              PRINTF("%02x ", data);
+              PRINTF("TSCH-queue: %02x ", data);
             }
             PRINTF("\n");
 
@@ -302,8 +302,8 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
                 ((uint8_t *)queuebuf_dataptr(p->qb))[dataLen - 3] == 0xff )
             {
                /*Get tcflow frome attribute*/
-               data_tcflow = (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW); 
-               PRINTF("Traffic classes In TSCH queue frome attr : %02x\n" ,data_tcflow);
+               data_tcflow = (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW);
+               PRINTF("TSCH-queue: Traffic classes In TSCH queue frome attr : %02x\n" ,data_tcflow);
             }
 
 #if ENABLE_QOS
@@ -334,16 +334,16 @@ void tsch_queue_resorting_ringbuf_priority(struct tsch_neighbor *n, struct tsch_
   int16_t put_index = ringbufindex_peek_put(&n->tx_ringbuf); //peek put ringbuf data.
   uint8_t ringbufindex_ELM = ringbufindex_elements(&n->tx_ringbuf);
 
-  PRINTF("Data Traffice class value : %02x , %d , Rinbuffer Index Elements : %d .\n", data_tcflow, data_tcflow, ringbufindex_ELM);
+  PRINTF("TSCH-queueST: Data Traffice class value : %02x , %d , Rinbuffer Index Elements : %d .\n", data_tcflow, data_tcflow, ringbufindex_ELM);
   //if (data_tcflow != -1 && ringbufindex_ELM > 0)
   if (ringbufindex_ELM > 0)
   {
-    PRINTF(" HELLO I'M IN FUNCTION. \n");
+    PRINTF("TSCH-queueST: HELLO I'M IN FUNCTION. \n");
     pkt_priority_sorting(n, p);
   }
   else
   {
-    PRINTF(" ringbufindex_ELM empty  & place \n");
+    PRINTF("TSCH-queueST: ringbufindex_ELM empty  & place \n");
     n->tx_array[put_index] = p;
     ringbufindex_put(&n->tx_ringbuf); //input ringbuf.
   }
@@ -355,18 +355,18 @@ void pkt_priority_sorting(struct tsch_neighbor *n, struct tsch_packet *p)
   uint8_t ringbufSize = ringbufindex_size(&n->tx_ringbuf); // %16 for loop ring.
   int8_t ringbufindex_ELM = ringbufindex_elements(&n->tx_ringbuf);
   int16_t put_index = ringbufindex_peek_put(&n->tx_ringbuf); //peek put ringbuf data.
-  uint8_t current_packet_tcflow = ((uint8_t *)queuebuf_dataptr(p->qb))[24];
+  uint8_t current_packet_tcflow =  (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW); // old:((uint8_t *)queuebuf_dataptr(p->qb))[24];
   // ((uint8_t *)queuebuf_dataptr(p->qb))
   int16_t i = put_index;
-  PRINTF("Start the put_index : %d \n", i);
+  PRINTF("TSCH-queueST: Start the put_index : %d \n", i);
 
   while(1)
   {
     int8_t previous_index;
 
     if (i < 0) i = (ringbufSize-1); //fix the i < 0 , will crash;
-    PRINTF("put_index : %d\n", i);
-    PRINTF("left_Pkt_To_Scan: % d\n", ringbufindex_ELM);
+    PRINTF("TSCH-queueST: put_index : %d\n", i);
+    PRINTF("TSCH-queueST: left_Pkt_To_Scan: % d\n", ringbufindex_ELM);
     if(ringbufindex_ELM == 0) break;
   
     if(i==0){
@@ -388,7 +388,7 @@ void pkt_priority_sorting(struct tsch_neighbor *n, struct tsch_packet *p)
         previous_packet_tcflow = 0 ;
     }
 
-    PRINTF("tcflow_current : %d   tcflow_previous: %d \n", current_packet_tcflow,previous_packet_tcflow);
+    PRINTF("TSCH-queueST: tcflow_current : %d   tcflow_previous: %d \n", current_packet_tcflow,previous_packet_tcflow);
 
     if (current_packet_tcflow <= previous_packet_tcflow) break;
     n->tx_array[i%ringbufSize] = n->tx_array[previous_index%ringbufSize];
@@ -397,7 +397,7 @@ void pkt_priority_sorting(struct tsch_neighbor *n, struct tsch_packet *p)
     ringbufindex_ELM = ringbufindex_ELM - 1; //ringbufsize
   }
   n->tx_array[(i) % ringbufSize] = p;
-  PRINTF("End the put_index : %d\n", i);
+  PRINTF("TSCH-queueST: End the put_index : %d\n", i);
   ringbufindex_put(&n->tx_ringbuf); //input ringbuf.
 }
 
