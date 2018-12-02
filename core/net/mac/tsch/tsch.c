@@ -923,7 +923,7 @@ send_packet(mac_callback_t sent, void *ptr)
   int i=1;
   int current = tsch_queue_packet_count(addr);
   int total;
-  for (i; i<=ringbufindex_size(&input_ringbuf); i++) {
+  for (i; i<ringbufindex_size(&input_ringbuf); i++) {
     total = i*2;
   }
   PRINTF("TSCH-Testing: currentBuf : %d totalBuf : %d , Percent : %2.0f\n",current ,total, current/total);
