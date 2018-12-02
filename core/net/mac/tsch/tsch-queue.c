@@ -268,8 +268,8 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
     if (n != NULL)
     {
       put_index = ringbufindex_peek_put(&n->tx_ringbuf);
-      packetbuf_set_attr(PACKETBUF_ATTR_PKTQULB, (ringbufindex_elements(&n->tx_ringbuf))+1)
-      packetbuf_set_attr(PACKETBUF_ATTR_QUSIZE, (ringbufindex_size(&n->tx_ringbuf))+1)
+      // packetbuf_set_attr(PACKETBUF_ATTR_PKTQULB, (ringbufindex_elements(&n->tx_ringbuf))+1)
+      // packetbuf_set_attr(PACKETBUF_ATTR_QUSIZE, (ringbufindex_size(&n->tx_ringbuf))+1)
       if (put_index != -1)
       {
         p = memb_alloc(&packet_memb);

@@ -287,10 +287,6 @@ enum {
   /* Add traffic class attribute*/
   PACKETBUF_ATTR_TCFLOW,
 
-  /* Add packet queue load balancing*/
-  PACKETBUF_ATTR_PKTQULB,
-  PACKETBUF_ATTR_QUSIZE,
-
   /* These must be last */
   PACKETBUF_ADDR_SENDER,
   PACKETBUF_ADDR_RECEIVER,

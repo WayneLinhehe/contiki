@@ -920,8 +920,8 @@ send_packet(mac_callback_t sent, void *ptr)
 #endif
 
   /* Testing */
-  int8_t current= (int8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQULB);
-  int8_t total = (int8_t)packetbuf_attr(PACKETBUF_ATTR_QUSIZE);
+  int8_t current = tsch_queue_packet_count(addr);
+  int8_t total = ringbufindex_size(&input_ringbuf);
   PRINTF("TSCH-Testing: currentBuf : %d totalBuf : %d , Percent : %d",current ,total, current/total);
 
   if((hdr_len = NETSTACK_FRAMER.create()) < 0) {
