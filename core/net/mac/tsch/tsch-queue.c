@@ -268,6 +268,8 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
     if (n != NULL)
     {
       put_index = ringbufindex_peek_put(&n->tx_ringbuf);
+      packetbuf_set_attr(PACKETBUF_ATTR_PKTQULB, (ringbufindex_elements(&n->tx_ringbuf))+1)
+      packetbuf_set_attr(PACKETBUF_ATTR_QUSIZE, (ringbufindex_size(&n->tx_ringbuf))+1)
       if (put_index != -1)
       {
         p = memb_alloc(&packet_memb);
@@ -289,10 +291,11 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             /* show queuebuf information. */
             uint8_t i;
             uint8_t dataLen = queuebuf_datalen(p->qb);
+            PRINTF("TSCH-queue: ");
             for (i = 0; i < dataLen; i++)
             {
               uint8_t data = ((uint8_t *)queuebuf_dataptr(p->qb))[i];
-              PRINTF("TSCH-queue: %02x ", data);
+              PRINTF("%02x ", data);
             }
             PRINTF("\n");
 

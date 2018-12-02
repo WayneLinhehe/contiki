@@ -919,6 +919,11 @@ send_packet(mac_callback_t sent, void *ptr)
   packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &linkaddr_node_addr);
 #endif
 
+  /* Testing */
+  int8_t current= (int8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQULB);
+  int8_t total = (int8_t)packetbuf_attr(PACKETBUF_ATTR_QUSIZE);
+  PRINTF("TSCH-Testing: currentBuf : %d totalBuf : %d , Percent : %d",current ,total, current/total);
+
   if((hdr_len = NETSTACK_FRAMER.create()) < 0) {
     PRINTF("TSCH:! can't send packet due to framer error\n");
     ret = MAC_TX_ERR;
@@ -940,25 +945,6 @@ send_packet(mac_callback_t sent, void *ptr)
              tsch_queue_packet_count(addr),
              p->header_len,
              queuebuf_datalen(p->qb));
-
-        /**debug test**/
-#if 0
-        int i;
-        int dataLen=queuebuf_datalen(p->qb);
-        //int headLen=p->header_len;
-        for(i=0;i<dataLen;i++){
-          uint8_t data=((uint8_t *)queuebuf_dataptr(p->qb))[i];
-          PRINTF("%02x ",data);
-        }
-
-        if( ((uint8_t *)queuebuf_dataptr(p->qb))[65] == 0x54 &&  //find the flags.
-            ((uint8_t *)queuebuf_dataptr(p->qb))[66] == 0x66) { //check coap have created packet, if will, print it.
-
-          uint8_t data=((uint8_t *)queuebuf_dataptr(p->qb))[24]; //24 is tcflow in queuebuf location.
-          PRINTF("\nTraffic classes In TSCH queue : %02x\n", data);
-        }
-        PRINTF("\n");
-#endif
         
       (void)packet_count_before; /* Discard "variable set but unused" warning in case of TSCH_LOG_LEVEL of 0 */
     }
