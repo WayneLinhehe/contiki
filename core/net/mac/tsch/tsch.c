@@ -920,13 +920,8 @@ send_packet(mac_callback_t sent, void *ptr)
 #endif
 
   /* Testing */
-  int i=1;
-  int current = tsch_queue_packet_count(addr);
-  int total=1;
-  for (i; i<=ringbufindex_size(&input_ringbuf); i++) {
-    total = total*2;
-  }
-  PRINTF("TSCH-Testing: currentBuf : %d totalBuf : %d , Percent : %2.0f\n",current ,total, (current/total)*100);
+  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, tsch_queue_packet_count(addr)); // set packet queue attribute.
+  PRINTF("TSCH-Testing: currentBuf : %d \n",tsch_queue_packet_count(addr));
 
   if((hdr_len = NETSTACK_FRAMER.create()) < 0) {
     PRINTF("TSCH:! can't send packet due to framer error\n");
@@ -985,9 +980,10 @@ packet_input(void)
     }
 
     if(!duplicate) {
-      PRINTF("TSCH: received from %u with seqno %u\n",
+      PRINTF("TSCH: received from %u with seqno %u AND PKTBUF %u \n",
              TSCH_LOG_ID_FROM_LINKADDR(packetbuf_addr(PACKETBUF_ADDR_SENDER)),
-             packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO));
+             packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO),
+             packetbuf_attr(PACKETBUF_ATTR_PKTQUBF));
       NETSTACK_LLSEC.input();
     }
   }

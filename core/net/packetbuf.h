@@ -284,8 +284,11 @@ enum {
   PACKETBUF_ATTR_ERELIABLE,
 #endif /* NETSTACK_CONF_WITH_RIME */
 
-  /* Add traffic class attribute*/
+  /* Add traffic class attribute */
   PACKETBUF_ATTR_TCFLOW,
+
+  /* Add packet queue buffer attribute */
+  PACKETBUF_ATTR_PKTQUBF,
 
   /* These must be last */
   PACKETBUF_ADDR_SENDER,

@@ -92,6 +92,8 @@ void RPL_DEBUG_DAO_OUTPUT(rpl_parent_t *);
 
 static uint8_t dao_sequence = RPL_LOLLIPOP_INIT;
 
+static int temp = 0;
+
 #if RPL_WITH_MULTICAST
 static uip_mcast6_route_t *mcast_group;
 #endif
@@ -311,10 +313,12 @@ dio_input(void)
   i = 0;
   buffer = UIP_ICMP_PAYLOAD;
 
-  dio.instance_id = buffer[i++];
-  dio.version = buffer[i++];
-  dio.rank = get16(buffer, i);
-  i += 2;
+  dio.instance_id = buffer[i++]; // 0
+  dio.version = buffer[i++]; // 1
+  dio.rank = get16(buffer, i); // 2 
+  i += 2; // 4
+  PRINTF("RPL-TESTING: temp index : %u", buffer[i]);
+  i += 1;
 
   PRINTF("RPL: Incoming DIO (id, ver, rank) = (%u,%u,%u)\n",
          (unsigned)dio.instance_id,
@@ -469,7 +473,7 @@ void
 dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 {
   unsigned char *buffer;
-  int pos;
+  int pos,temp;
   int is_root;
   rpl_dag_t *dag = instance->current_dag;
 #if !RPL_LEAF_ONLY
@@ -487,21 +491,25 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 
   /* DAG Information Object */
   pos = 0;
+  
 
   buffer = UIP_ICMP_PAYLOAD;
-  buffer[pos++] = instance->instance_id;
-  buffer[pos++] = dag->version;
+  buffer[pos++] = instance->instance_id; // 0
+  buffer[pos++] = dag->version;  // 1
   is_root = (dag->rank == ROOT_RANK(instance));
 
 #if RPL_LEAF_ONLY
   PRINTF("RPL: LEAF ONLY DIO rank set to INFINITE_RANK\n");
   set16(buffer, pos, INFINITE_RANK);
 #else /* RPL_LEAF_ONLY */
-  set16(buffer, pos, dag->rank);
+  set16(buffer, pos, dag->rank); // 2
 #endif /* RPL_LEAF_ONLY */
-  pos += 2;
+  pos += 2; // 4
 
-  buffer[pos] = 0;
+  buffer[pos++] = temp++; // 4
+  
+
+  buffer[pos] = 0; // 5 MASK Function.
   if(dag->grounded) {
     buffer[pos] |= RPL_DIO_GROUNDED;
   }
