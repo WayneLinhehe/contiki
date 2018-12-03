@@ -287,6 +287,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             p->ptr = ptr;
             p->ret = MAC_TX_DEFERRED;
             p->transmissions = 0;
+            //p->packet_buffer_numbers = (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW);
 
             /* show queuebuf information. */
             uint8_t i;
@@ -381,9 +382,10 @@ void pkt_priority_sorting(struct tsch_neighbor *n, struct tsch_packet *p)
     }
 
     struct tsch_packet *temp_p_p = (n->tx_array[previous_index % ringbufSize]); // previous the packet to temp_p.
-    uint8_t previous_packet_tcflow = ((uint8_t *)queuebuf_dataptr(temp_p_p->qb))[24];
+    uint8_t previous_packet_tcflow = (uint8_t)queuebuf_attr(temp_p_p->qb,PACKETBUF_ATTR_TCFLOW);
+    //uint8_t previous_packet_tcflow = ((uint8_t *)queuebuf_dataptr(temp_p_p->qb))[24];
     
-    /*if the position[24] of packet in is not 0~2(which means it might not br COAP packet) regard them with priority=0*/
+    /*if the position[24] of packet in is not 0~2(which means it might not br CoAP packet) regard them with priority=0*/
     if(current_packet_tcflow<0 || current_packet_tcflow>2){
         current_packet_tcflow = 0 ;
     }
@@ -432,7 +434,7 @@ tsch_queue_remove_packet_from_queue(struct tsch_neighbor *n)
       int16_t get_index = ringbufindex_get(&n->tx_ringbuf);
       if (get_index != -1)
       {
-        PRINTF("TSCH-queue: packet is removed, get_index=%u\n", get_index);
+        PRINTF("TSCH-queue: packet is removed, get_index = %u , PacketBuf = %u\n", get_index, ringbufindex_elements(&n->tx_ringbuf));
         return n->tx_array[get_index];
       }
       else

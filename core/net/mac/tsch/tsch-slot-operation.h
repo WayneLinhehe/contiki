@@ -91,6 +91,7 @@ struct input_packet {
   int len; /* Packet len */
   int16_t rssi; /* RSSI for this packet */
   uint8_t channel; /* Channel we received the packet on */
+  //uint8_t packetbuf_queuelb;
 };
 
 /***** External Variables *****/

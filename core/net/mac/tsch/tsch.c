@@ -870,6 +870,12 @@ send_packet(mac_callback_t sent, void *ptr)
   int hdr_len = 0;
   const linkaddr_t *addr = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
 
+  /* Testing */
+  //packetbuf_set_addr(PACKETBUF_ADDR_PKTQUBF, &tsch_queue_packet_count(addr)); // set packet queue attribute into ram.
+  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, tsch_queue_packet_count(addr));
+  PRINTF("TSCH-Testing: currentBuf : %u \n", packetbuf_attr(PACKETBUF_ATTR_PKTQUBF));
+
+
   if(!tsch_is_associated) {
     if(!tsch_is_initialized) {
       PRINTF("TSCH:! not initialized (see earlier logs), drop outgoing packet\n");
@@ -919,10 +925,6 @@ send_packet(mac_callback_t sent, void *ptr)
   packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &linkaddr_node_addr);
 #endif
 
-  /* Testing */
-  //packetbuf_set_addr(PACKETBUF_ADDR_PKTQUBF, &tsch_queue_packet_count(addr)); // set packet queue attribute into ram.
-  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, tsch_queue_packet_count(addr));
-  PRINTF("TSCH-Testing: currentBuf : %u \n", packetbuf_attr(PACKETBUF_ATTR_PKTQUBF));
 
   if((hdr_len = NETSTACK_FRAMER.create()) < 0) {
     PRINTF("TSCH:! can't send packet due to framer error\n");
