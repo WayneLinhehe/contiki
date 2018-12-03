@@ -506,7 +506,7 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   pos += 2; // 4
 
   /* Testing... input data to payload. */
-  buffer[pos] = 111 //((uint8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQUBF)); // 4
+  buffer[pos] = 111; //((uint8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQUBF)); // 4
   pos += 1;
 
   buffer[pos] = 0; // 5 MASK Function.
