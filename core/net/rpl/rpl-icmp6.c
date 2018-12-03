@@ -317,7 +317,7 @@ dio_input(void)
   dio.version = buffer[i++]; // 1
   dio.rank = get16(buffer, i); // 2 
   i += 2; // 4
-  PRINTF("RPL-TESTING: temp index : %u", buffer[i]);
+  PRINTF("RPL-TESTING: temp index : %d\n", buffer[i]);
   i += 1;
 
   PRINTF("RPL: Incoming DIO (id, ver, rank) = (%u,%u,%u)\n",
@@ -506,8 +506,9 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 #endif /* RPL_LEAF_ONLY */
   pos += 2; // 4
 
-  buffer[pos++] = temp++; // 4
-  
+  /* Testing... input data to payload. */
+  buffer[pos] = temp++; // 4
+  pos += 1;
 
   buffer[pos] = 0; // 5 MASK Function.
   if(dag->grounded) {
