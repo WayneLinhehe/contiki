@@ -289,6 +289,7 @@ enum {
 
   /* Add packet queue buffer attribute */
   PACKETBUF_ATTR_PKTQUBF,
+  PACKETBUF_ADDR_PKTQUBF,
 
   /* These must be last */
   PACKETBUF_ADDR_SENDER,
