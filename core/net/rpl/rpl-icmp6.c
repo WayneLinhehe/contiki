@@ -92,7 +92,7 @@ void RPL_DEBUG_DAO_OUTPUT(rpl_parent_t *);
 
 static uint8_t dao_sequence = RPL_LOLLIPOP_INIT;
 
-static int temp = 0;
+int temp = 0;
 
 #if RPL_WITH_MULTICAST
 static uip_mcast6_route_t *mcast_group;
@@ -317,8 +317,7 @@ dio_input(void)
   dio.version = buffer[i++]; // 1
   dio.rank = get16(buffer, i); // 2 
   i += 2; // 4
-  PRINTF("RPL-TESTING: temp index : %d\n", buffer[i]);
-  i += 1;
+  PRINTF("RPL-TESTING: temp index : %d\n", buffer[i++]);
 
   PRINTF("RPL: Incoming DIO (id, ver, rank) = (%u,%u,%u)\n",
          (unsigned)dio.instance_id,
