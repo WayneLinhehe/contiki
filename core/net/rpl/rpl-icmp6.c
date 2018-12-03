@@ -92,7 +92,7 @@ void RPL_DEBUG_DAO_OUTPUT(rpl_parent_t *);
 
 static uint8_t dao_sequence = RPL_LOLLIPOP_INIT;
 
-int temp = 0;
+uint8_t temp = 0;
 
 #if RPL_WITH_MULTICAST
 static uip_mcast6_route_t *mcast_group;
@@ -317,7 +317,7 @@ dio_input(void)
   dio.version = buffer[i++]; // 1
   dio.rank = get16(buffer, i); // 2 
   i += 2; // 4
-  PRINTF("RPL-TESTING: temp index : %d\n", buffer[i++]);
+  PRINTF("RPL-TESTING: Packet Buffer of Numbers : %u\n", buffer[i++]);
 
   PRINTF("RPL: Incoming DIO (id, ver, rank) = (%u,%u,%u)\n",
          (unsigned)dio.instance_id,
@@ -506,7 +506,7 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   pos += 2; // 4
 
   /* Testing... input data to payload. */
-  buffer[pos] = temp++; // 4
+  buffer[pos] = ((uint8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQUBF)); // 4
   pos += 1;
 
   buffer[pos] = 0; // 5 MASK Function.
