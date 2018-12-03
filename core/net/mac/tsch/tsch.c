@@ -920,7 +920,7 @@ send_packet(mac_callback_t sent, void *ptr)
 #endif
 
   /* Testing */
-  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, tsch_queue_packet_count(addr)); // set packet queue attribute.
+  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, &tsch_queue_packet_count(addr)); // set packet queue attribute into ram.
   PRINTF("TSCH-Testing: currentBuf : %d \n",tsch_queue_packet_count(addr));
 
   if((hdr_len = NETSTACK_FRAMER.create()) < 0) {
