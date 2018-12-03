@@ -472,7 +472,7 @@ void
 dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 {
   unsigned char *buffer;
-  int pos,temp;
+  int pos;
   int is_root;
   rpl_dag_t *dag = instance->current_dag;
 #if !RPL_LEAF_ONLY
