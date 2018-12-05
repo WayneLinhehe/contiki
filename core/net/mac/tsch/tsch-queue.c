@@ -105,7 +105,6 @@ tsch_queue_add_nbr(const linkaddr_t *addr)
         memset(n, 0, sizeof(struct tsch_neighbor));
         ringbufindex_init(&n->tx_ringbuf, TSCH_QUEUE_NUM_PER_NEIGHBOR);
         linkaddr_copy(&n->addr, addr);
-        n->packet_queue_buffer = tsch_queue_packet_count(addr);
         n->is_broadcast = linkaddr_cmp(addr, &tsch_eb_address) || linkaddr_cmp(addr, &tsch_broadcast_address);
         tsch_queue_backoff_reset(n);
         /* Add neighbor to the list */
@@ -269,8 +268,6 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
     if (n != NULL)
     {
       put_index = ringbufindex_peek_put(&n->tx_ringbuf);
-      // packetbuf_set_attr(PACKETBUF_ATTR_PKTQULB, (ringbufindex_elements(&n->tx_ringbuf))+1)
-      // packetbuf_set_attr(PACKETBUF_ATTR_QUSIZE, (ringbufindex_size(&n->tx_ringbuf))+1)
       if (put_index != -1)
       {
         p = memb_alloc(&packet_memb);
@@ -288,10 +285,8 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             p->ptr = ptr;
             p->ret = MAC_TX_DEFERRED;
             p->transmissions = 0;
+            p->packet_queue_buffer = (uint8_t)ringbufindex_elements(&n->tx_ringbuf);
 
-            /* set packet queue buffer attribute. */
-            packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, (uint8_t)ringbufindex_elements(&n->tx_ringbuf));
-            
             /* show queuebuf information. */
             uint8_t i;
             uint8_t dataLen = queuebuf_datalen(p->qb);

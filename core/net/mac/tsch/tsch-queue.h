@@ -122,6 +122,7 @@ struct tsch_packet {
   uint8_t ret; /* status -- MAC return code */
   uint8_t header_len; /* length of header and header IEs (needed for link-layer security) */
   uint8_t tsch_sync_ie_offset; /* Offset within the frame used for quick update of EB ASN and join priority */
+  uint8_t packet_queue_buffer; /* set packetQueueBuffer of numbers. */
 };
 
 /* TSCH neighbor information */
@@ -136,7 +137,6 @@ struct tsch_neighbor {
   uint8_t last_backoff_window; /* Last CSMA backoff window */
   uint8_t tx_links_count; /* How many links do we have to this neighbor? */
   uint8_t dedicated_tx_links_count; /* How many dedicated links do we have to this neighbor? */
-  uint8_t packet_queue_buffer; /* set packetQueueBuffer of numbers. */
   /* Array for the ringbuf. Contains pointers to packets.
    * Its size must be a power of two to allow for atomic put */
   struct tsch_packet *tx_array[TSCH_QUEUE_NUM_PER_NEIGHBOR];
