@@ -194,6 +194,11 @@ tsch_set_packet_queue_buffer(uint8_t packetbuf)
 {
   tsch_packet_buffer_numbers = packetbuf;
 }
+uint8_t
+tsch_get_packet_queue_buffer()
+{
+  return tsch_packet_buffer_numbers;
+}
 
 /*---------------------------------------------------------------------------*/
 static void

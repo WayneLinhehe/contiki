@@ -183,5 +183,6 @@ void tsch_set_pan_secured(int enable);
 
 /* Set packet queue of numbers */
 void tsch_set_packet_queue_buffer(uint8_t);
+uint8_t tsch_get_packet_queue_buffer();
 
 #endif /* __TSCH_H__ */
