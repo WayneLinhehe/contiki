@@ -320,7 +320,9 @@ dio_input(void)
   dio.version = buffer[i++]; // 1
   dio.rank = get16(buffer, i); // 2 
   i += 2; // 4
-  PRINTF("RPL-TESTING: Packet Buffer of Numbers : %u\n", buffer[i++]);
+  
+  PRINTF("RPL-TESTING: Packet Buffer of Numbers : %u\n", buffer[i]);
+  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, buffer[i++]);
 
   PRINTF("RPL: Incoming DIO (id, ver, rank) = (%u,%u,%u)\n",
          (unsigned)dio.instance_id,
