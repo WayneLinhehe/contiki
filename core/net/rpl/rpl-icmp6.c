@@ -321,8 +321,8 @@ dio_input(void)
   dio.rank = get16(buffer, i); // 2 
   i += 2; // 4
   
-  PRINTF("RPL-TESTING: Packet Buffer of Numbers : %u\n", buffer[i]);
-  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, buffer[i++]);
+  // PRINTF("RPL-TESTING: Packet Buffer of Numbers : %u\n", buffer[i]);
+  // packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, buffer[i++]);
 
   PRINTF("RPL: Incoming DIO (id, ver, rank) = (%u,%u,%u)\n",
          (unsigned)dio.instance_id,
@@ -511,8 +511,8 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   pos += 2; // 4
 
   /* Testing... input data to payload. */
-  buffer[pos] = tsch_get_packet_queue_buffer();//((uint8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQUBF)); // 4
-  pos += 1;
+  // buffer[pos] = tsch_get_packet_queue_buffer();//((uint8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQUBF)); // 4
+  // pos += 1;
 
   buffer[pos] = 0; // 5 MASK Function.
   if(dag->grounded) {

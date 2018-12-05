@@ -51,7 +51,7 @@
 #include "net/netstack.h"
 #include "lib/random.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 #if DEBUG
 #include <stdio.h>
@@ -110,6 +110,8 @@ send_packet(mac_callback_t sent, void *ptr)
   params.fcf.ack_required = packetbuf_attr(PACKETBUF_ATTR_RELIABLE);
 #endif
   params.fcf.panid_compression = 0;
+
+  //params.packet_qubf = packetbuf_attr(PACKETBUF_ATTR_PKTQUBF);
 
   /* Insert IEEE 802.15.4 (2003) version bit. */
   params.fcf.frame_version = FRAME802154_IEEE802154_2003;
