@@ -111,8 +111,6 @@ send_packet(mac_callback_t sent, void *ptr)
 #endif
   params.fcf.panid_compression = 0;
 
-  //params.packet_qubf = packetbuf_attr(PACKETBUF_ATTR_PKTQUBF);
-
   /* Insert IEEE 802.15.4 (2003) version bit. */
   params.fcf.frame_version = FRAME802154_IEEE802154_2003;
 

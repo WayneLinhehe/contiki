@@ -288,6 +288,9 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             p->ptr = ptr;
             p->ret = MAC_TX_DEFERRED;
             p->transmissions = 0;
+
+            /* set packet queue buffer attribute. */
+            packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, (uint8_t)ringbufindex_elements(&n->tx_ringbuf));
             
             /* show queuebuf information. */
             uint8_t i;

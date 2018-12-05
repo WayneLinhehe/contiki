@@ -984,6 +984,8 @@ PT_THREAD(tsch_slot_operation(struct rtimer *t, void *ptr))
         current_link = backup_link;
         current_packet = get_packet_and_neighbor_for_link(current_link, &current_neighbor);
       }
+      /* get tsch packet queue buffer attribute. */
+      PRINTF("TSCH-Testing: current_packet -> queue buffer : %u",queuebuf_attr(current_packet->qb, PACKETBUF_ATTR_PKTQUBF));
       is_active_slot = current_packet != NULL || (current_link->link_options & LINK_OPTION_RX);
       if(is_active_slot) {
         /* Hop channel */
