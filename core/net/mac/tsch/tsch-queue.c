@@ -287,8 +287,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             p->ptr = ptr;
             p->ret = MAC_TX_DEFERRED;
             p->transmissions = 0;
-            //p->packet_buffer_numbers = (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW);
-
+            
             /* show queuebuf information. */
             uint8_t i;
             uint8_t dataLen = queuebuf_datalen(p->qb);
@@ -434,6 +433,7 @@ tsch_queue_remove_packet_from_queue(struct tsch_neighbor *n)
       int16_t get_index = ringbufindex_get(&n->tx_ringbuf);
       if (get_index != -1)
       {
+        tsch_set_packet_queue_buffer((uint8_t)ringbufindex_elements(&n->tx_ringbuf))
         PRINTF("TSCH-queue: packet is removed, get_index = %u , PacketBuf = %u\n", get_index, ringbufindex_elements(&n->tx_ringbuf));
         return n->tx_array[get_index];
       }

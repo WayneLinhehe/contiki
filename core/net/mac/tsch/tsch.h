@@ -181,4 +181,7 @@ void tsch_set_coordinator(int enable);
 /* Set the pan as secured or not */
 void tsch_set_pan_secured(int enable);
 
+/* Set packet queue of numbers */
+void tsch_set_packet_queue_buffer(uint8_t);
+
 #endif /* __TSCH_H__ */

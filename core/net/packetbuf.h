@@ -222,10 +222,6 @@ struct packetbuf_addr {
   linkaddr_t addr;
 };
 
-struct packetbuf_pktqubf {
-  uint8_t pktqubf;
-};
-
 #define PACKETBUF_ATTR_PACKET_TYPE_DATA      0
 #define PACKETBUF_ATTR_PACKET_TYPE_ACK       1
 #define PACKETBUF_ATTR_PACKET_TYPE_STREAM    2

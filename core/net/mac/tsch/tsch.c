@@ -141,6 +141,8 @@ static uint8_t tsch_packet_seqno = 0;
 static clock_time_t tsch_current_eb_period;
 /* Current period for keepalive output */
 static clock_time_t tsch_current_ka_timeout;
+/* Packet buffer of numbers*/
+static uint8_t tsch_packet_buffer_numbers = 0;
 
 /* timer for sending keepalive messages */
 static struct ctimer keepalive_timer;
@@ -187,6 +189,12 @@ tsch_set_eb_period(uint32_t period)
 {
   tsch_current_eb_period = MIN(period, TSCH_MAX_EB_PERIOD);
 }
+void
+tsch_set_packet_queue_buffer(uint8_t packetbuf)
+{
+  tsch_packet_buffer_numbers = packetbuf;
+}
+
 /*---------------------------------------------------------------------------*/
 static void
 tsch_reset(void)
@@ -870,12 +878,6 @@ send_packet(mac_callback_t sent, void *ptr)
   int hdr_len = 0;
   const linkaddr_t *addr = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
 
-  /* Testing */
-  //packetbuf_set_addr(PACKETBUF_ADDR_PKTQUBF, &tsch_queue_packet_count(addr)); // set packet queue attribute into ram.
-  packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, tsch_queue_packet_count(addr));
-  PRINTF("TSCH-Testing: currentBuf : %u \n", packetbuf_attr(PACKETBUF_ATTR_PKTQUBF));
-
-
   if(!tsch_is_associated) {
     if(!tsch_is_initialized) {
       PRINTF("TSCH:! not initialized (see earlier logs), drop outgoing packet\n");
@@ -940,6 +942,7 @@ send_packet(mac_callback_t sent, void *ptr)
           tsch_queue_packet_count(addr));
       ret = MAC_TX_ERR;
     } else {
+      PRINTF("TSCH-Testing: Packet Buffer of Numbers -> %u \n",p->packet_buffer_numbers);
       p->header_len = hdr_len;
       PRINTF("TSCH: send packet to %u with seqno %u, queue %u %u, len %u %u\n",
              TSCH_LOG_ID_FROM_LINKADDR(addr), tsch_packet_seqno,
@@ -986,7 +989,7 @@ packet_input(void)
       PRINTF("TSCH: received from %u with seqno %u AND PKTBUF %u \n",
              TSCH_LOG_ID_FROM_LINKADDR(packetbuf_addr(PACKETBUF_ADDR_SENDER)),
              packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO),
-             packetbuf_attr(PACKETBUF_ATTR_PKTQUBF));
+             tsch_packet_buffer_numbers);
       NETSTACK_LLSEC.input();
     }
   }
