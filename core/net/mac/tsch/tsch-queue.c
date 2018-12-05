@@ -433,7 +433,7 @@ tsch_queue_remove_packet_from_queue(struct tsch_neighbor *n)
       int16_t get_index = ringbufindex_get(&n->tx_ringbuf);
       if (get_index != -1)
       {
-        tsch_set_packet_queue_buffer((uint8_t)ringbufindex_elements(&n->tx_ringbuf))
+        tsch_set_packet_queue_buffer((uint8_t)ringbufindex_elements(&n->tx_ringbuf));
         PRINTF("TSCH-queue: packet is removed, get_index = %u , PacketBuf = %u\n", get_index, ringbufindex_elements(&n->tx_ringbuf));
         return n->tx_array[get_index];
       }
