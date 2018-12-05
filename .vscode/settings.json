@@ -42,7 +42,10 @@
     "istream": "c",
     "uip-debug.h": "c",
     "tcpip.h": "c",
-    "packetbuf.h": "c"
+    "packetbuf.h": "c",
+    "queuebuf.h": "c",
+    "tsch-queue.h": "c",
+    "tsch.h": "c"
   },
   "C_Cpp.errorSquiggles": "Disabled",
   "C_Cpp.intelliSenseEngineFallback": "Enabled",

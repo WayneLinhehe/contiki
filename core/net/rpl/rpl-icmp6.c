@@ -59,6 +59,9 @@
 #include <limits.h>
 #include <string.h>
 
+/* Get packet buffer of numbers, will set dio payload */
+#include "net/mac/tsch/tsch.h"
+
 #define DEBUG DEBUG_FULL
 
 #include "net/ip/uip-debug.h"
@@ -506,7 +509,7 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   pos += 2; // 4
 
   /* Testing... input data to payload. */
-  buffer[pos] = 111; //((uint8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQUBF)); // 4
+  buffer[pos] = (uint8_t)tsch_set_packet_queue_buffer();//((uint8_t)packetbuf_attr(PACKETBUF_ATTR_PKTQUBF)); // 4
   pos += 1;
 
   buffer[pos] = 0; // 5 MASK Function.
