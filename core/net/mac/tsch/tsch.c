@@ -942,7 +942,6 @@ send_packet(mac_callback_t sent, void *ptr)
           tsch_queue_packet_count(addr));
       ret = MAC_TX_ERR;
     } else {
-      PRINTF("TSCH-Testing: Packet Buffer of Numbers -> %u \n",p->packet_buffer_numbers);
       p->header_len = hdr_len;
       PRINTF("TSCH: send packet to %u with seqno %u, queue %u %u, len %u %u\n",
              TSCH_LOG_ID_FROM_LINKADDR(addr), tsch_packet_seqno,
