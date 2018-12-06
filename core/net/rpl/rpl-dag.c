@@ -108,7 +108,7 @@ rpl_print_neighbor_list(void)
           p->rank,
           rpl_get_parent_link_metric(p),
           rpl_rank_via_parent(p),
-          p->dag->instance->dio_pktqubf,
+          p->dio_pktqubf,
           stats != NULL ? stats->freshness : 0,
           link_stats_is_fresh(stats) ? 'f' : ' ',
           p == default_instance->current_dag->preferred_parent ? 'p' : ' ',
@@ -1283,7 +1283,6 @@ global_repair(uip_ipaddr_t *from, rpl_dag_t *dag, rpl_dio_t *dio)
   dag->instance->dio_redundancy = dio->dag_redund;
   dag->instance->default_lifetime = dio->default_lifetime;
   dag->instance->lifetime_unit = dio->lifetime_unit;
-  dag->instance->dio_pktqubf = dio->packetqubf;
 
   dag->instance->of->reset(dag);
   dag->min_rank = INFINITE_RANK;
@@ -1561,6 +1560,8 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
    */
 
   p = rpl_find_parent(dag, from);
+  /* set value */
+  p->dio_pktqubf = dio->packetqubf;
   if(p == NULL) {
     previous_dag = find_parent_dag(instance, from);
     if(previous_dag == NULL) {
