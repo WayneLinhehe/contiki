@@ -325,7 +325,7 @@ dio_input(void)
     then set value to attribute.
   */
   dio.packetqubf = buffer[i];
-  PRINTF("RPL-Testing: Packet Buffer of Numbers : %u , dio : %u\n", buffer[i], (unsigned)dio.packetqubf);
+  PRINTF("RPL-Testing: Packet Buffer of Numbers : %u , dio queue : %u\n", buffer[i], (unsigned)dio.packetqubf);
   packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, buffer[i++]);
   
   

@@ -228,6 +228,7 @@ struct rpl_instance {
   uint8_t used;
   uint8_t dtsn_out;
   uint8_t mop;
+  uint8_t dio_pktqubf;
   uint8_t dio_intdoubl;
   uint8_t dio_intmin;
   uint8_t dio_redundancy;
