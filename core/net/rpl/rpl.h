@@ -119,6 +119,7 @@ struct rpl_parent {
   rpl_rank_t rank;
   uint8_t dtsn;
   uint8_t flags;
+  uint8_t dio_pktqubf;
 };
 typedef struct rpl_parent rpl_parent_t;
 /*---------------------------------------------------------------------------*/

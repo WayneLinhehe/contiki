@@ -103,6 +103,7 @@ rpl_print_neighbor_list(void)
     while(p != NULL) {
       const struct link_stats *stats = rpl_get_parent_link_stats(p);
       printf("RPL: nbr %3u %5u, %5u => %5u pktqubf(%u)-- %2u %c%c (last tx %u min ago)\n",
+      //printf("RPL: nbr %3u %5u, %5u => %5u -- %2u %c%c (last tx %u min ago)\n",
           rpl_get_parent_ipaddr(p)->u8[15],
           p->rank,
           rpl_get_parent_link_metric(p),
@@ -1282,6 +1283,7 @@ global_repair(uip_ipaddr_t *from, rpl_dag_t *dag, rpl_dio_t *dio)
   dag->instance->dio_redundancy = dio->dag_redund;
   dag->instance->default_lifetime = dio->default_lifetime;
   dag->instance->lifetime_unit = dio->lifetime_unit;
+  dag->instance->dio_pktqubf = dio->packetqubf;
 
   dag->instance->of->reset(dag);
   dag->min_rank = INFINITE_RANK;
@@ -1454,7 +1456,6 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
 
   dag = get_dag(dio->instance_id, &dio->dag_id);
   instance = rpl_get_instance(dio->instance_id);
-  instance->dio_pktqubf = dio->packetqubf;
 
   if(dag != NULL && instance != NULL) {
     if(lollipop_greater_than(dio->version, dag->version)) {
