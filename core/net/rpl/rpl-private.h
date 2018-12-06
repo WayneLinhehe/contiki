@@ -292,6 +292,7 @@ struct rpl_dio {
   uip_ipaddr_t dag_id;
   rpl_ocp_t ocp;
   rpl_rank_t rank;
+  uint8_t packetqubf;
   uint8_t grounded;
   uint8_t mop;
   uint8_t preference;
