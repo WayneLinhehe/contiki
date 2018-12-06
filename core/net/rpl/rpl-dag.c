@@ -1560,8 +1560,7 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
    */
 
   p = rpl_find_parent(dag, from);
-  /* set value */
-  p->dio_pktqubf = dio->packetqubf;
+
   if(p == NULL) {
     previous_dag = find_parent_dag(instance, from);
     if(previous_dag == NULL) {
@@ -1591,6 +1590,8 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
     }
   }
   p->rank = dio->rank;
+  /* set value */
+  p->dio_pktqubf = dio->packetqubf;
 
   if(dio->rank == INFINITE_RANK && p == dag->preferred_parent) {
     /* Our preferred parent advertised an infinite rank, reset DIO timer */
