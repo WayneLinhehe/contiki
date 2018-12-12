@@ -113,6 +113,7 @@ tsch_rpl_callback_more_pktque()
 
   if (instance != NULL){
     // brocast dio packet to neighbors.
+    rpl_reset_dio_timer(instance);
     dio_output(instance, NULL);
   }
 }
