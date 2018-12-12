@@ -157,6 +157,10 @@ void TSCH_CALLBACK_JOINING_NETWORK();
 void TSCH_CALLBACK_LEAVING_NETWORK();
 #endif
 
+#ifdef RPL_CALLBACK_MORE_PKTQUE
+void RPL_CALLBACK_MORE_PKTQUE();
+#endif
+
 /***** External Variables *****/
 
 /* Are we coordinator of the TSCH network? */

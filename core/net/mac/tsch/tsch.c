@@ -990,10 +990,9 @@ packet_input(void)
     }
 
     if(!duplicate) {
-      PRINTF("TSCH: received from %u with seqno %u AND PKTBUF %u \n",
+      PRINTF("TSCH: received from %u with seqno %u\n",
              TSCH_LOG_ID_FROM_LINKADDR(packetbuf_addr(PACKETBUF_ADDR_SENDER)),
-             packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO),
-             packetbuf_attr(PACKETBUF_ATTR_PKTQUBF));
+             packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO));
       NETSTACK_LLSEC.input();
     }
   }

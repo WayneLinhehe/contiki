@@ -41,7 +41,8 @@ PERIODIC_RESOURCE(res_bcollect2,
 /*
  * Use local resource state that is accessed by res_get_handler() and altered by res_periodic_handler() or PUT or POST.
  */
-static uint32_t event_counter = 0;
+//static uint32_t event_counter = 0;
+static unsigned int event_counter = 0;
 
 /* inter-packet time we generate a packet to send to observer */
 static uint8_t event_threshold = 20;
@@ -50,23 +51,13 @@ static uint8_t event_threshold = 20;
 static uint32_t event_threshold_last_change = 0;
 
 /* Record the packet have been generated. (Server perspective) */
-static uint32_t packet_counter = 0;
+//static uint32_t packet_counter = 0;
+static unsigned int packet_counter = 0;
 
 static uint8_t packet_priority = 0;
 
-// #if CONTIKI_TARGET_COOJA
-// #include "node-id.h"
-// void set_bcollect2() {
-//   if(node_id == 2 || node_id == 8 || node_id == 9 || node_id == 10) {
-//     packet_priority = 1;
-//   }
-// }
-// #endif /* CONTIKI_TARGET_COOJA */
-
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
-
-
 
 static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)

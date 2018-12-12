@@ -87,6 +87,8 @@ NBR_TABLE_GLOBAL(rpl_parent_t, rpl_parents);
 rpl_instance_t instance_table[RPL_MAX_INSTANCES];
 rpl_instance_t *default_instance;
 
+static uint8_t temp_current_instance_id = 0;
+
 /*---------------------------------------------------------------------------*/
 void
 rpl_print_neighbor_list(void)
@@ -1455,6 +1457,7 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
 
   dag = get_dag(dio->instance_id, &dio->dag_id);
   instance = rpl_get_instance(dio->instance_id);
+  temp_current_instance_id = dio->instance_id;
 
   if(dag != NULL && instance != NULL) {
     if(lollipop_greater_than(dio->version, dag->version)) {
@@ -1593,6 +1596,7 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
   /* set value */
   p->dio_pktqubf = dio->packetqubf;
 
+
   if(dio->rank == INFINITE_RANK && p == dag->preferred_parent) {
     /* Our preferred parent advertised an infinite rank, reset DIO timer */
     rpl_reset_dio_timer(instance);
@@ -1631,6 +1635,12 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
     uip_ds6_defrt_add(from, RPL_DEFAULT_ROUTE_INFINITE_LIFETIME ? 0 : RPL_LIFETIME(instance, instance->default_lifetime));
   }
   p->dtsn = dio->dtsn;
+}
+/*---------------------------------------------------------------------------*/
+rpl_instance_t *
+rpl_current_instanceid()
+{
+  return rpl_get_instance(temp_current_instance_id);
 }
 /*---------------------------------------------------------------------------*/
 /** @} */

@@ -71,6 +71,9 @@
 #define TSCH_CALLBACK_JOINING_NETWORK tsch_rpl_callback_joining_network
 #define TSCH_CALLBACK_LEAVING_NETWORK tsch_rpl_callback_leaving_network
 
+/* white RPL-Testing callbacks */
+#define RPL_CALLBACK_MORE_PKTQUE tsch_rpl_callback_more_pktque
+
 /* Needed for cc2420 platforms only */
 /* Disable DCO calibration (uses timerB) */
 #undef DCOSYNCH_CONF_ENABLED

@@ -55,19 +55,8 @@ static uint32_t packet_counter = 0;
 
 static uint8_t packet_priority = 0;
 
-// #if CONTIKI_TARGET_COOJA
-// #include "node-id.h"
-// void set_bcollect() {
-//   if(node_id == 2 || node_id == 8 || node_id == 9 || node_id == 10) {
-//     packet_priority = 0;
-//   }
-// }
-// #endif /* CONTIKI_TARGET_COOJA */
-
 #include "core/net/mac/tsch/tsch-private.h"
 extern struct tsch_asn_t tsch_current_asn;
-
-
 
 static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
