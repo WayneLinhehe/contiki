@@ -88,6 +88,7 @@ rpl_instance_t instance_table[RPL_MAX_INSTANCES];
 rpl_instance_t *default_instance;
 
 static uint8_t temp_current_instance_id = 0;
+static rpl_instance_t *temp_instance;
 
 /*---------------------------------------------------------------------------*/
 void
@@ -1457,7 +1458,8 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
 
   dag = get_dag(dio->instance_id, &dio->dag_id);
   instance = rpl_get_instance(dio->instance_id);
-  temp_current_instance_id = dio->instance_id;
+  temp_instance = instance;
+  PRINTF("RPL-DIO-TESTING: set value to instance id... %u \n", dio->instance_id);
 
   if(dag != NULL && instance != NULL) {
     if(lollipop_greater_than(dio->version, dag->version)) {
@@ -1640,7 +1642,10 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
 rpl_instance_t *
 rpl_current_instanceid()
 {
-  return rpl_get_instance(temp_current_instance_id);
+  if(temp_instance != NULL){
+    return temp_instance;
+  }
+  return NULL;
 }
 /*---------------------------------------------------------------------------*/
 /** @} */

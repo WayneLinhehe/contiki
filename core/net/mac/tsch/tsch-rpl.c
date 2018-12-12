@@ -111,7 +111,9 @@ tsch_rpl_callback_more_pktque()
   rpl_instance_t *instance;
   instance = rpl_get_current_instance();
 
-  // brocast dio packet to neighbors.
-  dio_output(instance, NULL);
+  if (instance != NULL){
+    // brocast dio packet to neighbors.
+    dio_output(instance, NULL);
+  }
 }
 #endif /* UIP_CONF_IPV6_RPL */

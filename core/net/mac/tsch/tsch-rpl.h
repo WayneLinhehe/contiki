@@ -52,6 +52,6 @@ void tsch_rpl_callback_new_dio_interval(uint8_t dio_interval);
  * To use, set #define RPL_CALLBACK_PARENT_SWITCH tsch_rpl_callback_parent_switch */
 void tsch_rpl_callback_parent_switch(rpl_parent_t *old, rpl_parent_t *new);
 /* If packet queue bigger than out set vaule, will run this callback function. */
-void tsch_rpl_callback_more_pktque();
+void tsch_rpl_callback_more_pktque(void);
 
 #endif /* __TSCH_RPL_H__ */
