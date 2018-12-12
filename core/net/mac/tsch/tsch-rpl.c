@@ -113,8 +113,10 @@ tsch_rpl_callback_more_pktque()
 
   if (instance != NULL){
     // brocast dio packet to neighbors.
-    rpl_reset_dio_timer(instance);
-    dio_output(instance, NULL);
+    //rpl_reset_dio_timer(instance);
+    //dio_output(instance, NULL);
+    PRINTF("TSCH-RPL_TESTING_CALLBACK: instance = %u \n",instance);
+    ctimer_set(&instance->dio_timer, CLOCK_SECOND, &handle_dio_timer, instance);
   }
 }
 #endif /* UIP_CONF_IPV6_RPL */
