@@ -106,16 +106,16 @@ tsch_rpl_callback_parent_switch(rpl_parent_t *old, rpl_parent_t *new)
 }
 
 void
-tsch_rpl_callback_more_pktque()
+tsch_rpl_callback_more_pktque(void)
 {
   rpl_instance_t *instance;
-  instance = rpl_get_current_instance();
+  instance = rpl_current_instanceid();
 
   if (instance != NULL){
     // brocast dio packet to neighbors.
     //rpl_reset_dio_timer(instance);
-    //dio_output(instance, NULL);
-    PRINTF("TSCH-RPL_TESTING_CALLBACK: instance = %u \n",instance);
+    dio_output(instance, NULL);
+    //PRINTF("TSCH-RPL_TESTING_CALLBACK: instance = %u \n",instance);
   }
 }
 #endif /* UIP_CONF_IPV6_RPL */
