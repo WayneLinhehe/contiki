@@ -286,7 +286,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             p->ret = MAC_TX_DEFERRED;
             p->transmissions = 0;
             tsch_set_packet_queue_buffer((uint8_t)tsch_queue_packet_count(addr));
-            #ifndef RPL_CALLBACK_MORE_PKTQUE
+            #ifdef RPL_CALLBACK_MORE_PKTQUE
             if (tsch_queue_packet_count(addr) > 8){
               PRINTF("TSCH-queue: working RPL_CALLBACK_MORE_PKTQUE\n");
               RPL_CALLBACK_MORE_PKTQUE();
