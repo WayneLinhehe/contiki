@@ -517,10 +517,10 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   pos += 2; // 4
 
   if(uc_addr == NULL) {
-    PRINTF("RPL-DIO-TESTING: DIO broadcast");
+    PRINTF("RPL-DIO-TESTING: DIO broadcast\n");
     buffer[pos++] = instance->current_queuebf_nums;
   }else {
-    PRINTF("RPL-DIO-TESTING: DIO unicast");
+    PRINTF("RPL-DIO-TESTING: DIO unicast\n");
     buffer[pos++] = tsch_get_packet_queue_buffer();
   }
 
@@ -630,12 +630,13 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 #else /* RPL_LEAF_ONLY */
   /* Unicast requests get unicast replies! */
   if(uc_addr == NULL) {
-    PRINTF("RPL: Sending a multicast-DIO with rank %u\n",
-           (unsigned)instance->current_dag->rank);
+    PRINTF("RPL: Sending a multicast-DIO with rank %u, and pktqubf %u \n",
+           (unsigned)instance->current_dag->rank,
+           instance->current_queuebf_nums);
     uip_create_linklocal_rplnodes_mcast(&addr);
     uip_icmp6_send(&addr, ICMP6_RPL, RPL_CODE_DIO, pos);
   } else {
-    PRINTF("RPL: Sending unicast-DIO with rank %u to ",
+    PRINTF("RPL: Sending unicast-DIO with rank %u to, and pktqubf %u \n",
            (unsigned)instance->current_dag->rank);
     PRINT6ADDR(uc_addr);
     PRINTF("\n");
