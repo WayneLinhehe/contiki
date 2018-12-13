@@ -516,7 +516,13 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 #endif /* RPL_LEAF_ONLY */
   pos += 2; // 4
 
-  buffer[pos++] = tsch_get_packet_queue_buffer();
+  if(uc_addr == NULL) {
+    PRINTF("RPL-DIO-TESTING: DIO broadcast");
+    buffer[pos++] = instance->packet_queue_numbers;
+  }else {
+    PRINTF("RPL-DIO-TESTING: DIO unicast");
+    buffer[pos++] = tsch_get_packet_queue_buffer();
+  }
 
   buffer[pos] = 0; // 5 MASK Function.
   if(dag->grounded) {

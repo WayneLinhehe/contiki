@@ -290,7 +290,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             #ifdef RPL_CALLBACK_MORE_PKTQUE
             if (ringbufindex_elements(&n->tx_ringbuf) > 8) {
               PRINTF("TSCH-queue: working RPL_CALLBACK_MORE_PKTQUE\n");
-              RPL_CALLBACK_MORE_PKTQUE();
+              RPL_CALLBACK_MORE_PKTQUE(ringbufindex_elements(&n->tx_ringbuf));
             }
             #endif
 
