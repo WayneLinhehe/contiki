@@ -371,6 +371,7 @@ tsch_rx_process_pending()
       packetbuf_copyfrom(current_input->payload, current_input->len);
       packetbuf_set_attr(PACKETBUF_ATTR_RSSI, current_input->rssi);
       packetbuf_set_attr(PACKETBUF_ATTR_CHANNEL, current_input->channel);
+      packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, current_input->packetbuf_queuenum);
     }
 
     /* Remove input from ringbuf */
@@ -948,10 +949,11 @@ send_packet(mac_callback_t sent, void *ptr)
       ret = MAC_TX_ERR;
     } else {
       p->header_len = hdr_len;
-      PRINTF("TSCH: send packet to %u with seqno %u, queue %u %u, len %u %u\n",
+      PRINTF("TSCH: send packet to %u with seqno %u, queue %u %u %u(buf), len %u %u\n",
              TSCH_LOG_ID_FROM_LINKADDR(addr), tsch_packet_seqno,
              packet_count_before,
              tsch_queue_packet_count(addr),
+             p->packet_queue_buffer,
              p->header_len,
              queuebuf_datalen(p->qb));
         
@@ -990,9 +992,10 @@ packet_input(void)
     }
 
     if(!duplicate) {
-      PRINTF("TSCH: received from %u with seqno %u\n",
+      PRINTF("TSCH: received from %u with seqno %u , AND PKTBUF &u \n",
              TSCH_LOG_ID_FROM_LINKADDR(packetbuf_addr(PACKETBUF_ADDR_SENDER)),
-             packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO));
+             packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO),
+             packetbuf_attr(PACKETBUF_ATTR_PKTQUBF));
       NETSTACK_LLSEC.input();
     }
   }

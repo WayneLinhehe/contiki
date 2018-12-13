@@ -285,6 +285,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             p->ptr = ptr;
             p->ret = MAC_TX_DEFERRED;
             p->transmissions = 0;
+            p->packet_queue_buffer = ringbufindex_elements(&n->tx_ringbuf);
             tsch_set_packet_queue_buffer((uint8_t)tsch_queue_packet_count(addr));
             #ifdef RPL_CALLBACK_MORE_PKTQUE
             if (ringbufindex_elements(&n->tx_ringbuf) > 8) {
