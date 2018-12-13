@@ -113,7 +113,7 @@ tsch_rpl_callback_more_pktque(int packet_queue_numbers)
 
   if (instance != NULL){
     /* brocast dio packet to neighbors. */
-    instance->packet_queue_numbers = packet_queue_numbers;
+    instance->current_queuebf_nums = packet_queue_numbers;
     dio_output(instance, NULL);
   }
 }

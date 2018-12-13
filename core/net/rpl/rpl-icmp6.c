@@ -518,7 +518,7 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 
   if(uc_addr == NULL) {
     PRINTF("RPL-DIO-TESTING: DIO broadcast");
-    buffer[pos++] = instance->packet_queue_numbers;
+    buffer[pos++] = instance->current_queuebf_nums;
   }else {
     PRINTF("RPL-DIO-TESTING: DIO unicast");
     buffer[pos++] = tsch_get_packet_queue_buffer();
