@@ -637,7 +637,8 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
     uip_icmp6_send(&addr, ICMP6_RPL, RPL_CODE_DIO, pos);
   } else {
     PRINTF("RPL: Sending unicast-DIO with rank %u to, and pktqubf %u \n",
-           (unsigned)instance->current_dag->rank);
+           (unsigned)instance->current_dag->rank,
+           instance->current_queuebf_nums);
     PRINT6ADDR(uc_addr);
     PRINTF("\n");
     uip_icmp6_send(uc_addr, ICMP6_RPL, RPL_CODE_DIO, pos);
