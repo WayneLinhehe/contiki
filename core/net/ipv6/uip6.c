@@ -1434,7 +1434,7 @@ uip_process(uint8_t flag)
   /* This is IPv6 ICMPv6 processing code. */
   PRINTF("icmp6_input: length %d type: %d \n", uip_len, UIP_ICMP_BUF->type);
 
-#if UIP_CONF_IPV6_CHECKS
+#if UIP_CONF_IPV6_CHECKS && 0
   /* Compute and check the ICMP header checksum */
   if(uip_icmp6chksum() != 0xffff) {
     UIP_STAT(++uip_stat.icmp.drop);
