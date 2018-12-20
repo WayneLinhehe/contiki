@@ -108,7 +108,7 @@ tsch_rpl_callback_parent_switch(rpl_parent_t *old, rpl_parent_t *new)
 void
 tsch_rpl_callback_more_pktque()
 {
-  rpl_dag_t *dag_now = rpl_get_any_dag()
+  rpl_dag_t *dag_now = rpl_get_any_dag();
   //rpl_instance_t *instance_temp = dag_now->instance;
   //rpl_instance_t *instance_now = rpl_get_instance(dag_now->instance->instance_id);
   rpl_reset_dio_timer(dag_now->instance);
