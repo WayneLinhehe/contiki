@@ -300,8 +300,8 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             PRINTF("TSCH-queue: ");
             for (i = 0; i < dataLen; i++)
             {
-              uint8_t data = ((uint8_t *)queuebuf_dataptr(p->qb))[i];
-              PRINTF("%02x ", data);
+              //uint8_t data = ((uint8_t *)queuebuf_dataptr(p->qb))[i];
+              PRINTF("%02x ", ((uint8_t *)queuebuf_dataptr(p->qb))[i]);
             }
             PRINTF("\n");
 
