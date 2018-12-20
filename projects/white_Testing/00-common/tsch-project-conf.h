@@ -94,7 +94,7 @@
 /* TSCH logging. 0: disabled. 1: basic log. 2: with delayed
  * log messages from interrupt */
 #undef TSCH_LOG_CONF_LEVEL
-#define TSCH_LOG_CONF_LEVEL 0
+#define TSCH_LOG_CONF_LEVEL 2
 
 #ifndef WITH_NON_STORING
 #define WITH_NON_STORING 1 /* Set this to run with non-storing mode */
