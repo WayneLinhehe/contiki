@@ -198,7 +198,7 @@ coap_notify_observers_sub(resource_t *resource, const char *subpath)
   int url_len, obs_url_len;
   char url[COAP_OBSERVER_URL_LEN];
 
-  srand(time(NULL))
+  srand(time(NULL));
   int r = (rand() % 10) + 1;
 
   url_len = strlen(resource->url);

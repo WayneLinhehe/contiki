@@ -87,7 +87,7 @@ NBR_TABLE_GLOBAL(rpl_parent_t, rpl_parents);
 rpl_instance_t instance_table[RPL_MAX_INSTANCES];
 rpl_instance_t *default_instance;
 
-static uint8_t temp_current_instance_id = 0;
+//static uint8_t temp_current_instance_id = 0;
 static rpl_instance_t *temp_instance;
 
 /*---------------------------------------------------------------------------*/
