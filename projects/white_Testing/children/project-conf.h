@@ -44,9 +44,14 @@
    #undef IEEE802154_CONF_PANID
    #define IEEE802154_CONF_PANID          0xABCD
  */
-#ifdef RPL_WITH_NON_STORING
-#define RPL_WITH_NON_STORING        1
+#ifndef RPL_CONF_WITH_NON_STORING
+#define RPL_CONF_WITH_NON_STORING        1
 #endif
+
+#ifndef WITH_NON_STORING
+#define WITH_NON_STORING        1
+#endif
+
 
 /* QoS function optional*/
 #ifndef ENABLE_QOS

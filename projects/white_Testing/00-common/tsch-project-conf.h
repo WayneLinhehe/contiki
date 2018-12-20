@@ -96,26 +96,13 @@
 #undef TSCH_LOG_CONF_LEVEL
 #define TSCH_LOG_CONF_LEVEL 2
 
-#ifndef WITH_NON_STORING
-#define WITH_NON_STORING 1 /* Set this to run with non-storing mode */
-#endif /* WITH_NON_STORING */
-
-#if WITH_NON_STORING
-#undef RPL_NS_CONF_LINK_NUM
-#define RPL_NS_CONF_LINK_NUM 40 /* Number of links maintained at the root */
-#undef UIP_CONF_MAX_ROUTES
-#define UIP_CONF_MAX_ROUTES 0 /* No need for routes */
-#undef RPL_CONF_MOP
-#define RPL_CONF_MOP RPL_MOP_NON_STORING /* Mode of operation*/
-#endif /* WITH_NON_STORING */
-
 // #define TSCH_CONF_DEFAULT_HOPPING_SEQUENCE (uint8_t[]){ 14, 18, 22, 26 }
 #define TSCH_CONF_DEFAULT_HOPPING_SEQUENCE (uint8_t[]){ 11, 13}
 
 /* 6TiSCH minimal schedule length.
  * Larger values result in less frequent active slots: reduces capacity and saves energy. */
 #undef TSCH_SCHEDULE_CONF_DEFAULT_LENGTH
-#define TSCH_SCHEDULE_CONF_DEFAULT_LENGTH   51
+#define TSCH_SCHEDULE_CONF_DEFAULT_LENGTH   5
 
 /* IEEE802.15.4 PANID */
 #undef IEEE802154_CONF_PANID
