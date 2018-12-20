@@ -40,8 +40,7 @@
 #include <string.h>
 #include "er-coap-observe.h"
 
-#include <time.h>
-#include <stdlib.h>
+#include "lib/random.h"
 
 #define DEBUG 0
 #if DEBUG
@@ -198,7 +197,7 @@ coap_notify_observers_sub(resource_t *resource, const char *subpath)
   int url_len, obs_url_len;
   char url[COAP_OBSERVER_URL_LEN];
 
-  srand(time(NULL));
+  random_init(0);
   int r = (rand() % 10) + 1;
 
   url_len = strlen(resource->url);

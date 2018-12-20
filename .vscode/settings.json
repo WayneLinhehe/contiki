@@ -45,7 +45,8 @@
     "packetbuf.h": "c",
     "queuebuf.h": "c",
     "tsch-queue.h": "c",
-    "tsch.h": "c"
+    "tsch.h": "c",
+    "random.h": "c"
   },
   "C_Cpp.errorSquiggles": "Disabled",
   "C_Cpp.intelliSenseEngineFallback": "Enabled",
