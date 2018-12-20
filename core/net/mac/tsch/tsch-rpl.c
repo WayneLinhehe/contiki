@@ -106,15 +106,12 @@ tsch_rpl_callback_parent_switch(rpl_parent_t *old, rpl_parent_t *new)
 }
 
 void
-tsch_rpl_callback_more_pktque(int packet_queue_numbers)
+tsch_rpl_callback_more_pktque()
 {
-  rpl_instance_t *instance;
-  instance = rpl_current_instanceid();
+  rpl_dag_t *dag_now = rpl_get_any_dag()
+  //rpl_instance_t *instance_temp = dag_now->instance;
+  //rpl_instance_t *instance_now = rpl_get_instance(dag_now->instance->instance_id);
+  rpl_reset_dio_timer(dag_now->instance);
 
-  if (instance != NULL){
-    /* brocast dio packet to neighbors. */
-    instance->current_queuebf_nums = packet_queue_numbers;
-    dio_output(instance, NULL);
-  }
 }
 #endif /* UIP_CONF_IPV6_RPL */
