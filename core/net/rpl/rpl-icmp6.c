@@ -626,13 +626,13 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   if(uc_addr == NULL) {
     PRINTF("RPL: Sending a multicast-DIO with rank %u, and pktqubf %u \n",
            (unsigned)instance->current_dag->rank,
-           instance->current_queuebf_nums);
+           tsch_get_packet_queue_buffer());
     uip_create_linklocal_rplnodes_mcast(&addr);
     uip_icmp6_send(&addr, ICMP6_RPL, RPL_CODE_DIO, pos);
   } else {
     PRINTF("RPL: Sending unicast-DIO with rank %u to, and pktqubf %u \n",
            (unsigned)instance->current_dag->rank,
-           instance->current_queuebf_nums);
+           tsch_get_packet_queue_buffer());
     PRINT6ADDR(uc_addr);
     PRINTF("\n");
     uip_icmp6_send(uc_addr, ICMP6_RPL, RPL_CODE_DIO, pos);

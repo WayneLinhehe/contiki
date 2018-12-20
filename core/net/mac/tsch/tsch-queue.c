@@ -287,12 +287,6 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             p->transmissions = 0;
             p->packet_queue_buffer = ringbufindex_elements(&n->tx_ringbuf);
             tsch_set_packet_queue_buffer((uint8_t)ringbufindex_elements(&n->tx_ringbuf));
-            #ifdef RPL_CALLBACK_MORE_PKTQUE 
-            if (ringbufindex_elements(&n->tx_ringbuf) % 8 == 0) {
-              PRINTF("TSCH-queue: working RPL_CALLBACK_MORE_PKTQUE\n");
-              RPL_CALLBACK_MORE_PKTQUE();
-            }
-            #endif
 
             /* show queuebuf information. */
             uint8_t i;
@@ -300,7 +294,6 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
             PRINTF("TSCH-queue: ");
             for (i = 0; i < dataLen; i++)
             {
-              //uint8_t data = ((uint8_t *)queuebuf_dataptr(p->qb))[i];
               PRINTF("%02x ", ((uint8_t *)queuebuf_dataptr(p->qb))[i]);
             }
             PRINTF("\n");
@@ -313,6 +306,13 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
                /*Get tcflow frome attribute*/
                data_tcflow = (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW);
                PRINTF("TSCH-queue: Traffic classes In TSCH queue frome attr : %02x\n" ,data_tcflow);
+
+              #ifdef RPL_CALLBACK_MORE_PKTQUE 
+              if ((ringbufindex_elements(&n->tx_ringbuf))+1 % 8 == 0) {
+                PRINTF("TSCH-queue: working RPL_CALLBACK_MORE_PKTQUE\n");
+                RPL_CALLBACK_MORE_PKTQUE();
+              }
+              #endif
             }
 
 #if ENABLE_QOS
