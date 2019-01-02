@@ -405,5 +405,6 @@ void rpl_poison_routes(rpl_dag_t *, rpl_parent_t *);
 
 
 rpl_instance_t *rpl_get_default_instance(void);
+uint16_t rpl_queuebuf_load_banlance(rpl_parent_t *p);
 
 #endif /* RPL_PRIVATE_H */
