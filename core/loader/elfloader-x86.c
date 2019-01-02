@@ -101,7 +101,7 @@ elfloader_arch_relocate(int fd, unsigned int sectionoffset, char *sectionaddress
     /*printf("elfloader-x86.c: performed relocation type S + A (%d)\n", type);*/
     break;
   case R_386_PC32:
-    (char *)addr -= (char *)(sectionaddress + rela->r_offset); /* -P */
+    addr -= (char *)&(sectionaddress + rela->r_offset); /* -P */
     addr += rela->r_addend; /* +A */
     
     cfs_seek(fd, sectionoffset + rela->r_offset, CFS_SEEK_SET);
