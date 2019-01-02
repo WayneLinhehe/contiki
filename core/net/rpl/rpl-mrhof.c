@@ -159,7 +159,7 @@ parent_path_cost(rpl_parent_t *p)
 #endif /* RPL_WITH_MC */
 
   /* path cost upper bound: 0xffff */
-  return MIN((uint32_t)base + parent_link_metric(p) + queuebuf, 0xffff);
+  return MIN((uint32_t)base + parent_link_metric(p) + (uint32_t)queuebuf, 0xffff);
 }
 /*---------------------------------------------------------------------------*/
 static rpl_rank_t

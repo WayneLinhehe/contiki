@@ -105,11 +105,12 @@ rpl_print_neighbor_list(void)
         default_instance->mop, default_instance->of->ocp, curr_rank, curr_dio_interval, uip_ds6_nbr_num());
     while(p != NULL) {
       const struct link_stats *stats = rpl_get_parent_link_stats(p);
-      printf("RPL: nbr %3u %5u, %5u => %5u pktqubf(%u)-- %2u %c%c (last tx %u min ago)\n",
+      printf("RPL: nbr %3u %5u, %5u, %5u => %5u pktqubf(%u)-- %2u %c%c (last tx %u min ago)\n",
       //printf("RPL: nbr %3u %5u, %5u => %5u -- %2u %c%c (last tx %u min ago)\n",
           rpl_get_parent_ipaddr(p)->u8[15],
           p->rank,
           rpl_get_parent_link_metric(p),
+          rpl_queuebuf_load_banlance(p),
           rpl_rank_via_parent(p),
           p->dio_pktqubf,
           stats != NULL ? stats->freshness : 0,
@@ -1648,4 +1649,10 @@ rpl_current_instanceid()
   return NULL;
 }
 /*---------------------------------------------------------------------------*/
+uint16_t
+rpl_queuebuf_load_banlance(rpl_parent_t *p)
+{
+  return p->dio_pktqubf == 0 ? p->dio_pktqubf : p->dio_pktqubf*25;
+}
+
 /** @} */
