@@ -57,6 +57,8 @@
 /*---------------------------------------------------------------------------*/
 MEMB(observers_memb, coap_observer_t, COAP_MAX_OBSERVERS);
 LIST(observers_list);
+
+coap_observer_t *old_ob;
 /*---------------------------------------------------------------------------*/
 /*- Internal API ------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
@@ -197,9 +199,6 @@ coap_notify_observers_sub(resource_t *resource, const char *subpath)
   int url_len, obs_url_len;
   char url[COAP_OBSERVER_URL_LEN];
 
-  random_init(0);
-  int r = (rand() % 10) + 1;
-
   url_len = strlen(resource->url);
   strncpy(url, resource->url, COAP_OBSERVER_URL_LEN - 1);
   if(url_len < COAP_OBSERVER_URL_LEN - 1 && subpath != NULL) {
@@ -234,7 +233,7 @@ coap_notify_observers_sub(resource_t *resource, const char *subpath)
       
       if((transaction = coap_new_transaction(coap_get_mid(), &obs->addr, obs->port))) {
 
-        if(obs->obs_counter % (COAP_OBSERVE_REFRESH_INTERVAL+r) == 0) {
+        if(obs->obs_counter % (COAP_OBSERVE_REFRESH_INTERVAL) == 0) {
           PRINTF("           Force Confirmable for\n");
           notification->type = COAP_TYPE_CON;
         }
@@ -275,6 +274,7 @@ coap_observe_handler(resource_t *resource, void *request, void *response)
   coap_packet_t *const coap_req = (coap_packet_t *)request;
   coap_packet_t *const coap_res = (coap_packet_t *)response;
   coap_observer_t *obs;
+  old_ob = obs;
 
   if(coap_req->code == COAP_GET && coap_res->code < 128) { /* GET request and response without error code */
     if(IS_OPTION(coap_req, COAP_OPTION_OBSERVE)) {
@@ -302,6 +302,7 @@ coap_observe_handler(resource_t *resource, void *request, void *response)
         } else {
           coap_res->code = SERVICE_UNAVAILABLE_5_03;
           coap_set_payload(coap_res, "TooManyObservers", 16);
+          coap_remove_observer(old_ob);
         }
       } else if(coap_req->observe == 1) {
 

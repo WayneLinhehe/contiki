@@ -108,7 +108,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   rpl_parent_t *preferred_parent;
   linkaddr_t parent;
   linkaddr_copy(&parent, &linkaddr_null);
-  struct link_stats *parent_link_stats;
+  const struct link_stats *parent_link_stats;
 
 
   PRINTF("I am B_collect res_get hanlder!\n");
@@ -169,8 +169,8 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 {
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
-  int threshold = -1;
-  int priority = -1;
+  uint8_t threshold = -1;
+  uint8_t priority = -1;
 
   if(REST.get_query_variable(request, "thd", &threshold_c)) {
     threshold = (uint8_t)atoi(threshold_c);
