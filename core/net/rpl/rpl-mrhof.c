@@ -133,7 +133,6 @@ static uint16_t
 parent_path_cost(rpl_parent_t *p)
 {
   uint16_t base;
-  uint16_t queuebuf;
 
   if(p == NULL || p->dag == NULL || p->dag->instance == NULL) {
     return 0xffff;
@@ -153,13 +152,12 @@ parent_path_cost(rpl_parent_t *p)
       break;
   }
 #else /* RPL_WITH_MC */
-  base = p->rank;
-  
+  base = p->rank + (((uint16_t)p->dio_pktqubf)*25);
+
 #endif /* RPL_WITH_MC */
-  queuebuf = ((uint16_t)p->dio_pktqubf)*25;
-  
+
   /* path cost upper bound: 0xffff */
-  return MIN((uint32_t)base + parent_link_metric(p) + (uint32_t)queuebuf, 0xffff);
+  return MIN((uint32_t)base + parent_link_metric(p), 0xffff);
 }
 /*---------------------------------------------------------------------------*/
 static rpl_rank_t
