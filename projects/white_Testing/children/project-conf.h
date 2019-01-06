@@ -57,14 +57,6 @@
 #define ENABLE_QOS      1
 #endif
 
-/*******************************************************/
-/*************** Enable RPL-LoadBalance ****************/
-/*******************************************************/
-
-#ifndef TSCH_RPL_LOADBALANCE
-#define TSCH_RPL_LOADBALANCE    1
-#endif /* TSCH_RPL_LOADBALANCE */
-
 /* IP buffer size must match all other hops, in particular the border router. */
 #undef UIP_CONF_BUFFER_SIZE
 #define UIP_CONF_BUFFER_SIZE           1280

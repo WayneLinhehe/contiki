@@ -145,6 +145,15 @@
 #define TSCH_AUTOSELECT_TIME_SOURCE 0
 #endif /* TSCH_CONF_EB_AUTOSELECT */
 
+/*
+ * Enable loadbalacne of RPL
+ */
+#ifdef TSCH_RPL_CONF_LOADBALANCE
+#define TSCH_RPL_LOADBALANCE TSCH_RPL_CONF_LOADBALANCE
+#else
+#define TSCH_RPL_LOADBALANCE 1
+#endif
+
 /*********** Callbacks *********/
 
 /* Called by TSCH when joining a network */
