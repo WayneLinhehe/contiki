@@ -157,7 +157,7 @@ parent_path_cost(rpl_parent_t *p)
   
 #endif /* RPL_WITH_MC */
 
-#if TSCH_RPL_LOADBALANCE
+#ifdef TSCH_RPL_LOADBALANCE
   queuebuf = ((uint16_t)p->dio_pktqubf)*25;
 
   /* path cost upper bound: 0xffff */
