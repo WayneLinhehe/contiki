@@ -156,19 +156,23 @@ parent_path_cost(rpl_parent_t *p)
   base = p->rank;
   
 #endif /* RPL_WITH_MC */
-
-#if TSCH_RPL_LOADBALANCE
   queuebuf = ((uint16_t)p->dio_pktqubf)*25;
 
   /* path cost upper bound: 0xffff */
   return MIN((uint32_t)base + parent_link_metric(p) + (uint32_t)queuebuf, 0xffff);
 
-#else /* TSCH_RPL_LOADBALANCE */
+// #if TSCH_RPL_LOADBALANCE
+//   queuebuf = ((uint16_t)p->dio_pktqubf)*25;
 
-  /* path cost upper bound: 0xffff */
-  return MIN((uint32_t)base + parent_link_metric(p), 0xffff);
+//   /* path cost upper bound: 0xffff */
+//   return MIN((uint32_t)base + parent_link_metric(p) + (uint32_t)queuebuf, 0xffff);
 
-#endif /* TSCH_RPL_LOADBALANCE */
+// #else /* TSCH_RPL_LOADBALANCE */
+
+//   /* path cost upper bound: 0xffff */
+//   return MIN((uint32_t)base + parent_link_metric(p), 0xffff);
+
+// #endif /* TSCH_RPL_LOADBALANCE */
 }
 /*---------------------------------------------------------------------------*/
 static rpl_rank_t

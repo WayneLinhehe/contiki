@@ -307,7 +307,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
                data_tcflow = (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW);
                PRINTF("TSCH-queue: Traffic classes In TSCH queue frome attr : %02x\n" ,data_tcflow);
               
-              #ifdef TSCH_RPL_LOADBALANCE
+              //#ifdef TSCH_RPL_LOADBALANCE
 
               #ifdef RPL_CALLBACK_MORE_PKTQUE
               uint8_t ringbufSize = ringbufindex_size(&n->tx_ringbuf);
@@ -317,7 +317,7 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
               }
               #endif /* TSCH_RPL_LOADBALANCE */
 
-              #endif /* RPL_CALLBACK_MORE_PKTQUE */
+              //#endif /* RPL_CALLBACK_MORE_PKTQUE */
             }
 
 #if ENABLE_QOS
