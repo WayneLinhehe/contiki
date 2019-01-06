@@ -56,9 +56,13 @@
 #define ENABLE_QOS           0
 #endif
 
-// #ifndef MAX_LOG_LENGTH
-// #define MAX_LOG_LENGTH 2048  //Log Length
-// #endif
+/*******************************************************/
+/*************** Enable RPL-LoadBalance ****************/
+/*******************************************************/
+
+#ifndef TSCH_RPL_LOADBALANCE
+#define TSCH_RPL_LOADBALANCE    1
+#endif /* TSCH_RPL_LOADBALANCE */
 
 #ifndef UIP_CONF_BUFFER_SIZE
 #define UIP_CONF_BUFFER_SIZE    1280
