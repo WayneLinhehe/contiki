@@ -35,12 +35,9 @@
 #ifndef __TSCH_PROJECT_CONF_H__
 #define __TSCH_PROJECT_CONF_H__
 
-/*******************************************************/
-/*************** Enable RPL-LoadBalance ****************/
-/*******************************************************/
-
-#undef TSCH_RPL_CONF_LOADBALANCE
-#define TSCH_RPL_CONF_LOADBALANCE    1
+// #ifndef MAX_LOG_LENGTH
+// #define MAX_LOG_LENGTH 2048  //Log Length
+// #endif
 
 /*******************************************************/
 /********************* Enable TSCH *********************/
@@ -93,7 +90,6 @@
 /*******************************************************/
 /******************* Configure TSCH ********************/
 /*******************************************************/
-
 
 /* TSCH logging. 0: disabled. 1: basic log. 2: with delayed
  * log messages from interrupt */

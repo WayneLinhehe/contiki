@@ -338,14 +338,4 @@
 #define RPL_DIS_START_DELAY             5
 #endif
 
-
-/*
- * Enable loadbalacne of RPL
- */
-#ifdef TSCH_RPL_CONF_LOADBALANCE
-#define TSCH_RPL_LOADBALANCE TSCH_RPL_CONF_LOADBALANCE
-#else
-#define TSCH_RPL_LOADBALANCE 1
-#endif
-
 #endif /* RPL_CONF_H */
