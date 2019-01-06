@@ -95,6 +95,7 @@
 /******************* Configure TSCH ********************/
 /*******************************************************/
 
+
 /* TSCH logging. 0: disabled. 1: basic log. 2: with delayed
  * log messages from interrupt */
 #undef TSCH_LOG_CONF_LEVEL
