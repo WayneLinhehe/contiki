@@ -51,7 +51,7 @@
 #include "net/nbr-table.h"
 #include "net/link-stats.h"
 
-#define DEBUG DEBUG_FULL
+#define DEBUG DEBUG_NONE
 #include "net/ip/uip-debug.h"
 
 /* RFC6551 and RFC6719 do not mandate the use of a specific formula to
@@ -154,10 +154,10 @@ parent_path_cost(rpl_parent_t *p)
   }
 #else /* RPL_WITH_MC */
   base = p->rank;
-  queuebuf = ((uint16_t)p->dio_pktqubf)*25;
   
 #endif /* RPL_WITH_MC */
-
+  queuebuf = ((uint16_t)p->dio_pktqubf)*25;
+  
   /* path cost upper bound: 0xffff */
   return MIN((uint32_t)base + parent_link_metric(p) + (uint32_t)queuebuf, 0xffff);
 }
