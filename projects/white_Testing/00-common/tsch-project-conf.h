@@ -41,7 +41,6 @@
 
 #undef TSCH_RPL_CONF_LOADBALANCE
 #define TSCH_RPL_CONF_LOADBALANCE    1
-#endif /* TSCH_RPL_LOADBALANCE */
 
 /*******************************************************/
 /********************* Enable TSCH *********************/
