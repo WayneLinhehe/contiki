@@ -324,8 +324,8 @@ dio_input(void)
   /* get packet queue of numbers from dio payload,
     then set value to attribute.
   */
-  dio.packetqubf = buffer[i];
-  PRINTF("RPL-Testing: Packet Buffer of Numbers : %u , dio queue : %u\n", buffer[i++], (unsigned)dio.packetqubf);
+  PRINTF("RPL-Testing: Packet Buffer of Numbers : %u , dio queue : %u\n", buffer[i], (unsigned)dio.packetqubf);
+  dio.packetqubf = buffer[i++];
   //packetbuf_set_attr(PACKETBUF_ATTR_PKTQUBF, buffer[i++]);
   
   
