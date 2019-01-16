@@ -905,11 +905,12 @@ best_parent(rpl_dag_t *dag, int fresh_only)
       uint16_t current_cost = of->parent_path_cost(best);
 
       if (current_cost < previous_cost) {
-
         /* have probability to change parent */
         if (random_rand() % 1) {
+          PRINTF("IN random to pass best !!! \n");
           return best;
         } else {
+          PRINTF("IN random to pass temp_parent !!! \n");
           return temp_parent;
         }
       }
