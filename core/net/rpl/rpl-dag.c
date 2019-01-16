@@ -90,7 +90,7 @@ rpl_instance_t *default_instance;
 
 //static uint8_t temp_current_instance_id = 0;
 static rpl_instance_t *temp_instance;
-static rpl_parent_t *temp_parent:
+static rpl_parent_t *temp_parent;
 
 /*---------------------------------------------------------------------------*/
 void
