@@ -54,11 +54,12 @@
 #include "lib/list.h"
 #include "lib/memb.h"
 #include "sys/ctimer.h"
+#include "random.h"
 
 #include <limits.h>
 #include <string.h>
 
-#define DEBUG DEBUG_NONE
+#define DEBUG DEBUG_FULL
 #include "net/ip/uip-debug.h"
 
 /* A configurable function called after every RPL parent switch */
@@ -89,6 +90,7 @@ rpl_instance_t *default_instance;
 
 //static uint8_t temp_current_instance_id = 0;
 static rpl_instance_t *temp_instance;
+static rpl_parent_t *temp_parent:
 
 /*---------------------------------------------------------------------------*/
 void
@@ -764,6 +766,7 @@ rpl_select_dag(rpl_instance_t *instance, rpl_parent_t *p)
   last_parent = instance->current_dag->preferred_parent;
 
   best_dag = instance->current_dag;
+
   if(best_dag->rank != ROOT_RANK(instance)) {
     if(rpl_select_parent(p->dag) != NULL) {
       if(p->dag != best_dag) {
@@ -895,6 +898,25 @@ best_parent(rpl_dag_t *dag, int fresh_only)
 
     /* Now we have an acceptable parent, check if it is the new best */
     best = of->best_parent(best, p);
+
+    if (temp_parent != NULL) {
+      
+      uint16_t previous_cost = of->parent_path_cost(temp_parent);
+      uint16_t current_cost = of->parent_path_cost(best);
+
+      if (current_cost < previous_cost) {
+
+        /* have probability to change parent */
+        if (random_rand() % 1) {
+          return best;
+        } else {
+          return temp_parent;
+        }
+      }
+    } else {
+      temp_parent = best;
+    }
+
   }
 
   return best;
@@ -905,6 +927,7 @@ rpl_select_parent(rpl_dag_t *dag)
 {
   /* Look for best parent (regardless of freshness) */
   rpl_parent_t *best = best_parent(dag, 0);
+
 
   if(best != NULL) {
 #if RPL_WITH_PROBING

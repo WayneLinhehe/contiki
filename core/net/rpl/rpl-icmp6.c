@@ -62,7 +62,7 @@
 /* set packet count of queue buffer into dio payload. */
 #include "net/mac/tsch/tsch.h"
 
-#define DEBUG DEBUG_NONE
+#define DEBUG DEBUG_FULL
 
 #include "net/ip/uip-debug.h"
 
