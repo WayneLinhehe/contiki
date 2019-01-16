@@ -906,7 +906,7 @@ best_parent(rpl_dag_t *dag, int fresh_only)
 
       if (current_cost < previous_cost) {
         /* have probability to change parent */
-        if (random_rand() % 1) {
+        if (random_rand() % 2) {
           PRINTF("IN random to pass best !!! \n");
           return best;
         } else {
