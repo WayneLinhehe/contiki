@@ -81,6 +81,9 @@ LIST(neighbor_list);
 /* Testing for QoS swap function.*/
 int8_t data_tcflow;
 
+/* Testing for RPL trigger threshold */
+static int boolswitch = 1;
+
 /* Broadcast and EB virtual neighbors */
 struct tsch_neighbor *n_broadcast;
 struct tsch_neighbor *n_eb;
@@ -307,11 +310,17 @@ tsch_queue_add_packet(const linkaddr_t *addr, mac_callback_t sent, void *ptr)
                data_tcflow = (uint8_t)queuebuf_attr(p->qb,PACKETBUF_ATTR_TCFLOW);
                PRINTF("TSCH-queue: Traffic classes In TSCH queue frome attr : %02x\n" ,data_tcflow);
 
-              #ifdef RPL_CALLBACK_MORE_PKTQUE 
+              #ifdef RPL_CALLBACK_MORE_PKTQUE && ENABLE_RPL_LOADBALANCE
               uint8_t ringbufSize = ringbufindex_size(&n->tx_ringbuf);
               if ((ringbufindex_elements(&n->tx_ringbuf))+1 % (ringbufSize/2) == 0) {
-                PRINTF("TSCH-queue: working RPL_CALLBACK_MORE_PKTQUE\n");
-                RPL_CALLBACK_MORE_PKTQUE();
+                if (boolswitch){
+                  /* don't trigger more times */
+                  boolswitch = 0;
+                  PRINTF("TSCH-queue: working RPL_CALLBACK_MORE_PKTQUE\n");
+                  RPL_CALLBACK_MORE_PKTQUE();
+                } else {
+                  boolswitch = 1;
+                }
               }
               #endif
             }

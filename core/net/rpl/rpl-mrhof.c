@@ -152,7 +152,12 @@ parent_path_cost(rpl_parent_t *p)
       break;
   }
 #else /* RPL_WITH_MC */
+
+#if ENABLE_RPL_LOADBALANCE
   base = p->rank + (((uint16_t)p->dio_pktqubf)*25);
+#else
+  base = p->rank;
+#endif /* ENABLE_RPL_LOADBALANCE */
 
 #endif /* RPL_WITH_MC */
 

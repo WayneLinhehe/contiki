@@ -69,7 +69,6 @@
 #endif
 #endif
 
-
 /* The number of neighbor queues. There are two queues allocated at all times:
  * one for EBs, one for broadcasts. Other queues are for unicast to neighbors */
 #ifdef TSCH_QUEUE_CONF_MAX_NEIGHBOR_QUEUES

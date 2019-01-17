@@ -72,7 +72,11 @@
 #define TSCH_CALLBACK_LEAVING_NETWORK tsch_rpl_callback_leaving_network
 
 /* white RPL-Testing callbacks */
-#define RPL_CALLBACK_MORE_PKTQUE tsch_rpl_callback_more_pktque
+#define RPL_CALLBACK_MORE_PKTQUE tsch_rpl_callback_more_pktque_reset_timer
+
+/* Enable RPL load balance */
+#undef ENABLE_RPL_LOADBALANCE
+#define ENABLE_RPL_LOADBALANCE 1
 
 /* Needed for cc2420 platforms only */
 /* Disable DCO calibration (uses timerB) */
