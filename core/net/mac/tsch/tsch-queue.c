@@ -81,7 +81,7 @@ LIST(neighbor_list);
 /* Testing for QoS swap function.*/
 int8_t data_tcflow;
 
-/* Testing for RPL trigger threshold */
+/* Testing for RPL trigger load balancing of threshold */
 static int boolswitch = 1;
 
 /* Broadcast and EB virtual neighbors */
