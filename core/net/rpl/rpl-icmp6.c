@@ -312,14 +312,19 @@ dio_input(void)
   buffer = UIP_ICMP_PAYLOAD;
 
   dio.instance_id = buffer[i++];
+
+  dio.fool = buffer[i++];
+  
+
   dio.version = buffer[i++];
   dio.rank = get16(buffer, i);
   i += 2;
 
-  PRINTF("RPL: Incoming DIO (id, ver, rank) = (%u,%u,%u)\n",
+  PRINTF("RPL: Incoming DIO (id, ver, rank, fool) = (%u,%u,%u,%o)\n",
          (unsigned)dio.instance_id,
          (unsigned)dio.version,
-         (unsigned)dio.rank);
+         (unsigned)dio.rank,
+         (unsigned)dio.fool);
 
   dio.grounded = buffer[i] & RPL_DIO_GROUNDED;
   dio.mop = (buffer[i]& RPL_DIO_MOP_MASK) >> RPL_DIO_MOP_SHIFT;
@@ -490,6 +495,44 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
 
   buffer = UIP_ICMP_PAYLOAD;
   buffer[pos++] = instance->instance_id;
+
+  //fool
+
+  //printf("-------------------%o ,%o ,%o ,%o ,%o , %o , %o , %o \n",linkaddr_node_addr.u8[0],linkaddr_node_addr.u8[1],linkaddr_node_addr.u8[2],linkaddr_node_addr.u8[3],linkaddr_node_addr.u8[4],linkaddr_node_addr.u8[5],linkaddr_node_addr.u8[6],linkaddr_node_addr.u8[7]) ; 
+
+  // ip == mac addr
+  //change it
+
+/*
+  if (linkaddr_node_addr.u8[7] == 1) {
+    buffer[pos++] = 1;
+  }
+  else if (linkaddr_node_addr.u8[7] == 2) {
+    buffer[pos++] = 0;
+  }
+  else {
+    buffer[pos++] = 2;
+  }
+*/
+
+  if (linkaddr_node_addr.u8[7] == 98) {
+    buffer[pos++] = 1;
+  }
+  else if (linkaddr_node_addr.u8[7] == 193) {
+    buffer[pos++] = 0;
+  }
+  else {
+    buffer[pos++] = 2;
+  }
+
+
+
+/*
+  //buffer[pos++] = 0;  //child
+  //buffer[pos++] = 1;  //border-router
+  buffer[pos++] = 2;  //normal-child
+*/
+
   buffer[pos++] = dag->version;
   is_root = (dag->rank == ROOT_RANK(instance));
 

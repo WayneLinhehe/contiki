@@ -169,6 +169,18 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   coap_set_uip_traffic_class(packet_priority);
   REST.set_response_payload(response, buffer, sizeof(message));
 
+  //
+
+
+
+
+
+
+
+
+
+  rpl_recalculate_ranks();
+  printf("fuckkkkkk");
   // REST.set_response_payload(response, buffer, snprintf((char *)buffer, preferred_size, "[Collect] ec: %lu, et: %lu, lc, %lu, pc: %lu", event_counter, event_threshold, event_threshold_last_change,packet_counter));
 
   /* The REST.subscription_handler() will be called for observable resources by the REST framework. */

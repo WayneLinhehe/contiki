@@ -297,6 +297,9 @@ struct rpl_dio {
   uint8_t preference;
   uint8_t version;
   uint8_t instance_id;
+
+  uint8_t fool;
+
   uint8_t dtsn;
   uint8_t dag_intdoubl;
   uint8_t dag_intmin;

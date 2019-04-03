@@ -71,7 +71,10 @@
 
 #include "dev/leds.h"
 
-extern resource_t res_bcollect, res_bcollect2;
+extern resource_t res_bcollect, res_bcollect2 ;
+
+
+
 
 /*---------------------------------------------------------------------------*/
 

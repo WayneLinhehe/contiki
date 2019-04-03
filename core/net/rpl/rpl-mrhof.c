@@ -211,6 +211,21 @@ best_parent(rpl_parent_t *p1, rpl_parent_t *p2)
   if(!p2_is_acceptable) {
     return p1_is_acceptable ? p1 : NULL;
   }
+/*
+  //
+  printf("MUMI IS ALL MY LOVE ! \n");
+  printf("MUMI IS ALL MY LOVE !    p1 : %o  ,  p2 : %o \n" , p1->fool , p2->fool);
+  printf("MUMI IS ALL MY LOVE ! \n");
+*/
+  
+  
+  if ( p1->fool < p2->fool){
+    return p1 ;
+  }
+  if ( p1->fool > p2->fool){
+    return p2 ;
+  }
+
 
   dag = p1->dag; /* Both parents are in the same DAG. */
   p1_cost = parent_path_cost(p1);
@@ -223,6 +238,8 @@ best_parent(rpl_parent_t *p1, rpl_parent_t *p2)
       return dag->preferred_parent;
     }
   }
+
+  
 
   return p1_cost < p2_cost ? p1 : p2;
 }

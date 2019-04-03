@@ -112,13 +112,28 @@ new_dio_interval(rpl_instance_t *instance)
   clock_time_t ticks;
 
   /* TODO: too small timer intervals for many cases */
-  time = 1UL << instance->dio_intcurrent;
 
+
+  //
+
+  if ( instance->dio_intcurrent > 13 ){
+    instance->dio_intcurrent = 13 ;
+    time = 1UL << instance->dio_intcurrent;
+  }
+  else {
+    time = 1UL << instance->dio_intcurrent;
+  }
+
+
+  //
+  //time = 1UL << instance->dio_intcurrent;
+  
   /* Convert from milliseconds to CLOCK_TICKS. */
   ticks = (time * CLOCK_SECOND) / 1000;
   instance->dio_next_delay = ticks;
 
   /* random number between I/2 and I */
+  //  
   ticks = ticks / 2 + (ticks / 2 * (uint32_t)random_rand()) / RANDOM_RAND_MAX;
 
   /*
@@ -126,7 +141,11 @@ new_dio_interval(rpl_instance_t *instance)
    * operate efficiently. Therefore we need to calculate the delay between
    * the randomized time and the start time of the next interval.
    */
+  
+  //
+  //
   instance->dio_next_delay -= ticks;
+    
   instance->dio_send = 1;
 
 #if RPL_CONF_STATS

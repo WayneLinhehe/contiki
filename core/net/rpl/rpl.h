@@ -117,6 +117,9 @@ struct rpl_parent {
   rpl_metric_container_t mc;
 #endif /* RPL_WITH_MC */
   rpl_rank_t rank;
+
+  uint8_t fool;
+
   uint8_t dtsn;
   uint8_t flags;
 };
@@ -143,6 +146,10 @@ struct rpl_dag {
   uint8_t joined;
   rpl_parent_t *preferred_parent;
   rpl_rank_t rank;
+
+  //
+  uint8_t fool ;
+
   struct rpl_instance *instance;
   rpl_prefix_t prefix_info;
   uint32_t lifetime;
@@ -225,6 +232,7 @@ struct rpl_instance {
   /* The current default router - used for routing "upwards" */
   uip_ds6_defrt_t *def_route;
   uint8_t instance_id;
+
   uint8_t used;
   uint8_t dtsn_out;
   uint8_t mop;

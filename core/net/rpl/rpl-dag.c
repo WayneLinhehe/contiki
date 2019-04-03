@@ -68,6 +68,8 @@ void RPL_CALLBACK_PARENT_SWITCH(rpl_parent_t *old, rpl_parent_t *new);
 
 /*---------------------------------------------------------------------------*/
 extern rpl_of_t rpl_of0, rpl_mrhof;
+
+
 static rpl_of_t * const objective_functions[] = RPL_SUPPORTED_OFS;
 
 /*---------------------------------------------------------------------------*/
@@ -102,7 +104,7 @@ rpl_print_neighbor_list(void)
         default_instance->mop, default_instance->of->ocp, curr_rank, curr_dio_interval, uip_ds6_nbr_num());
     while(p != NULL) {
       const struct link_stats *stats = rpl_get_parent_link_stats(p);
-      printf("RPL: nbr %3u %5u, %5u => %5u -- %2u %c%c (last tx %u min ago)\n",
+      printf("RPL: nbr %3u %5u, %5u => %5u -- %2u %c%c -- fool : %o  (last tx %u min ago)\n",
           rpl_get_parent_ipaddr(p)->u8[15],
           p->rank,
           rpl_get_parent_link_metric(p),
@@ -110,6 +112,11 @@ rpl_print_neighbor_list(void)
           stats != NULL ? stats->freshness : 0,
           link_stats_is_fresh(stats) ? 'f' : ' ',
           p == default_instance->current_dag->preferred_parent ? 'p' : ' ',
+
+          
+          p->fool,                      //always parent fool
+
+
           (unsigned)((clock_now - stats->last_tx_time) / (60 * CLOCK_SECOND))
       );
       p = nbr_table_next(rpl_parents, p);
@@ -152,6 +159,33 @@ rpl_rank_t
 rpl_get_parent_rank(uip_lladdr_t *addr)
 {
   rpl_parent_t *p = nbr_table_get_from_lladdr(rpl_parents, (linkaddr_t *)addr);
+
+
+
+
+
+
+/*
+  printf("---------------------------------------------------- %x   -- ",p->dag->dag_id.u8[15] ); 
+
+  if ( p->dag->dag_id.u8[15] == (uint8_t)6)
+  {
+    printf("******************************************") ;
+    return 0x0000;
+  }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
   if(p != NULL) {
     return p->rank;
   } else {
@@ -177,6 +211,36 @@ rpl_rank_via_parent(rpl_parent_t *p)
   if(p != NULL && p->dag != NULL) {
     rpl_instance_t *instance = p->dag->instance;
     if(instance != NULL && instance->of != NULL && instance->of->rank_via_parent != NULL) {
+
+/*
+    printf("**************************** %x:%x:%x:%x:%x:%x:%x:%x:%x:%x:%x:%x:%x:%x:%x:%x ***************" 
+, p->dag->dag_id.u8[0]
+, p->dag->dag_id.u8[1]
+, p->dag->dag_id.u8[2]
+, p->dag->dag_id.u8[3]
+, p->dag->dag_id.u8[4]
+, p->dag->dag_id.u8[5]
+, p->dag->dag_id.u8[6]
+, p->dag->dag_id.u8[7]
+, p->dag->dag_id.u8[8]
+, p->dag->dag_id.u8[9]
+, p->dag->dag_id.u8[10]
+, p->dag->dag_id.u8[11]
+, p->dag->dag_id.u8[12]
+, p->dag->dag_id.u8[13]
+, p->dag->dag_id.u8[14]
+, p->dag->dag_id.u8[15] ) ; 
+*/
+
+/*
+      if ( ( p->dag->dag_id.u8[15] ) == ( (uint8_t) 6 ) ){
+        printf("+++++++++**************++++++++ %x" , instance->of->rank_via_parent(p)) ; 
+        return  0x0000 ;
+      }
+
+printf("----------**********------- %x" , instance->of->rank_via_parent(p)) ; 
+*/
+
       return instance->of->rank_via_parent(p);
     }
   }
@@ -413,6 +477,16 @@ rpl_set_root(uint8_t instance_id, uip_ipaddr_t *dag_id)
   instance->min_hoprankinc = RPL_MIN_HOPRANKINC;
   instance->default_lifetime = RPL_DEFAULT_LIFETIME;
   instance->lifetime_unit = RPL_DEFAULT_LIFETIME_UNIT;
+
+
+
+
+
+
+
+
+
+
 
   dag->rank = ROOT_RANK(instance);
 
@@ -695,7 +769,21 @@ rpl_add_parent(rpl_dag_t *dag, rpl_dio_t *dio, uip_ipaddr_t *addr)
       PRINTF("RPL: rpl_add_parent p NULL\n");
     } else {
       p->dag = dag;
+
+
+
       p->rank = dio->rank;
+      p->fool = dio->fool;
+
+/*
+printf("********************* %x \n" , dag->dag_id.u16 );
+
+if ( dag->dag_id.u16[7] == 6 ){
+  p->rank = 0x0001 ;
+  printf("9999999999999\n9999999999999\n9999999999999\n9999999999999\n9999999999999\n9999999999999\n9999999999999\n9999999999999\n");
+}
+*/
+
       p->dtsn = dio->dtsn;
 #if RPL_WITH_MC
       memcpy(&p->mc, &dio->mc, sizeof(p->mc));
@@ -754,10 +842,25 @@ rpl_select_dag(rpl_instance_t *instance, rpl_parent_t *p)
   rpl_dag_t *dag, *end, *best_dag;
   rpl_rank_t old_rank;
 
+
   old_rank = instance->current_dag->rank;
   last_parent = instance->current_dag->preferred_parent;
-
   best_dag = instance->current_dag;
+
+/*
+//printf("++++++++++++++++++++++++++ %x  \n" , p->dag->dag_id.u8[15]) ;
+printf("++++++++++++++++++++++++++ %x  \n" , best_dag->rank) ;
+
+if (p->dag->dag_id.u8[15] == 6)
+{
+  instance->current_dag->rank = 0x0001 ;
+
+  printf("\n999999999999\n\n\n\n\n\n99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n\n") ;
+}
+*/
+
+
+  
   if(best_dag->rank != ROOT_RANK(instance)) {
     if(rpl_select_parent(p->dag) != NULL) {
       if(p->dag != best_dag) {
@@ -856,6 +959,8 @@ best_parent(rpl_dag_t *dag, int fresh_only)
   rpl_of_t *of;
   rpl_parent_t *best = NULL;
 
+  //int i = 0;
+
   if(dag == NULL || dag->instance == NULL || dag->instance->of == NULL) {
     return NULL;
   }
@@ -889,7 +994,18 @@ best_parent(rpl_dag_t *dag, int fresh_only)
 
     /* Now we have an acceptable parent, check if it is the new best */
     best = of->best_parent(best, p);
+
+
+
+    //printf("i = %d   p : %o  , best : %o  \n" , i , p->dag->dag_id.u8[15] , best->dag->dag_id.u8[15]  );
+    //i++ ;
   }
+  
+
+
+
+
+
 
   return best;
 }
@@ -927,6 +1043,10 @@ rpl_select_parent(rpl_dag_t *dag)
   }
 
   dag->rank = rpl_rank_via_parent(dag->preferred_parent);
+  
+
+
+
   return dag->preferred_parent;
 }
 /*---------------------------------------------------------------------------*/
@@ -1108,7 +1228,36 @@ rpl_join_instance(uip_ipaddr_t *from, rpl_dio_t *dio)
 
   p = rpl_add_parent(dag, dio, from);
   PRINTF("RPL: Adding ");
+
+  printf("+++++++++++++++++++++++++++++++++ %x \n" , ( (uint8_t *) from->u8[15] ) );
+
+  //printf("++++++++ intsance_id : %o \n" , dio->instance_id);
+
+if ( ( (uint8_t *) from->u8[15] ) == ( (uint8_t *) 2 ) ){
+  printf("I LOVE MUMI !\n");
+  printf("I LOVE MUMI !\n");
+  
+  
+  dag->rank = 0 ;
+}else{
+  printf("I HATE JUICE !\n");
+  printf("I HATE JUICE !\n");
+}
+
+  
+
+
+
+
+
+/*
+  PRINTF(" %02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x ", ((uint8_t *)addr)[0], ((uint8_t *)addr)[1], ((uint8_t *)addr)[2], ((uint8_t *)addr)[3], ((uint8_t *)addr)[4], ((uint8_t *)addr)[5], ((uint8_t *)addr)[6], ((uint8_t *)addr)[7], ((uint8_t *)addr)[8], ((uint8_t *)addr)[9], ((uint8_t *)addr)[10], ((uint8_t *)addr)[11], ((uint8_t *)addr)[12], ((uint8_t *)addr)[13], ((uint8_t *)addr)[14], ((uint8_t *)addr)[15]);
+*/
+
+  //( (uint8_t *) from->u18[15] ) ;
+
   PRINT6ADDR(from);
+
   PRINTF(" as a parent: ");
   if(p == NULL) {
     PRINTF("failed\n");
@@ -1123,6 +1272,7 @@ rpl_join_instance(uip_ipaddr_t *from, rpl_dio_t *dio)
   if(dio->prefix_info.flags & UIP_ND6_RA_FLAG_AUTONOMOUS) {
     check_prefix(NULL, &dio->prefix_info);
   }
+
 
   dag->joined = 1;
   dag->preference = dio->preference;
@@ -1154,7 +1304,31 @@ rpl_join_instance(uip_ipaddr_t *from, rpl_dio_t *dio)
 
   rpl_set_preferred_parent(dag, p);
   instance->of->update_metric_container(instance);
+
+
+
+
+
+
+
+
+  
+/*
+if ( ( (uint8_t *) from->u8[15] ) == ( (uint8_t *) 6 ) ){
+  printf("I LOVE MUMI !");
+  dag->rank = 0 ;
+}
+
+*/
+
+
+
+
   dag->rank = rpl_rank_via_parent(p);
+
+  //
+  dag->fool = dio->fool ;
+
   /* So far this is the lowest rank we are aware of. */
   dag->min_rank = dag->rank;
 
@@ -1202,6 +1376,9 @@ rpl_add_dag(uip_ipaddr_t *from, rpl_dio_t *dio)
   previous_dag = find_parent_dag(instance, from);
   if(previous_dag == NULL) {
     PRINTF("RPL: Adding ");
+
+    printf("********************* %x \n" , from->u16 );
+
     PRINT6ADDR(from);
     PRINTF(" as a parent: ");
     p = rpl_add_parent(dag, dio, from);
@@ -1218,6 +1395,7 @@ rpl_add_dag(uip_ipaddr_t *from, rpl_dio_t *dio)
     }
   }
   p->rank = dio->rank;
+  p->fool = dio->fool;
 
   /* Determine the objective function by using the
      objective code point of the DIO. */
@@ -1338,6 +1516,7 @@ rpl_local_repair(rpl_instance_t *instance)
 void
 rpl_recalculate_ranks(void)
 {
+
   rpl_parent_t *p;
 
   /*
@@ -1345,6 +1524,8 @@ rpl_recalculate_ranks(void)
    * than RPL protocol messages. This periodical recalculation is called
    * from a timer in order to keep the stack depth reasonably low.
    */
+
+
   p = nbr_table_head(rpl_parents);
   while(p != NULL) {
     if(p->dag != NULL && p->dag->instance && (p->flags & RPL_PARENT_FLAG_UPDATED)) {
@@ -1356,7 +1537,13 @@ rpl_recalculate_ranks(void)
     }
     p = nbr_table_next(rpl_parents, p);
   }
+
+
+
+
 }
+
+
 /*---------------------------------------------------------------------------*/
 int
 rpl_process_parent_event(rpl_instance_t *instance, rpl_parent_t *p)
@@ -1587,6 +1774,7 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
     }
   }
   p->rank = dio->rank;
+  p->fool = dio->fool;
 
   if(dio->rank == INFINITE_RANK && p == dag->preferred_parent) {
     /* Our preferred parent advertised an infinite rank, reset DIO timer */
