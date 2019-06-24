@@ -13,7 +13,10 @@
 #include "core/net/rpl/rpl.h"
 #include "core/net/link-stats.h"
 
-#define DEBUG 0
+
+#define DEBUG DEBUG_FULL
+#include "net/ip/uip-debug.h"
+
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -30,6 +33,8 @@
 static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_periodic_handler(void);
+
+
 
 PERIODIC_RESOURCE(res_bcollect,
                   "title=\"Binary collect\";obs",
@@ -133,7 +138,24 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   // memcpy(buffer,&packet_counter, sizeof(packet_counter));
   // packet_counter += sizeof(packet_counter);
 
-  
+
+  printf("----------------\n");
+
+  rpl_parent_t *q = nbr_table_head(rpl_parents);
+  while(q != NULL) {
+
+    parent_link_stats = rpl_get_parent_link_stats(q);
+
+    printf(" nbr %3u %5d\n",
+      rpl_get_parent_ipaddr(q)->u8[15],
+      parent_link_stats->rssi);
+
+    q = nbr_table_next(rpl_parents, q);
+  }
+
+  printf("++++++++++++++++\n");
+
+
   dag = rpl_get_any_dag();
   if(dag != NULL) {
     preferred_parent = dag->preferred_parent;
@@ -147,6 +169,9 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
         parent_link_stats = rpl_get_parent_link_stats(preferred_parent);
         message.parnet_link_etx = parent_link_stats->etx;
         message.parent_link_rssi = parent_link_stats->rssi;
+        printf(" ===========================%5d\n",
+          
+          parent_link_stats->rssi);
       }
     }
     message.rank = dag->rank;
@@ -180,7 +205,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 
 
   rpl_recalculate_ranks();
-  printf("fuckkkkkk");
+  printf("fuckkkkkk\n");
   // REST.set_response_payload(response, buffer, snprintf((char *)buffer, preferred_size, "[Collect] ec: %lu, et: %lu, lc, %lu, pc: %lu", event_counter, event_threshold, event_threshold_last_change,packet_counter));
 
   /* The REST.subscription_handler() will be called for observable resources by the REST framework. */
@@ -191,6 +216,7 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
 static void
 res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
+  printf("fuckkkkkk\n");
   const char *threshold_c = NULL;
   const char *priority_c = NULL;
   int threshold = -1;
@@ -227,6 +253,7 @@ res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t prefer
 static void
 res_periodic_handler()
 {
+  printf("fuckkkkkk\n");
   /* This periodic handler will be called every second */
   ++event_counter;
 

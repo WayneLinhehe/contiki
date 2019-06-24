@@ -503,18 +503,18 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   // ip == mac addr
   //change it
 
-/*
-  if (linkaddr_node_addr.u8[7] == 1) {
+
+  if (linkaddr_node_addr.u8[7] == 1) {  //1
     buffer[pos++] = 1;
   }
-  else if (linkaddr_node_addr.u8[7] == 2) {
+  else if (linkaddr_node_addr.u8[7] == 2) {  //2
     buffer[pos++] = 0;
   }
   else {
     buffer[pos++] = 2;
   }
-*/
 
+/*
   if (linkaddr_node_addr.u8[7] == 98) {
     buffer[pos++] = 1;
   }
@@ -524,7 +524,7 @@ dio_output(rpl_instance_t *instance, uip_ipaddr_t *uc_addr)
   else {
     buffer[pos++] = 2;
   }
-
+*/
 
 
 /*

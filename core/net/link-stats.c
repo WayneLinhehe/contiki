@@ -185,8 +185,13 @@ link_stats_input_callback(const linkaddr_t *lladdr)
   }
 
   /* Update RSSI EWMA */
+  //
+  /*
   stats->rssi = ((int32_t)stats->rssi * (EWMA_SCALE - EWMA_ALPHA) +
       (int32_t)packet_rssi * EWMA_ALPHA) / EWMA_SCALE;
+  */
+  stats->rssi = (int32_t)packet_rssi ;
+
 }
 /*---------------------------------------------------------------------------*/
 /* Periodic timer called every FRESHNESS_HALF_LIFE minutes */
